@@ -1,0 +1,368 @@
+<div class="timeline-wrapper">
+  <style>
+    .timeline-wrapper {
+      max-width: 100%;
+      overflow-x: auto;
+      padding: 2rem 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+    .timeline {
+      display: flex;
+      gap: 2rem;
+      padding: 1rem;
+      min-width: max-content;
+    }
+    .era {
+      width: 320px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 1rem;
+      background: white;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .era:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .era.expanded {
+      background: #f0f7ff;
+      transform: scale(1.05);
+    }
+    .era-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .era-year {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .era-title {
+      font-weight: 600;
+      margin: 0.5rem 0;
+    }
+    .era-summary {
+      color: #4b5563;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    .era-details {
+      display: none;
+      margin-top: 1rem;
+    }
+    .era.expanded .era-details {
+      display: block;
+    }
+    .detail-section {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .detail-section h4 {
+      font-weight: 600;
+      margin: 0 0 0.5rem 0;
+      font-size: 0.9rem;
+    }
+    .detail-section ul {
+      margin: 0;
+      padding-left: 1.25rem;
+      font-size: 0.85rem;
+      color: #4b5563;
+    }
+    .detail-section li {
+      margin: 0.25rem 0;
+    }
+    .toggle-btn {
+      width: 20px;
+      height: 20px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: #6b7280;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+
+  <div class="timeline">
+    <!-- Timeline nodes will be inserted here by JavaScript -->
+  </div>
+
+  <script>
+    const timelineData = [
+      {
+        year: "1800s",
+        title: "Mechanical Computing",
+        summary: "First attempts at automated computation and decision-making.",
+        details: [
+          "Babbage's Difference Engine (1822) introduced mechanical computation",
+          "Ada Lovelace wrote first algorithm for machine processing (1843)",
+          "Boolean algebra established mathematical logic (1854)"
+        ],
+        examples: [
+          "Mechanical calculators using gears and levers",
+          "Punch card systems for textile patterns"
+        ],
+        impact: [
+          "Established foundation for computational thinking",
+          "Introduced concept of programmable machines",
+          "Demonstrated potential for automating mental tasks"
+        ]
+      },
+      {
+        year: "1940s",
+        title: "Early Electronic Computing",
+        summary: "First electronic computers and foundation of computer science.",
+        details: [
+          "ENIAC (1945) - first general-purpose electronic computer",
+          "Turing's work on computability and machine intelligence",
+          "Development of stored program concepts"
+        ],
+        examples: [
+          "Physical rewiring for programming ENIAC",
+          "Punch cards for program and data input",
+          "Basic arithmetic operations taking seconds instead of hours"
+        ],
+        impact: [
+          "Proved feasibility of electronic computation",
+          "Established basic principles of programming",
+          "Sparked discussion about machine intelligence"
+        ]
+      },
+      {
+        year: "1960s",
+        title: "Early AI & Natural Language",
+        summary: "First attempts at natural language processing and conversation.",
+        details: [
+          "ELIZA (1966) - first chatbot using pattern matching",
+          "Development of BASIC and other high-level languages",
+          "Early research in natural language processing"
+        ],
+        examples: [
+          "ELIZA's therapy-style responses",
+          "Basic question-answering systems",
+          "Pattern matching with variable substitution"
+        ],
+        impact: [
+          "Showed potential for natural language interfaces",
+          "Revealed human tendency to anthropomorphize computers",
+          "Established early principles of conversation design"
+        ]
+      },
+      {
+        year: "1970s",
+        title: "Command Line Evolution",
+        summary: "Standardization of command-line interfaces and early networking.",
+        details: [
+          "Unix shell development",
+          "ARPANET and early networking protocols",
+          "PARRY chatbot demonstrating improved interaction"
+        ],
+        examples: [
+          "Unix commands and pipes",
+          "Email and early messaging systems",
+          "PARRY's paranoid conversational patterns"
+        ],
+        impact: [
+          "Standardized human-computer interaction patterns",
+          "Enabled remote computer access and communication",
+          "Advanced understanding of conversation modeling"
+        ]
+      },
+      {
+        year: "1980s",
+        title: "GUI Revolution",
+        summary: "Transition from command line to graphical interfaces.",
+        details: [
+          "Apple Macintosh (1984) popularized GUI",
+          "Microsoft Windows development",
+          "HyperCard and interactive documentation"
+        ],
+        examples: [
+          "Desktop metaphor with files and folders",
+          "Mouse-driven interaction",
+          "WYSIWYG text editing"
+        ],
+        impact: [
+          "Made computing accessible to general public",
+          "Established visual interaction patterns",
+          "Introduced direct manipulation interfaces"
+        ]
+      },
+      {
+        year: "1990s",
+        title: "Web & Intelligent Agents",
+        summary: "Rise of the web and early intelligent assistants.",
+        details: [
+          "World Wide Web creation and growth",
+          "Early search engines and web crawlers",
+          "Microsoft Office Assistant (Clippy)"
+        ],
+        examples: [
+          "Web browsers and hyperlinks",
+          "Basic web search queries",
+          "Context-aware help systems"
+        ],
+        impact: [
+          "Created new paradigms for information access",
+          "Demonstrated need for better search interfaces",
+          "Showed limitations of rule-based assistance"
+        ]
+      },
+      {
+        year: "2000s",
+        title: "Social AI & Virtual Agents",
+        summary: "Mainstreaming of conversational interfaces.",
+        details: [
+          "SmarterChild on instant messaging platforms",
+          "Early virtual assistants",
+          "Improvements in speech recognition"
+        ],
+        examples: [
+          "AIM and MSN chatbots",
+          "Voice recognition systems",
+          "Customer service automation"
+        ],
+        impact: [
+          "Normalized conversation with machines",
+          "Advanced natural language processing",
+          "Improved understanding of user interaction"
+        ]
+      },
+      {
+        year: "2011-2015",
+        title: "Virtual Assistants Era",
+        summary: "Voice interfaces become mainstream.",
+        details: [
+          "Siri launch (2011)",
+          "Google Now and Cortana",
+          "Amazon Alexa and smart speakers"
+        ],
+        examples: [
+          "Voice commands for phone control",
+          "Natural language questions",
+          "Smart home integration"
+        ],
+        impact: [
+          "Made AI assistance part of daily life",
+          "Advanced voice interaction technology",
+          "Created new privacy considerations"
+        ]
+      },
+      {
+        year: "2016-2019",
+        title: "Deep Learning Revolution",
+        summary: "Neural networks transform AI capabilities.",
+        details: [
+          "Transformer architecture (2017)",
+          "BERT and contextual embeddings",
+          "GPT series begins"
+        ],
+        examples: [
+          "Improved machine translation",
+          "Context-aware text completion",
+          "More natural conversation flow"
+        ],
+        impact: [
+          "Dramatically improved language understanding",
+          "Enabled more complex interactions",
+          "Reduced need for explicit programming"
+        ]
+      },
+      {
+        year: "2020-2022",
+        title: "Large Language Models",
+        summary: "GPT-3 and scaling of language models.",
+        details: [
+          "GPT-3 release and API access",
+          "DALL-E and multimodal AI",
+          "Codex and code generation"
+        ],
+        examples: [
+          "Natural language to code conversion",
+          "Complex text generation tasks",
+          "Image generation from text"
+        ],
+        impact: [
+          "Demonstrated potential of scale",
+          "Enabled new creative applications",
+          "Raised questions about AI capabilities"
+        ]
+      },
+      {
+        year: "2022-Present",
+        title: "Conversational AI",
+        summary: "ChatGPT and widespread AI adoption.",
+        details: [
+          "ChatGPT release and viral adoption",
+          "GPT-4 multimodal capabilities",
+          "Integration into productivity tools"
+        ],
+        examples: [
+          "Complex problem-solving dialogues",
+          "Creative writing and analysis",
+          "Educational assistance"
+        ],
+        impact: [
+          "Mainstream awareness of AI potential",
+          "New paradigms for human-AI collaboration",
+          "Debates about AI safety and ethics"
+        ]
+      }
+    ];
+
+    function createEraElement(era, index) {
+      const div = document.createElement('div');
+      div.className = 'era';
+      div.innerHTML = `
+        <div class="era-header">
+          <span class="era-year">${era.year}</span>
+          <button class="toggle-btn">+</button>
+        </div>
+        <h3 class="era-title">${era.title}</h3>
+        <p class="era-summary">${era.summary}</p>
+        <div class="era-details">
+          <div class="detail-section">
+            <h4>Key Developments</h4>
+            <ul>
+              ${era.details.map(d => `<li>${d}</li>`).join('')}
+            </ul>
+          </div>
+          <div class="detail-section">
+            <h4>Examples</h4>
+            <ul>
+              ${era.examples.map(e => `<li>${e}</li>`).join('')}
+            </ul>
+          </div>
+          <div class="detail-section">
+            <h4>Impact & Legacy</h4>
+            <ul>
+              ${era.impact.map(i => `<li>${i}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      `;
+      
+      div.querySelector('.toggle-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        div.classList.toggle('expanded');
+        e.target.textContent = div.classList.contains('expanded') ? '−' : '+';
+      });
+
+      return div;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const timeline = document.querySelector('.timeline');
+      timelineData.forEach((era, index) => {
+        timeline.appendChild(createEraElement(era, index));
+      });
+    });
+  </script>
+</div>
