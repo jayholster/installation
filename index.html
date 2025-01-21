@@ -1,10 +1,73 @@
-<div class="timeline-wrapper">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Expanded AI Timeline</title>
   <style>
+    /* ---------- Global Styles ---------- */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: #f9fafb;
+    }
+
+    /* ---------- Navbar ---------- */
+    nav {
+      background-color: #1f2937; /* dark gray */
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+    }
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      margin-left: auto;
+      display: flex;
+      gap: 1rem;
+    }
+    nav li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    nav li a:hover {
+      color: #93c5fd; /* light blue on hover */
+    }
+
+    /* ---------- Hero / Introduction Section ---------- */
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: #e5e7eb; /* light gray background */
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #111827; /* almost black */
+    }
+    .hero p {
+      max-width: 600px;
+      margin: 0 auto;
+      color: #4b5563; /* gray text */
+      line-height: 1.5;
+    }
+
+    /* ---------- Timeline Wrapper (Original Code) ---------- */
     .timeline-wrapper {
       max-width: 100%;
       overflow-x: auto;
-      padding: 2rem 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      padding: 2rem 1rem;
+      margin: 0 auto;
     }
     .timeline {
       display: flex;
@@ -88,12 +151,68 @@
       align-items: center;
       justify-content: center;
     }
+
+    /* ---------- Footer ---------- */
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #1f2937;
+      color: white;
+    }
+    footer a {
+      color: #93c5fd;
+      text-decoration: none;
+    }
   </style>
+</head>
+<body>
 
-  <div class="timeline">
-    <!-- Timeline nodes will be inserted here by JavaScript -->
-  </div>
+  <!-- ---------- Navbar ---------- -->
+  <nav>
+    <div class="logo">AI Timeline</div>
+    <ul>
+      <li><a href="#timeline">Timeline</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="https://github.com/yourusername/yourrepo" target="_blank">GitHub</a></li>
+    </ul>
+  </nav>
 
+  <!-- ---------- Hero / Intro ---------- -->
+  <section class="hero">
+    <h1>Welcome to the AI Timeline</h1>
+    <p>
+      Explore the fascinating journey of AI development from the 1800s to the present.
+      Click on each era to learn more about the key breakthroughs, examples, and impact.
+    </p>
+  </section>
+
+  <!-- ---------- Timeline Section ---------- -->
+  <main id="timeline">
+    <div class="timeline-wrapper">
+      <div class="timeline">
+        <!-- Timeline nodes will be inserted here by JavaScript -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ---------- About Section ---------- -->
+  <section id="about" style="padding: 2rem 1rem; max-width: 800px; margin: 0 auto;">
+    <h2>About This Timeline</h2>
+    <p>
+      The AI Timeline provides an overview of major milestones in the development of artificial intelligence,
+      from early mechanical computers to modern large language models. Each era highlights key
+      developments, notable examples, and how they shaped the future of AI and human-computer interaction.
+    </p>
+  </section>
+
+  <!-- ---------- Footer ---------- -->
+  <footer>
+    <p>&copy; 2025 Your Name. Built with ❤️ for educational purposes. 
+      <br><a href="https://github.com/yourusername/yourrepo" target="_blank">View Source on GitHub</a>
+    </p>
+  </footer>
+
+  <!-- ---------- JavaScript ---------- -->
   <script>
     const timelineData = [
       {
@@ -349,6 +468,7 @@
         </div>
       `;
       
+      // Toggle expand/collapse
       div.querySelector('.toggle-btn').addEventListener('click', (e) => {
         e.stopPropagation();
         div.classList.toggle('expanded');
@@ -365,4 +485,5 @@
       });
     });
   </script>
-</div>
+</body>
+</html>
