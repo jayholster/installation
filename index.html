@@ -1,489 +1,468 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Expanded AI Timeline</title>
-  <style>
-    /* ---------- Global Styles ---------- */
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      background: #f9fafb;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Claude Artifacts Showcase</title>
+    <!-- Tailwind CSS via CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <div id="root"></div>
 
-    /* ---------- Navbar ---------- */
-    nav {
-      background-color: #1f2937; /* dark gray */
-      color: white;
-      display: flex;
-      align-items: center;
-      padding: 1rem;
-    }
-    nav .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-    nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      margin-left: auto;
-      display: flex;
-      gap: 1rem;
-    }
-    nav li a {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-    nav li a:hover {
-      color: #93c5fd; /* light blue on hover */
-    }
+    <!-- React and ReactDOM -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <!-- Babel for in-browser JSX transformation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    /* ---------- Hero / Introduction Section ---------- */
-    .hero {
-      text-align: center;
-      padding: 3rem 1rem;
-      background: #e5e7eb; /* light gray background */
-    }
-    .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      color: #111827; /* almost black */
-    }
-    .hero p {
-      max-width: 600px;
-      margin: 0 auto;
-      color: #4b5563; /* gray text */
-      line-height: 1.5;
-    }
+    <!-- Our React Code -->
+    <script type="text/babel">
+      // Business Report Template Component
+      function BusinessReportTemplate() {
+        const [companyName, setCompanyName] = React.useState("Acme Corporation");
+        const [reportTitle, setReportTitle] = React.useState("Quarterly Business Report");
+        const [quarterValue, setQuarterValue] = React.useState("Q1");
+        const [yearValue, setYearValue] = React.useState("2025");
+        const [department, setDepartment] = React.useState("Executive Leadership");
+        const [author, setAuthor] = React.useState("Jane Smith, CFO");
+        const [logoUrl, setLogoUrl] = React.useState("");
 
-    /* ---------- Timeline Wrapper (Original Code) ---------- */
-    .timeline-wrapper {
-      max-width: 100%;
-      overflow-x: auto;
-      padding: 2rem 1rem;
-      margin: 0 auto;
-    }
-    .timeline {
-      display: flex;
-      gap: 2rem;
-      padding: 1rem;
-      min-width: max-content;
-    }
-    .era {
-      width: 320px;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 1rem;
-      background: white;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-    .era:hover {
-      transform: scale(1.02);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    .era.expanded {
-      background: #f0f7ff;
-      transform: scale(1.05);
-    }
-    .era-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-    .era-year {
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-    .era-title {
-      font-weight: 600;
-      margin: 0.5rem 0;
-    }
-    .era-summary {
-      color: #4b5563;
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-    }
-    .era-details {
-      display: none;
-      margin-top: 1rem;
-    }
-    .era.expanded .era-details {
-      display: block;
-    }
-    .detail-section {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 6px;
-      padding: 0.75rem;
-      margin-bottom: 0.75rem;
-    }
-    .detail-section h4 {
-      font-weight: 600;
-      margin: 0 0 0.5rem 0;
-      font-size: 0.9rem;
-    }
-    .detail-section ul {
-      margin: 0;
-      padding-left: 1.25rem;
-      font-size: 0.85rem;
-      color: #4b5563;
-    }
-    .detail-section li {
-      margin: 0.25rem 0;
-    }
-    .toggle-btn {
-      width: 20px;
-      height: 20px;
-      border: none;
-      background: none;
-      cursor: pointer;
-      color: #6b7280;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+        const getCurrentQuarterDates = () => {
+          const year = parseInt(yearValue);
+          switch (quarterValue) {
+            case "Q1":
+              return "January 1 - March 31, " + year;
+            case "Q2":
+              return "April 1 - June 30, " + year;
+            case "Q3":
+              return "July 1 - September 30, " + year;
+            case "Q4":
+              return "October 1 - December 31, " + year;
+            default:
+              return "";
+          }
+        };
 
-    /* ---------- Footer ---------- */
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background-color: #1f2937;
-      color: white;
-    }
-    footer a {
-      color: #93c5fd;
-      text-decoration: none;
-    }
-  </style>
-</head>
-<body>
+        return (
+          <div className="max-w-4xl mx-auto p-6">
+            <div className="mb-6 bg-white rounded-lg shadow-md p-6">
+              <h2 className="text-xl font-bold mb-4">Report Settings</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Company Name</label>
+                  <input 
+                    type="text"
+                    value={companyName}
+                    onChange={(e) => setCompanyName(e.target.value)}
+                    className="w-full border rounded px-3 py-2"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Report Title</label>
+                  <input 
+                    type="text"
+                    value={reportTitle}
+                    onChange={(e) => setReportTitle(e.target.value)}
+                    className="w-full border rounded px-3 py-2"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Department</label>
+                  <input 
+                    type="text"
+                    value={department}
+                    onChange={(e) => setDepartment(e.target.value)}
+                    className="w-full border rounded px-3 py-2"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Author</label>
+                  <input 
+                    type="text"
+                    value={author}
+                    onChange={(e) => setAuthor(e.target.value)}
+                    className="w-full border rounded px-3 py-2"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Quarter</label>
+                  <select
+                    value={quarterValue}
+                    onChange={(e) => setQuarterValue(e.target.value)}
+                    className="w-full border rounded px-3 py-2"
+                  >
+                    <option value="Q1">Q1 (Jan-Mar)</option>
+                    <option value="Q2">Q2 (Apr-Jun)</option>
+                    <option value="Q3">Q3 (Jul-Sep)</option>
+                    <option value="Q4">Q4 (Oct-Dec)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Year</label>
+                  <select
+                    value={yearValue}
+                    onChange={(e) => setYearValue(e.target.value)}
+                    className="w-full border rounded px-3 py-2"
+                  >
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                  </select>
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm text-gray-600 mb-1">
+                    Company Logo URL (optional)
+                  </label>
+                  <input 
+                    type="text"
+                    value={logoUrl}
+                    onChange={(e) => setLogoUrl(e.target.value)}
+                    className="w-full border rounded px-3 py-2"
+                    placeholder="https://example.com/logo.png"
+                  />
+                </div>
+              </div>
+            </div>
 
-  <!-- ---------- Navbar ---------- -->
-  <nav>
-    <div class="logo">AI Timeline</div>
-    <ul>
-      <li><a href="#timeline">Timeline</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="https://github.com/yourusername/yourrepo" target="_blank">GitHub</a></li>
-    </ul>
-  </nav>
+            <div className="border rounded-lg shadow-md bg-white overflow-hidden">
+              <div className="bg-blue-600 text-white p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <div className="text-lg font-medium mb-1">{companyName}</div>
+                    <h1 className="text-3xl font-bold">{reportTitle}</h1>
+                  </div>
+                  {logoUrl && (
+                    <div className="bg-white p-2 rounded">
+                      <img src={logoUrl} alt="Company Logo" className="h-16" />
+                    </div>
+                  )}
+                </div>
+                <div className="flex justify-between items-end">
+                  <div>
+                    <div className="text-xl">{quarterValue} {yearValue}</div>
+                    <div className="text-sm opacity-80">{getCurrentQuarterDates()}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm opacity-80">Prepared by:</div>
+                    <div>{department}</div>
+                    <div className="text-sm">{author}</div>
+                  </div>
+                </div>
+              </div>
 
-  <!-- ---------- Hero / Intro ---------- -->
-  <section class="hero">
-    <h1>Welcome to the AI Timeline</h1>
-    <p>
-      Explore the fascinating journey of AI development from the 1800s to the present.
-      Click on each era to learn more about the key breakthroughs, examples, and impact.
-    </p>
-  </section>
+              <div className="bg-gray-50 p-6 border-b">
+                <h2 className="text-lg font-bold mb-3">Table of Contents</h2>
+                <ol className="list-decimal pl-5 space-y-1">
+                  <li className="text-blue-600 hover:underline cursor-pointer">Executive Summary</li>
+                  <li className="text-blue-600 hover:underline cursor-pointer">Financial Performance</li>
+                  <li className="text-blue-600 hover:underline cursor-pointer">Operational Highlights</li>
+                  <li className="text-blue-600 hover:underline cursor-pointer">Strategic Initiatives</li>
+                  <li className="text-blue-600 hover:underline cursor-pointer">Outlook</li>
+                </ol>
+              </div>
 
-  <!-- ---------- Timeline Section ---------- -->
-  <main id="timeline">
-    <div class="timeline-wrapper">
-      <div class="timeline">
-        <!-- Timeline nodes will be inserted here by JavaScript -->
-      </div>
-    </div>
-  </main>
+              <div className="p-8">
+                <div className="mb-8">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-4 pb-2 border-b">
+                    Executive Summary
+                  </h2>
+                  <p className="mb-4 text-gray-700">
+                    This report provides an overview of {companyName}'s performance during {quarterValue} {yearValue}. 
+                    The company has shown strong growth in key areas while managing challenges in the market environment.
+                  </p>
+                  <p className="text-gray-700">
+                    Overall business objectives were met with a focus on expanding market share, improving operational efficiency, 
+                    and launching new product initiatives. The financial results reflect these strategic priorities.
+                  </p>
+                </div>
 
-  <!-- ---------- About Section ---------- -->
-  <section id="about" style="padding: 2rem 1rem; max-width: 800px; margin: 0 auto;">
-    <h2>About This Timeline</h2>
-    <p>
-      The AI Timeline provides an overview of major milestones in the development of artificial intelligence,
-      from early mechanical computers to modern large language models. Each era highlights key
-      developments, notable examples, and how they shaped the future of AI and human-computer interaction.
-    </p>
-  </section>
-
-  <!-- ---------- Footer ---------- -->
-  <footer>
-    <p>&copy; 2025 Your Name. Built with ❤️ for educational purposes. 
-      <br><a href="https://github.com/yourusername/yourrepo" target="_blank">View Source on GitHub</a>
-    </p>
-  </footer>
-
-  <!-- ---------- JavaScript ---------- -->
-  <script>
-    const timelineData = [
-      {
-        year: "1800s",
-        title: "Mechanical Computing",
-        summary: "First attempts at automated computation and decision-making.",
-        details: [
-          "Babbage's Difference Engine (1822) introduced mechanical computation",
-          "Ada Lovelace wrote first algorithm for machine processing (1843)",
-          "Boolean algebra established mathematical logic (1854)"
-        ],
-        examples: [
-          "Mechanical calculators using gears and levers",
-          "Punch card systems for textile patterns"
-        ],
-        impact: [
-          "Established foundation for computational thinking",
-          "Introduced concept of programmable machines",
-          "Demonstrated potential for automating mental tasks"
-        ]
-      },
-      {
-        year: "1940s",
-        title: "Early Electronic Computing",
-        summary: "First electronic computers and foundation of computer science.",
-        details: [
-          "ENIAC (1945) - first general-purpose electronic computer",
-          "Turing's work on computability and machine intelligence",
-          "Development of stored program concepts"
-        ],
-        examples: [
-          "Physical rewiring for programming ENIAC",
-          "Punch cards for program and data input",
-          "Basic arithmetic operations taking seconds instead of hours"
-        ],
-        impact: [
-          "Proved feasibility of electronic computation",
-          "Established basic principles of programming",
-          "Sparked discussion about machine intelligence"
-        ]
-      },
-      {
-        year: "1960s",
-        title: "Early AI & Natural Language",
-        summary: "First attempts at natural language processing and conversation.",
-        details: [
-          "ELIZA (1966) - first chatbot using pattern matching",
-          "Development of BASIC and other high-level languages",
-          "Early research in natural language processing"
-        ],
-        examples: [
-          "ELIZA's therapy-style responses",
-          "Basic question-answering systems",
-          "Pattern matching with variable substitution"
-        ],
-        impact: [
-          "Showed potential for natural language interfaces",
-          "Revealed human tendency to anthropomorphize computers",
-          "Established early principles of conversation design"
-        ]
-      },
-      {
-        year: "1970s",
-        title: "Command Line Evolution",
-        summary: "Standardization of command-line interfaces and early networking.",
-        details: [
-          "Unix shell development",
-          "ARPANET and early networking protocols",
-          "PARRY chatbot demonstrating improved interaction"
-        ],
-        examples: [
-          "Unix commands and pipes",
-          "Email and early messaging systems",
-          "PARRY's paranoid conversational patterns"
-        ],
-        impact: [
-          "Standardized human-computer interaction patterns",
-          "Enabled remote computer access and communication",
-          "Advanced understanding of conversation modeling"
-        ]
-      },
-      {
-        year: "1980s",
-        title: "GUI Revolution",
-        summary: "Transition from command line to graphical interfaces.",
-        details: [
-          "Apple Macintosh (1984) popularized GUI",
-          "Microsoft Windows development",
-          "HyperCard and interactive documentation"
-        ],
-        examples: [
-          "Desktop metaphor with files and folders",
-          "Mouse-driven interaction",
-          "WYSIWYG text editing"
-        ],
-        impact: [
-          "Made computing accessible to general public",
-          "Established visual interaction patterns",
-          "Introduced direct manipulation interfaces"
-        ]
-      },
-      {
-        year: "1990s",
-        title: "Web & Intelligent Agents",
-        summary: "Rise of the web and early intelligent assistants.",
-        details: [
-          "World Wide Web creation and growth",
-          "Early search engines and web crawlers",
-          "Microsoft Office Assistant (Clippy)"
-        ],
-        examples: [
-          "Web browsers and hyperlinks",
-          "Basic web search queries",
-          "Context-aware help systems"
-        ],
-        impact: [
-          "Created new paradigms for information access",
-          "Demonstrated need for better search interfaces",
-          "Showed limitations of rule-based assistance"
-        ]
-      },
-      {
-        year: "2000s",
-        title: "Social AI & Virtual Agents",
-        summary: "Mainstreaming of conversational interfaces.",
-        details: [
-          "SmarterChild on instant messaging platforms",
-          "Early virtual assistants",
-          "Improvements in speech recognition"
-        ],
-        examples: [
-          "AIM and MSN chatbots",
-          "Voice recognition systems",
-          "Customer service automation"
-        ],
-        impact: [
-          "Normalized conversation with machines",
-          "Advanced natural language processing",
-          "Improved understanding of user interaction"
-        ]
-      },
-      {
-        year: "2011-2015",
-        title: "Virtual Assistants Era",
-        summary: "Voice interfaces become mainstream.",
-        details: [
-          "Siri launch (2011)",
-          "Google Now and Cortana",
-          "Amazon Alexa and smart speakers"
-        ],
-        examples: [
-          "Voice commands for phone control",
-          "Natural language questions",
-          "Smart home integration"
-        ],
-        impact: [
-          "Made AI assistance part of daily life",
-          "Advanced voice interaction technology",
-          "Created new privacy considerations"
-        ]
-      },
-      {
-        year: "2016-2019",
-        title: "Deep Learning Revolution",
-        summary: "Neural networks transform AI capabilities.",
-        details: [
-          "Transformer architecture (2017)",
-          "BERT and contextual embeddings",
-          "GPT series begins"
-        ],
-        examples: [
-          "Improved machine translation",
-          "Context-aware text completion",
-          "More natural conversation flow"
-        ],
-        impact: [
-          "Dramatically improved language understanding",
-          "Enabled more complex interactions",
-          "Reduced need for explicit programming"
-        ]
-      },
-      {
-        year: "2020-2022",
-        title: "Large Language Models",
-        summary: "GPT-3 and scaling of language models.",
-        details: [
-          "GPT-3 release and API access",
-          "DALL-E and multimodal AI",
-          "Codex and code generation"
-        ],
-        examples: [
-          "Natural language to code conversion",
-          "Complex text generation tasks",
-          "Image generation from text"
-        ],
-        impact: [
-          "Demonstrated potential of scale",
-          "Enabled new creative applications",
-          "Raised questions about AI capabilities"
-        ]
-      },
-      {
-        year: "2022-Present",
-        title: "Conversational AI",
-        summary: "ChatGPT and widespread AI adoption.",
-        details: [
-          "ChatGPT release and viral adoption",
-          "GPT-4 multimodal capabilities",
-          "Integration into productivity tools"
-        ],
-        examples: [
-          "Complex problem-solving dialogues",
-          "Creative writing and analysis",
-          "Educational assistance"
-        ],
-        impact: [
-          "Mainstream awareness of AI potential",
-          "New paradigms for human-AI collaboration",
-          "Debates about AI safety and ethics"
-        ]
+                <div className="mb-8">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-4 pb-2 border-b">
+                    Financial Performance
+                  </h2>
+                  <h3 className="text-xl font-semibold text-gray-700 mb-3">Revenue Highlights</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <div className="text-sm text-blue-600">Total Revenue</div>
+                      <div className="text-2xl font-bold text-blue-800">$24.8M</div>
+                      <div className="text-xs text-blue-600">↑ 12.3% YoY</div>
+                    </div>
+                    <div className="bg-green-50 p-4 rounded-lg">
+                      <div className="text-sm text-green-600">Gross Profit</div>
+                      <div className="text-2xl font-bold text-green-800">$16.5M</div>
+                      <div className="text-xs text-green-600">↑ 8.7% YoY</div>
+                    </div>
+                    <div className="bg-indigo-50 p-4 rounded-lg">
+                      <div className="text-sm text-indigo-600">Net Income</div>
+                      <div className="text-2xl font-bold text-indigo-800">$5.2M</div>
+                      <div className="text-xs text-indigo-600">↑ 15.2% YoY</div>
+                    </div>
+                    <div className="bg-amber-50 p-4 rounded-lg">
+                      <div className="text-sm text-amber-600">Profit Margin</div>
+                      <div className="text-2xl font-bold text-amber-800">21.0%</div>
+                      <div className="text-xs text-amber-600">↑ 2.5% YoY</div>
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-xl font-semibold text-gray-700 mb-3">Segment Performance</h3>
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead>
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Business Unit
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Revenue
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Growth
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Profit Margin
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        <tr>
+                          <td className="px-6 py-4 whitespace-nowrap">Product A</td>
+                          <td className="px-6 py-4 whitespace-nowrap">$8.6M</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-green-600">+15.4%</td>
+                          <td className="px-6 py-4 whitespace-nowrap">23.5%</td>
+                        </tr>
+                        <tr>
+                          <td className="px-6 py-4 whitespace-nowrap">Product B</td>
+                          <td className="px-6 py-4 whitespace-nowrap">$6.2M</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-green-600">+8.1%</td>
+                          <td className="px-6 py-4 whitespace-nowrap">19.8%</td>
+                        </tr>
+                        <tr>
+                          <td className="px-6 py-4 whitespace-nowrap">Product C</td>
+                          <td className="px-6 py-4 whitespace-nowrap">$5.7M</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-red-600">-2.3%</td>
+                          <td className="px-6 py-4 whitespace-nowrap">16.2%</td>
+                        </tr>
+                        <tr>
+                          <td className="px-6 py-4 whitespace-nowrap">Services</td>
+                          <td className="px-6 py-4 whitespace-nowrap">$4.3M</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-green-600">+22.7%</td>
+                          <td className="px-6 py-4 whitespace-nowrap">27.1%</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
       }
-    ];
 
-    function createEraElement(era, index) {
-      const div = document.createElement('div');
-      div.className = 'era';
-      div.innerHTML = `
-        <div class="era-header">
-          <span class="era-year">${era.year}</span>
-          <button class="toggle-btn">+</button>
-        </div>
-        <h3 class="era-title">${era.title}</h3>
-        <p class="era-summary">${era.summary}</p>
-        <div class="era-details">
-          <div class="detail-section">
-            <h4>Key Developments</h4>
-            <ul>
-              ${era.details.map(d => `<li>${d}</li>`).join('')}
-            </ul>
+      // Placeholder Components for Other Artifacts
+      function InteractiveMindMap() {
+        return (
+          <div className="p-6 bg-white rounded-lg shadow-md">
+            <h2 className="text-xl font-bold mb-4">Interactive Mind Map</h2>
+            <p>This is a placeholder for the Interactive Mind Map component.</p>
           </div>
-          <div class="detail-section">
-            <h4>Examples</h4>
-            <ul>
-              ${era.examples.map(e => `<li>${e}</li>`).join('')}
-            </ul>
-          </div>
-          <div class="detail-section">
-            <h4>Impact & Legacy</h4>
-            <ul>
-              ${era.impact.map(i => `<li>${i}</li>`).join('')}
-            </ul>
-          </div>
-        </div>
-      `;
-      
-      // Toggle expand/collapse
-      div.querySelector('.toggle-btn').addEventListener('click', (e) => {
-        e.stopPropagation();
-        div.classList.toggle('expanded');
-        e.target.textContent = div.classList.contains('expanded') ? '−' : '+';
-      });
+        );
+      }
 
-      return div;
-    }
+      function InteractiveFlowchart() {
+        return (
+          <div className="p-6 bg-white rounded-lg shadow-md">
+            <h2 className="text-xl font-bold mb-4">Interactive Flowchart</h2>
+            <p>This is a placeholder for the Interactive Flowchart component.</p>
+          </div>
+        );
+      }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const timeline = document.querySelector('.timeline');
-      timelineData.forEach((era, index) => {
-        timeline.appendChild(createEraElement(era, index));
-      });
-    });
-  </script>
-</body>
+      function InteractiveBarChart() {
+        return (
+          <div className="p-6 bg-white rounded-lg shadow-md">
+            <h2 className="text-xl font-bold mb-4">Interactive Bar Chart</h2>
+            <p>This is a placeholder for the Interactive Bar Chart component.</p>
+          </div>
+        );
+      }
+
+      function InteractivePieChart() {
+        return (
+          <div className="p-6 bg-white rounded-lg shadow-md">
+            <h2 className="text-xl font-bold mb-4">Interactive Pie Chart</h2>
+            <p>This is a placeholder for the Interactive Pie Chart component.</p>
+          </div>
+        );
+      }
+
+      function ParticleSystem() {
+        return (
+          <div className="p-6 bg-white rounded-lg shadow-md">
+            <h2 className="text-xl font-bold mb-4">Particle System</h2>
+            <p>This is a placeholder for the Particle System component.</p>
+          </div>
+        );
+      }
+
+      // Artifact Showcase: Navigation & Example Viewer
+      function ArtifactShowcase() {
+        const [selectedCategory, setSelectedCategory] = React.useState("documents");
+        const [selectedExample, setSelectedExample] = React.useState(null);
+        const [currentView, setCurrentView] = React.useState("preview");
+
+        const categories = [
+          { id: "intro", name: "Introduction", icon: "👋" },
+          { id: "games", name: "Interactive Games", icon: "🎮" },
+          { id: "visualizers", name: "Creative Visualizers", icon: "🎨" },
+          { id: "data", name: "Data Visualizations", icon: "📊" },
+          { id: "tools", name: "Practical Tools", icon: "🛠️" },
+          { id: "diagrams", name: "Diagrams & Charts", icon: "📝" },
+          { id: "documents", name: "Documents & Reports", icon: "📄" },
+        ];
+
+        const examples = {
+          documents: [
+            {
+              id: "business-report",
+              name: "Business Report Template",
+              description: "A customizable business report template.",
+              component: <BusinessReportTemplate />,
+              codeSnippet:
+`// Business Report Template Artifact
+import React, { useState } from 'react';
+// ... component code here`
+            }
+          ],
+          games: [
+            {
+              id: "snake",
+              name: "Snake Game",
+              description: "Classic snake game with score tracking.",
+              component: (
+                <div className="p-6 bg-white rounded-lg shadow-md">
+                  <p>Snake Game Component Placeholder</p>
+                </div>
+              ),
+              codeSnippet: "// Snake Game Artifact code here"
+            }
+          ],
+          visualizers: [
+            {
+              id: "audio-visualizer",
+              name: "Audio Visualizer",
+              description: "Interactive music frequency visualizer.",
+              component: <InteractiveBarChart />, // using bar chart as placeholder
+              codeSnippet: "// Audio Visualizer Artifact code here"
+            }
+          ],
+          diagrams: [
+            {
+              id: "flowchart",
+              name: "Interactive Flowchart",
+              description: "Visualize business processes with an interactive flowchart.",
+              component: <InteractiveFlowchart />,
+              codeSnippet: "// Interactive Flowchart Artifact code here"
+            }
+          ]
+        };
+
+        const currentExamples = examples[selectedCategory] || [];
+
+        return (
+          <div className="p-6">
+            <h1 className="text-3xl font-bold text-center mb-6">
+              Claude Artifacts Showcase
+            </h1>
+            <div className="flex justify-center space-x-4 mb-6">
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => {
+                    setSelectedCategory(cat.id);
+                    setSelectedExample(null);
+                  }}
+                  className={`px-4 py-2 rounded ${
+                    selectedCategory === cat.id
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-200 text-gray-700"
+                  }`}
+                >
+                  {cat.icon} {cat.name}
+                </button>
+              ))}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {currentExamples.map((example) => (
+                <div
+                  key={example.id}
+                  className="border rounded-lg p-4 bg-white shadow-md cursor-pointer"
+                  onClick={() => setSelectedExample(example)}
+                >
+                  <h2 className="text-xl font-bold mb-2">{example.name}</h2>
+                  <p className="text-gray-600">{example.description}</p>
+                </div>
+              ))}
+            </div>
+            {selectedExample && (
+              <div className="mt-6 border rounded-lg p-4 bg-white shadow-md">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-2xl font-bold">
+                    {selectedExample.name}
+                  </h2>
+                  <div>
+                    <button
+                      onClick={() => setCurrentView("preview")}
+                      className={`px-3 py-1 rounded ${
+                        currentView === "preview"
+                          ? "bg-blue-600 text-white"
+                          : "bg-gray-200 text-gray-700"
+                      }`}
+                    >
+                      Preview
+                    </button>
+                    <button
+                      onClick={() => setCurrentView("code")}
+                      className={`ml-2 px-3 py-1 rounded ${
+                        currentView === "code"
+                          ? "bg-blue-600 text-white"
+                          : "bg-gray-200 text-gray-700"
+                      }`}
+                    >
+                      Code
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  {currentView === "preview" ? (
+                    selectedExample.component
+                  ) : (
+                    <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
+                      {selectedExample.codeSnippet}
+                    </pre>
+                  )}
+                </div>
+                <button
+                  onClick={() => setSelectedExample(null)}
+                  className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                >
+                  Close
+                </button>
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      // Main App Component
+      function App() {
+        return <ArtifactShowcase />;
+      }
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
 </html>
