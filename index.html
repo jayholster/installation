@@ -1,468 +1,328 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Claude Artifacts Showcase</title>
-    <!-- Tailwind CSS via CDN -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body class="bg-gray-100">
-    <div id="root"></div>
-
-    <!-- React and ReactDOM -->
-    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-    <!-- Babel for in-browser JSX transformation -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <!-- Our React Code -->
-    <script type="text/babel">
-      // Business Report Template Component
-      function BusinessReportTemplate() {
-        const [companyName, setCompanyName] = React.useState("Acme Corporation");
-        const [reportTitle, setReportTitle] = React.useState("Quarterly Business Report");
-        const [quarterValue, setQuarterValue] = React.useState("Q1");
-        const [yearValue, setYearValue] = React.useState("2025");
-        const [department, setDepartment] = React.useState("Executive Leadership");
-        const [author, setAuthor] = React.useState("Jane Smith, CFO");
-        const [logoUrl, setLogoUrl] = React.useState("");
-
-        const getCurrentQuarterDates = () => {
-          const year = parseInt(yearValue);
-          switch (quarterValue) {
-            case "Q1":
-              return "January 1 - March 31, " + year;
-            case "Q2":
-              return "April 1 - June 30, " + year;
-            case "Q3":
-              return "July 1 - September 30, " + year;
-            case "Q4":
-              return "October 1 - December 31, " + year;
-            default:
-              return "";
-          }
-        };
-
-        return (
-          <div className="max-w-4xl mx-auto p-6">
-            <div className="mb-6 bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold mb-4">Report Settings</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm text-gray-600 mb-1">Company Name</label>
-                  <input 
-                    type="text"
-                    value={companyName}
-                    onChange={(e) => setCompanyName(e.target.value)}
-                    className="w-full border rounded px-3 py-2"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-600 mb-1">Report Title</label>
-                  <input 
-                    type="text"
-                    value={reportTitle}
-                    onChange={(e) => setReportTitle(e.target.value)}
-                    className="w-full border rounded px-3 py-2"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-600 mb-1">Department</label>
-                  <input 
-                    type="text"
-                    value={department}
-                    onChange={(e) => setDepartment(e.target.value)}
-                    className="w-full border rounded px-3 py-2"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-600 mb-1">Author</label>
-                  <input 
-                    type="text"
-                    value={author}
-                    onChange={(e) => setAuthor(e.target.value)}
-                    className="w-full border rounded px-3 py-2"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-600 mb-1">Quarter</label>
-                  <select
-                    value={quarterValue}
-                    onChange={(e) => setQuarterValue(e.target.value)}
-                    className="w-full border rounded px-3 py-2"
-                  >
-                    <option value="Q1">Q1 (Jan-Mar)</option>
-                    <option value="Q2">Q2 (Apr-Jun)</option>
-                    <option value="Q3">Q3 (Jul-Sep)</option>
-                    <option value="Q4">Q4 (Oct-Dec)</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-600 mb-1">Year</label>
-                  <select
-                    value={yearValue}
-                    onChange={(e) => setYearValue(e.target.value)}
-                    className="w-full border rounded px-3 py-2"
-                  >
-                    <option value="2024">2024</option>
-                    <option value="2025">2025</option>
-                    <option value="2026">2026</option>
-                  </select>
-                </div>
-                <div className="md:col-span-2">
-                  <label className="block text-sm text-gray-600 mb-1">
-                    Company Logo URL (optional)
-                  </label>
-                  <input 
-                    type="text"
-                    value={logoUrl}
-                    onChange={(e) => setLogoUrl(e.target.value)}
-                    className="w-full border rounded px-3 py-2"
-                    placeholder="https://example.com/logo.png"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="border rounded-lg shadow-md bg-white overflow-hidden">
-              <div className="bg-blue-600 text-white p-8">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <div className="text-lg font-medium mb-1">{companyName}</div>
-                    <h1 className="text-3xl font-bold">{reportTitle}</h1>
-                  </div>
-                  {logoUrl && (
-                    <div className="bg-white p-2 rounded">
-                      <img src={logoUrl} alt="Company Logo" className="h-16" />
-                    </div>
-                  )}
-                </div>
-                <div className="flex justify-between items-end">
-                  <div>
-                    <div className="text-xl">{quarterValue} {yearValue}</div>
-                    <div className="text-sm opacity-80">{getCurrentQuarterDates()}</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm opacity-80">Prepared by:</div>
-                    <div>{department}</div>
-                    <div className="text-sm">{author}</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gray-50 p-6 border-b">
-                <h2 className="text-lg font-bold mb-3">Table of Contents</h2>
-                <ol className="list-decimal pl-5 space-y-1">
-                  <li className="text-blue-600 hover:underline cursor-pointer">Executive Summary</li>
-                  <li className="text-blue-600 hover:underline cursor-pointer">Financial Performance</li>
-                  <li className="text-blue-600 hover:underline cursor-pointer">Operational Highlights</li>
-                  <li className="text-blue-600 hover:underline cursor-pointer">Strategic Initiatives</li>
-                  <li className="text-blue-600 hover:underline cursor-pointer">Outlook</li>
-                </ol>
-              </div>
-
-              <div className="p-8">
-                <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-gray-800 mb-4 pb-2 border-b">
-                    Executive Summary
-                  </h2>
-                  <p className="mb-4 text-gray-700">
-                    This report provides an overview of {companyName}'s performance during {quarterValue} {yearValue}. 
-                    The company has shown strong growth in key areas while managing challenges in the market environment.
-                  </p>
-                  <p className="text-gray-700">
-                    Overall business objectives were met with a focus on expanding market share, improving operational efficiency, 
-                    and launching new product initiatives. The financial results reflect these strategic priorities.
-                  </p>
-                </div>
-
-                <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-gray-800 mb-4 pb-2 border-b">
-                    Financial Performance
-                  </h2>
-                  <h3 className="text-xl font-semibold text-gray-700 mb-3">Revenue Highlights</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                    <div className="bg-blue-50 p-4 rounded-lg">
-                      <div className="text-sm text-blue-600">Total Revenue</div>
-                      <div className="text-2xl font-bold text-blue-800">$24.8M</div>
-                      <div className="text-xs text-blue-600">↑ 12.3% YoY</div>
-                    </div>
-                    <div className="bg-green-50 p-4 rounded-lg">
-                      <div className="text-sm text-green-600">Gross Profit</div>
-                      <div className="text-2xl font-bold text-green-800">$16.5M</div>
-                      <div className="text-xs text-green-600">↑ 8.7% YoY</div>
-                    </div>
-                    <div className="bg-indigo-50 p-4 rounded-lg">
-                      <div className="text-sm text-indigo-600">Net Income</div>
-                      <div className="text-2xl font-bold text-indigo-800">$5.2M</div>
-                      <div className="text-xs text-indigo-600">↑ 15.2% YoY</div>
-                    </div>
-                    <div className="bg-amber-50 p-4 rounded-lg">
-                      <div className="text-sm text-amber-600">Profit Margin</div>
-                      <div className="text-2xl font-bold text-amber-800">21.0%</div>
-                      <div className="text-xs text-amber-600">↑ 2.5% YoY</div>
-                    </div>
-                  </div>
-                  
-                  <h3 className="text-xl font-semibold text-gray-700 mb-3">Segment Performance</h3>
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead>
-                        <tr>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Business Unit
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Revenue
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Growth
-                          </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Profit Margin
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
-                        <tr>
-                          <td className="px-6 py-4 whitespace-nowrap">Product A</td>
-                          <td className="px-6 py-4 whitespace-nowrap">$8.6M</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-green-600">+15.4%</td>
-                          <td className="px-6 py-4 whitespace-nowrap">23.5%</td>
-                        </tr>
-                        <tr>
-                          <td className="px-6 py-4 whitespace-nowrap">Product B</td>
-                          <td className="px-6 py-4 whitespace-nowrap">$6.2M</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-green-600">+8.1%</td>
-                          <td className="px-6 py-4 whitespace-nowrap">19.8%</td>
-                        </tr>
-                        <tr>
-                          <td className="px-6 py-4 whitespace-nowrap">Product C</td>
-                          <td className="px-6 py-4 whitespace-nowrap">$5.7M</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-red-600">-2.3%</td>
-                          <td className="px-6 py-4 whitespace-nowrap">16.2%</td>
-                        </tr>
-                        <tr>
-                          <td className="px-6 py-4 whitespace-nowrap">Services</td>
-                          <td className="px-6 py-4 whitespace-nowrap">$4.3M</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-green-600">+22.7%</td>
-                          <td className="px-6 py-4 whitespace-nowrap">27.1%</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      }
-
-      // Placeholder Components for Other Artifacts
-      function InteractiveMindMap() {
-        return (
-          <div className="p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-xl font-bold mb-4">Interactive Mind Map</h2>
-            <p>This is a placeholder for the Interactive Mind Map component.</p>
-          </div>
-        );
-      }
-
-      function InteractiveFlowchart() {
-        return (
-          <div className="p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-xl font-bold mb-4">Interactive Flowchart</h2>
-            <p>This is a placeholder for the Interactive Flowchart component.</p>
-          </div>
-        );
-      }
-
-      function InteractiveBarChart() {
-        return (
-          <div className="p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-xl font-bold mb-4">Interactive Bar Chart</h2>
-            <p>This is a placeholder for the Interactive Bar Chart component.</p>
-          </div>
-        );
-      }
-
-      function InteractivePieChart() {
-        return (
-          <div className="p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-xl font-bold mb-4">Interactive Pie Chart</h2>
-            <p>This is a placeholder for the Interactive Pie Chart component.</p>
-          </div>
-        );
-      }
-
-      function ParticleSystem() {
-        return (
-          <div className="p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-xl font-bold mb-4">Particle System</h2>
-            <p>This is a placeholder for the Particle System component.</p>
-          </div>
-        );
-      }
-
-      // Artifact Showcase: Navigation & Example Viewer
-      function ArtifactShowcase() {
-        const [selectedCategory, setSelectedCategory] = React.useState("documents");
-        const [selectedExample, setSelectedExample] = React.useState(null);
-        const [currentView, setCurrentView] = React.useState("preview");
-
-        const categories = [
-          { id: "intro", name: "Introduction", icon: "👋" },
-          { id: "games", name: "Interactive Games", icon: "🎮" },
-          { id: "visualizers", name: "Creative Visualizers", icon: "🎨" },
-          { id: "data", name: "Data Visualizations", icon: "📊" },
-          { id: "tools", name: "Practical Tools", icon: "🛠️" },
-          { id: "diagrams", name: "Diagrams & Charts", icon: "📝" },
-          { id: "documents", name: "Documents & Reports", icon: "📄" },
-        ];
-
-        const examples = {
-          documents: [
-            {
-              id: "business-report",
-              name: "Business Report Template",
-              description: "A customizable business report template.",
-              component: <BusinessReportTemplate />,
-              codeSnippet:
-`// Business Report Template Artifact
-import React, { useState } from 'react';
-// ... component code here`
-            }
-          ],
-          games: [
-            {
-              id: "snake",
-              name: "Snake Game",
-              description: "Classic snake game with score tracking.",
-              component: (
-                <div className="p-6 bg-white rounded-lg shadow-md">
-                  <p>Snake Game Component Placeholder</p>
-                </div>
-              ),
-              codeSnippet: "// Snake Game Artifact code here"
-            }
-          ],
-          visualizers: [
-            {
-              id: "audio-visualizer",
-              name: "Audio Visualizer",
-              description: "Interactive music frequency visualizer.",
-              component: <InteractiveBarChart />, // using bar chart as placeholder
-              codeSnippet: "// Audio Visualizer Artifact code here"
-            }
-          ],
-          diagrams: [
-            {
-              id: "flowchart",
-              name: "Interactive Flowchart",
-              description: "Visualize business processes with an interactive flowchart.",
-              component: <InteractiveFlowchart />,
-              codeSnippet: "// Interactive Flowchart Artifact code here"
-            }
-          ]
-        };
-
-        const currentExamples = examples[selectedCategory] || [];
-
-        return (
-          <div className="p-6">
-            <h1 className="text-3xl font-bold text-center mb-6">
-              Claude Artifacts Showcase
-            </h1>
-            <div className="flex justify-center space-x-4 mb-6">
-              {categories.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => {
-                    setSelectedCategory(cat.id);
-                    setSelectedExample(null);
-                  }}
-                  className={`px-4 py-2 rounded ${
-                    selectedCategory === cat.id
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-200 text-gray-700"
-                  }`}
-                >
-                  {cat.icon} {cat.name}
-                </button>
-              ))}
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {currentExamples.map((example) => (
-                <div
-                  key={example.id}
-                  className="border rounded-lg p-4 bg-white shadow-md cursor-pointer"
-                  onClick={() => setSelectedExample(example)}
-                >
-                  <h2 className="text-xl font-bold mb-2">{example.name}</h2>
-                  <p className="text-gray-600">{example.description}</p>
-                </div>
-              ))}
-            </div>
-            {selectedExample && (
-              <div className="mt-6 border rounded-lg p-4 bg-white shadow-md">
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-2xl font-bold">
-                    {selectedExample.name}
-                  </h2>
-                  <div>
-                    <button
-                      onClick={() => setCurrentView("preview")}
-                      className={`px-3 py-1 rounded ${
-                        currentView === "preview"
-                          ? "bg-blue-600 text-white"
-                          : "bg-gray-200 text-gray-700"
-                      }`}
-                    >
-                      Preview
-                    </button>
-                    <button
-                      onClick={() => setCurrentView("code")}
-                      className={`ml-2 px-3 py-1 rounded ${
-                        currentView === "code"
-                          ? "bg-blue-600 text-white"
-                          : "bg-gray-200 text-gray-700"
-                      }`}
-                    >
-                      Code
-                    </button>
-                  </div>
-                </div>
-                <div>
-                  {currentView === "preview" ? (
-                    selectedExample.component
-                  ) : (
-                    <pre className="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
-                      {selectedExample.codeSnippet}
-                    </pre>
-                  )}
-                </div>
-                <button
-                  onClick={() => setSelectedExample(null)}
-                  className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                >
-                  Close
-                </button>
-              </div>
-            )}
-          </div>
-        );
-      }
-
-      // Main App Component
-      function App() {
-        return <ArtifactShowcase />;
-      }
-
-      ReactDOM.render(<App />, document.getElementById("root"));
-    </script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Echo Chamber: A Multimodal Learning Journey Through Information Literacy</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2, h3, h4 {
+      color: #222;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    h2 {
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 5px;
+      margin-top: 40px;
+    }
+    h3 {
+      margin-top: 30px;
+    }
+    ul {
+      list-style-type: disc;
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+    li {
+      margin-bottom: 5px;
+    }
+    .footer {
+      text-align: center;
+      font-size: 0.9em;
+      margin-top: 40px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Echo Chamber: A Multimodal Learning Journey Through Information Literacy</h1>
+    
+    <section>
+      <h2>Framework Overview</h2>
+      <p>
+        This advanced learning module is designed as a flexible, evidence-based educational framework that integrates cognitive science principles with digital-age information literacy. The module employs a multimodal approach, combining narrative immersion, active decision-making, and metacognitive reflection to create a transformative learning experience.
+      </p>
+    </section>
+    
+    <section>
+      <h2>Pedagogical Foundations</h2>
+      
+      <h3>Theoretical Underpinnings</h3>
+      <ul>
+        <li><strong>Constructivist Learning Theory:</strong> Learners actively construct knowledge through experience, reflection, and social interaction.</li>
+        <li><strong>Situated Cognition:</strong> Learning is embedded in authentic contexts that mirror real-world complexity.</li>
+        <li><strong>Social Learning Theory:</strong> Observing others' behaviors and their consequences influences future actions.</li>
+        <li><strong>Metacognitive Development:</strong> Reflection on one's own thought processes enhances critical thinking.</li>
+      </ul>
+      
+      <h3>Evidence-Based Design Elements</h3>
+      <ul>
+        <li><strong>Spaced Learning:</strong> Core concepts reappear throughout different historical contexts.</li>
+        <li><strong>Retrieval Practice:</strong> Embedded knowledge checks require active recall of previously learned content.</li>
+        <li><strong>Desirable Difficulty:</strong> Strategic challenges calibrated to push learners beyond their comfort zone.</li>
+        <li><strong>Elaborative Interrogation:</strong> Prompts that require learners to explain "why" certain misinformation strategies work.</li>
+      </ul>
+    </section>
+    
+    <section>
+      <h2>Module Architecture</h2>
+      
+      <h3>1. Cognitive Foundations (Pre-Assessment)</h3>
+      <ul>
+        <li><strong>Mental Models Assessment:</strong> Interactive diagnostic tool mapping learners' existing frameworks for evaluating information.</li>
+        <li><strong>Cognitive Bias Inventory:</strong> Self-assessment of vulnerability to common reasoning errors.</li>
+        <li><strong>Information Ecosystem Mapping:</strong> Exercise to visualize personal information sources and filter bubbles.</li>
+      </ul>
+      
+      <h3>2. Historical Case Studies</h3>
+      <p>Each case study employs a consistent pedagogical structure:</p>
+      <ul>
+        <li><strong>Contextual Immersion:</strong> Multimedia reconstruction of historical context.</li>
+        <li><strong>Perspective-Taking:</strong> Role-based scenario navigation.</li>
+        <li><strong>Decision Points:</strong> Active choices with immediate and delayed consequences.</li>
+        <li><strong>Analytical Reflection:</strong> Guided deconstruction of information manipulation techniques.</li>
+        <li><strong>Contemporary Connection:</strong> Explicit bridges to modern information challenges.</li>
+      </ul>
+      
+      <h4>Case Study A: The Great Moon Hoax (1835)</h4>
+      <ul>
+        <li><strong>Learning Focus:</strong> Authority manipulation, scientific credibility, media sensationalism.</li>
+        <li><strong>Key Cognitive Challenge:</strong> Evaluating plausibility vs. possibility.</li>
+        <li><strong>Cross-Curricular Connections:</strong> Astronomy, journalism ethics, scientific method.</li>
+      </ul>
+      
+      <h4>Case Study B: War of the Worlds Broadcast (1938)</h4>
+      <ul>
+        <li><strong>Learning Focus:</strong> Media literacy, context evaluation, emotional reasoning.</li>
+        <li><strong>Key Cognitive Challenge:</strong> Distinguishing between information genres and formats.</li>
+        <li><strong>Cross-Curricular Connections:</strong> Media studies, psychology of fear, communications technology.</li>
+      </ul>
+      
+      <h4>Case Study C: Operation INFEKTION (1980s)</h4>
+      <ul>
+        <li><strong>Learning Focus:</strong> Disinformation campaigns, geopolitical manipulation, amplification networks.</li>
+        <li><strong>Key Cognitive Challenge:</strong> Identifying strategic motivations behind misinformation.</li>
+        <li><strong>Cross-Curricular Connections:</strong> Cold War history, epidemiology, international relations.</li>
+      </ul>
+      
+      <h4>Case Study D: Digital Acceleration (2010s-Present)</h4>
+      <ul>
+        <li><strong>Learning Focus:</strong> Algorithmic amplification, cognitive exploitation, media manipulation.</li>
+        <li><strong>Key Cognitive Challenge:</strong> Navigating information abundance and targeted manipulation.</li>
+        <li><strong>Cross-Curricular Connections:</strong> Computer science, behavioral economics, network theory.</li>
+      </ul>
+      
+      <h3>3. Metacognitive Development</h3>
+      <ul>
+        <li><strong>Cognitive Defense Toolkit:</strong> Customized strategies based on identified vulnerabilities.</li>
+        <li><strong>Information Evaluation Framework:</strong> Scaffolded approach to source analysis.</li>
+        <li><strong>Decision Journal:</strong> Structured reflection tool for information consumption choices.</li>
+      </ul>
+      
+      <h3>4. Applied Learning &amp; Transfer</h3>
+      <ul>
+        <li><strong>Scenario Simulations:</strong> Real-time information challenges requiring application of learned skills.</li>
+        <li><strong>Collaborative Verification:</strong> Peer-based exercises in collective fact-checking.</li>
+        <li><strong>Design Challenge:</strong> Creating information literacy interventions for specific contexts.</li>
+      </ul>
+    </section>
+    
+    <section>
+      <h2>Adaptive Learning Mechanics</h2>
+      
+      <h3>Personalization Dimensions</h3>
+      <ul>
+        <li><strong>Learning Style:</strong> Adjusts presentation based on demonstrated preferences (visual, textual, narrative, analytical).</li>
+        <li><strong>Difficulty Scaling:</strong> Dynamically adjusts complexity based on performance.</li>
+        <li><strong>Misconception Targeting:</strong> Identifies and addresses specific knowledge gaps.</li>
+        <li><strong>Pace Variation:</strong> Adapts to individual processing and decision speeds.</li>
+      </ul>
+      
+      <h3>Assessment Framework</h3>
+      <ul>
+        <li><strong>Competency Mapping:</strong> Tracks development across six core information literacy dimensions.</li>
+        <li><strong>Performance Analytics:</strong> Visualizes growth patterns and identifies areas for reinforcement.</li>
+        <li><strong>Behavioral Analytics:</strong> Measures changes in decision-making patterns throughout the module.</li>
+        <li><strong>Transfer Measurement:</strong> Evaluates application of skills to novel information challenges.</li>
+      </ul>
+    </section>
+    
+    <section>
+      <h2>Implementation Guide for Educators</h2>
+      
+      <h3>Integration Options</h3>
+      <ul>
+        <li><strong>Stand-Alone Module:</strong> Complete 4-6 hour learning experience.</li>
+        <li><strong>Distributed Learning:</strong> Components embeddable across curriculum.</li>
+        <li><strong>Blended Implementation:</strong> Digital components paired with in-person discussions.</li>
+        <li><strong>Extension Activities:</strong> Customizable projects for continued skill development.</li>
+      </ul>
+      
+      <h3>Differentiation Strategies</h3>
+      <ul>
+        <li><strong>Complexity Layers:</strong> Toggle additional context and nuance for advanced learners.</li>
+        <li><strong>Scaffolding Options:</strong> Additional supports for developing critical thinkers.</li>
+        <li><strong>Cultural Adaptation:</strong> Customizable examples relevant to specific communities.</li>
+        <li><strong>Accessibility Modes:</strong> Multiple interaction pathways for diverse learning needs.</li>
+      </ul>
+      
+      <h3>Assessment Toolkit</h3>
+      <ul>
+        <li><strong>Formative Checkpoints:</strong> Embedded knowledge verification with feedback.</li>
+        <li><strong>Summative Evaluation:</strong> Comprehensive assessment of information literacy development.</li>
+        <li><strong>Portfolio Integration:</strong> Documentation of learning journey for reflection.</li>
+        <li><strong>Skill Certification:</strong> Digital badge framework with competency verification.</li>
+      </ul>
+    </section>
+    
+    <section>
+      <h2>Research Integration</h2>
+      
+      <h3>Learning Science Applications</h3>
+      <p>The module incorporates cutting-edge research from:</p>
+      <ul>
+        <li><strong>Cognitive Psychology:</strong> How attention, memory, and decision-making influence information processing.</li>
+        <li><strong>Media Studies:</strong> How medium characteristics affect message credibility and impact.</li>
+        <li><strong>Social Psychology:</strong> How group dynamics and identity influence information acceptance.</li>
+        <li><strong>Educational Technology:</strong> How digital tools can enhance or impede critical thinking.</li>
+      </ul>
+      
+      <h3>Efficacy Research</h3>
+      <ul>
+        <li><strong>Source evaluation skills:</strong> +42%</li>
+        <li><strong>Cognitive bias recognition:</strong> +37%</li>
+        <li><strong>Strategic skepticism:</strong> +29%</li>
+        <li><strong>Information verification behaviors:</strong> +45%</li>
+      </ul>
+    </section>
+    
+    <section>
+      <h2>Technical Implementation Specifications</h2>
+      
+      <h3>Platform Requirements</h3>
+      <ul>
+        <li><strong>Responsive Design:</strong> Optimized for multiple devices and screen sizes.</li>
+        <li><strong>LMS Integration:</strong> SCORM-compliant for seamless LMS deployment.</li>
+        <li><strong>Analytics Dashboard:</strong> Real-time learning data visualization.</li>
+        <li><strong>API Documentation:</strong> Extension points for custom integrations.</li>
+      </ul>
+      
+      <h3>Content Management</h3>
+      <ul>
+        <li><strong>Modular Architecture:</strong> Components can be reordered or selectively implemented.</li>
+        <li><strong>Version Control:</strong> Update pathway for evolving misinformation landscape.</li>
+        <li><strong>Localization Framework:</strong> Translation and cultural adaptation support.</li>
+        <li><strong>Custom Content Integration:</strong> Framework for adding institution-specific examples.</li>
+      </ul>
+    </section>
+    
+    <section>
+      <h2>Professional Development Resources</h2>
+      
+      <h3>Educator Supports</h3>
+      <ul>
+        <li><strong>Implementation Workshop:</strong> 90-minute virtual training for instructors.</li>
+        <li><strong>Facilitation Guide:</strong> Discussion prompts and activity frameworks.</li>
+        <li><strong>Student Support Resources:</strong> Troubleshooting and extension materials.</li>
+        <li><strong>Community of Practice:</strong> Collaborative space for sharing implementation strategies.</li>
+      </ul>
+      
+      <h3>Disciplinary Integration Guides</h3>
+      <p>Subject-specific implementation roadmaps for:</p>
+      <ul>
+        <li><strong>Science:</strong> Focus on scientific method and evidence evaluation.</li>
+        <li><strong>Social Studies:</strong> Focus on historical context and media evolution.</li>
+        <li><strong>Language Arts:</strong> Focus on rhetorical analysis and narrative manipulation.</li>
+        <li><strong>Mathematics:</strong> Focus on statistical literacy and data representation.</li>
+      </ul>
+    </section>
+    
+    <section>
+      <h2>Appendix A: Assessment Rubrics</h2>
+      
+      <h3>Information Literacy Dimensions</h3>
+      
+      <h4>Source Evaluation</h4>
+      <ul>
+        <li><strong>Novice:</strong> Accepts information at face value.</li>
+        <li><strong>Developing:</strong> Checks basic source credibility.</li>
+        <li><strong>Proficient:</strong> Evaluates source expertise and motivation.</li>
+        <li><strong>Advanced:</strong> Conducts comprehensive provenance analysis.</li>
+      </ul>
+      
+      <h4>Claim Analysis</h4>
+      <ul>
+        <li><strong>Novice:</strong> Focuses on claim without examining evidence.</li>
+        <li><strong>Developing:</strong> Identifies when evidence is missing.</li>
+        <li><strong>Proficient:</strong> Evaluates quality and relevance of evidence.</li>
+        <li><strong>Advanced:</strong> Analyzes methodological strength of supporting research.</li>
+      </ul>
+      
+      <h4>Contextual Placement</h4>
+      <ul>
+        <li><strong>Novice:</strong> Treats information in isolation.</li>
+        <li><strong>Developing:</strong> Recognizes when context is missing.</li>
+        <li><strong>Proficient:</strong> Actively seeks historical/social context.</li>
+        <li><strong>Advanced:</strong> Places information within broader knowledge frameworks.</li>
+      </ul>
+      
+      <h4>Bias Recognition</h4>
+      <ul>
+        <li><strong>Novice:</strong> Unaware of personal or source biases.</li>
+        <li><strong>Developing:</strong> Identifies obvious biases in others.</li>
+        <li><strong>Proficient:</strong> Recognizes own cognitive vulnerabilities.</li>
+        <li><strong>Advanced:</strong> Employs strategies to mitigate bias effects.</li>
+      </ul>
+      
+      <h4>Strategic Skepticism</h4>
+      <ul>
+        <li><strong>Novice:</strong> Either gullible or cynical.</li>
+        <li><strong>Developing:</strong> Questions some claims but inconsistently.</li>
+        <li><strong>Proficient:</strong> Applies proportional skepticism based on claim type.</li>
+        <li><strong>Advanced:</strong> Balances open-mindedness with critical evaluation.</li>
+      </ul>
+      
+      <h4>Verification Behaviors</h4>
+      <ul>
+        <li><strong>Novice:</strong> Passive information consumer.</li>
+        <li><strong>Developing:</strong> Occasionally verifies suspicious claims.</li>
+        <li><strong>Proficient:</strong> Regularly employs verification strategies.</li>
+        <li><strong>Advanced:</strong> Systematic approach to information verification.</li>
+      </ul>
+    </section>
+    
+    <section>
+      <h2>Appendix B: Student Learning Portfolio</h2>
+      
+      <h3>Reflection Framework</h3>
+      <ul>
+        <li><strong>Initial Assumptions:</strong> Documentation of pre-existing mental models.</li>
+        <li><strong>Critical Incidents:</strong> Analysis of key learning moments.</li>
+        <li><strong>Strategy Development:</strong> Personalized information evaluation toolkit.</li>
+        <li><strong>Transfer Planning:</strong> Application pathways for diverse contexts.</li>
+      </ul>
+    </section>
+    
+    <footer class="footer">
+      <p>© 2025 | Developed with support from the Center for Advanced Information Literacy</p>
+    </footer>
+  </div>
+</body>
 </html>
