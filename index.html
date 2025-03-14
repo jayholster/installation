@@ -37,8 +37,6 @@
       color: #ddd;
     }
     body.dark-mode nav { background: #333; }
-    body.dark-mode .section { background: #2a2a2a; color: #ddd; }
-    body.dark-mode .accordion-header { background: #555; }
     body.dark-mode footer { background: #111; }
     
     /* Navigation Bar */
@@ -129,119 +127,140 @@
     .section.visible { opacity: 1; transform: translateY(0); }
     .section h2 { text-align: center; margin-bottom: 30px; color: #0d47a1; }
     
-    /* Accordion Styles */
-    .accordion {
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      overflow: hidden;
-      margin-bottom: 20px;
+    /* Module Cards Grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
     }
-    .accordion-header {
-      background: #0d47a1;
-      color: #fff;
-      padding: 15px;
-      font-weight: 600;
-      cursor: pointer;
+    .card {
+      perspective: 1000px;
+    }
+    .card-inner {
       position: relative;
-      transition: background 0.3s;
+      width: 100%;
+      padding-top: 140%; /* 5:7 aspect ratio */
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
     }
-    .accordion-header:hover { background: #1565c0; }
-    .accordion-header::after {
-      content: '+';
+    .card:hover .card-inner {
+      transform: rotateY(180deg);
+    }
+    .card-face {
       position: absolute;
-      right: 20px;
-      font-size: 1.5em;
-    }
-    .accordion-header.active::after { content: '-'; }
-    .accordion-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease-out;
-      background: #f9f9f9;
-      padding: 0 15px;
-    }
-    .accordion-content p,
-    .accordion-content ul { padding: 15px 0; }
-    
-    /* Timeline Styles */
-    .timeline {
-      position: relative;
-      margin: 40px 0;
-      padding: 0;
-      list-style: none;
-    }
-    .timeline:before {
-      content: '';
-      position: absolute;
-      left: 50%;
       top: 0;
-      bottom: 0;
-      width: 4px;
-      background: #0d47a1;
-      transform: translateX(-50%);
-    }
-    .timeline-item {
-      position: relative;
-      width: 50%;
-      padding: 20px 40px;
-    }
-    .timeline-item:nth-child(odd) {
       left: 0;
-      text-align: right;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
-    .timeline-item:nth-child(even) {
-      left: 50%;
-      text-align: left;
+    .card-front {
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 20px;
+      color: #fff;
+      font-size: 1.3em;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
     }
-    .timeline-item:before {
-      content: '';
-      position: absolute;
-      top: 20px;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: #fff;
-      border: 4px solid #0d47a1;
-      z-index: 1;
-    }
-    .timeline-item:nth-child(odd):before { right: -8px; }
-    .timeline-item:nth-child(even):before { left: -8px; }
-    
-    /* Quiz Styles */
-    .quiz-container {
+    .card-back {
       background: #0d47a1;
       color: #fff;
-      padding: 30px;
-      border-radius: 8px;
+      transform: rotateY(180deg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
     }
-    .quiz-container h2 { margin-bottom: 20px; }
-    .quiz-container .quiz-question { margin-bottom: 15px; font-size: 1.2em; }
-    .quiz-container label {
-      display: block;
-      margin: 10px 0;
-      font-size: 1em;
-      text-align: left;
+    .card-back p {
+      font-size: 0.95em;
     }
-    .quiz-container input[type="radio"] {
-      margin-right: 8px;
-    }
-    .quiz-container button {
+    .card-back button {
+      margin-top: 15px;
       background: #fff;
       color: #0d47a1;
       border: none;
-      padding: 10px 20px;
-      font-size: 1em;
-      border-radius: 25px;
+      padding: 8px 15px;
+      border-radius: 20px;
       cursor: pointer;
-      margin-top: 15px;
       transition: background 0.3s, transform 0.3s;
     }
-    .quiz-container button:hover {
+    .card-back button:hover {
       transform: scale(1.05);
       background: #e0e0e0;
     }
-    .quiz-feedback { margin-top: 15px; font-weight: 600; }
+    
+    /* Quiz Section Styles */
+    .quiz-container {
+      background: #0d47a1;
+      color: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      text-align: left;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .quiz-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .quiz-question {
+      margin-bottom: 20px;
+    }
+    .quiz-question p {
+      margin-bottom: 10px;
+      font-size: 1.1em;
+    }
+    .quiz-option {
+      display: block;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 15px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .quiz-option:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.02);
+    }
+    .quiz-option input {
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    .quiz-submit {
+      display: block;
+      width: 100%;
+      background: #fff;
+      color: #0d47a1;
+      border: none;
+      padding: 12px 0;
+      font-size: 1em;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: transform 0.3s, background 0.3s;
+      margin-top: 20px;
+    }
+    .quiz-submit:hover {
+      transform: scale(1.03);
+      background: #e0e0e0;
+    }
+    .quiz-feedback {
+      margin-top: 20px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1em;
+    }
     
     /* Footer */
     footer {
@@ -273,8 +292,7 @@
     <div class="logo">Cosmos Quest</div>
     <div class="menu">
       <a href="#hero" onclick="scrollToSection('hero')">Home</a>
-      <a href="#module" onclick="scrollToSection('module')">Module</a>
-      <a href="#timeline" onclick="scrollToSection('timeline')">Timeline</a>
+      <a href="#modules" onclick="scrollToSection('modules')">Modules</a>
       <a href="#quiz" onclick="scrollToSection('quiz')">Quiz</a>
     </div>
     <button class="toggle-dark" onclick="toggleDarkMode()">Dark Mode</button>
@@ -283,89 +301,63 @@
   <!-- Hero Section -->
   <section class="hero" id="hero">
     <h1>Welcome to Cosmos Quest</h1>
-    <p>Your journey through space exploration starts now.</p>
-    <button onclick="scrollToSection('module')">Enter Module</button>
+    <p>Your immersive journey through space exploration starts now.</p>
+    <button onclick="scrollToSection('modules')">Enter Module</button>
   </section>
   
-  <!-- Module Section -->
-  <section class="section" id="module">
+  <!-- Modules Section (Card Grid) -->
+  <section class="section" id="modules">
     <h2>Explore the Cosmos</h2>
-    <p>Dive into the wonders of space—from our Solar System to the farthest galaxies. Expand your knowledge with interactive content below.</p>
-    
-    <!-- Accordion: The Solar System -->
-    <div class="accordion">
-      <div class="accordion-header">The Solar System</div>
-      <div class="accordion-content">
-        <p>Learn about the planets, moons, and forces that shape our local cosmic neighborhood.</p>
-        <ul>
-          <li>The Sun: Our stellar engine</li>
-          <li>Planets: Rocky worlds and gas giants</li>
-          <li>Asteroids &amp; Comets: Remnants of cosmic creation</li>
-        </ul>
+    <div class="card-grid">
+      <!-- Module Card 1: The Solar System -->
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-face card-front" style="background: url('https://source.unsplash.com/400x300/?solar,system') center/cover;">
+            The Solar System
+          </div>
+          <div class="card-face card-back">
+            <p>Discover the planets, moons, asteroids, and the engine of our cosmic neighborhood—the Sun.</p>
+            <button onclick="alert('Dive into the mysteries of our Solar System!')">Learn More</button>
+          </div>
+        </div>
+      </div>
+      <!-- Module Card 2: Stellar Evolution -->
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-face card-front" style="background: url('https://source.unsplash.com/400x300/?star,nebula') center/cover;">
+            Stellar Evolution
+          </div>
+          <div class="card-face card-back">
+            <p>Explore how stars are born, live out their lifespans, and transform through supernovae and beyond.</p>
+            <button onclick="alert('Unveil the secrets of stellar life cycles!')">Learn More</button>
+          </div>
+        </div>
+      </div>
+      <!-- Module Card 3: Galaxies & Beyond -->
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-face card-front" style="background: url('https://source.unsplash.com/400x300/?galaxy') center/cover;">
+            Galaxies &amp; Beyond
+          </div>
+          <div class="card-face card-back">
+            <p>Journey through spiral arms and dark matter, exploring the structures that shape our universe.</p>
+            <button onclick="alert('Embark on an intergalactic adventure!')">Learn More</button>
+          </div>
+        </div>
+      </div>
+      <!-- Module Card 4: Future of Space Exploration -->
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-face card-front" style="background: url('https://source.unsplash.com/400x300/?space,rocket') center/cover;">
+            Future of Space
+          </div>
+          <div class="card-face card-back">
+            <p>From Mars colonies to interstellar travel, see the bold plans that drive humanity’s next frontier.</p>
+            <button onclick="alert('Get ready for the future of space exploration!')">Learn More</button>
+          </div>
+        </div>
       </div>
     </div>
-    
-    <!-- Accordion: Stellar Evolution -->
-    <div class="accordion">
-      <div class="accordion-header">Stellar Evolution</div>
-      <div class="accordion-content">
-        <p>Discover how stars are born, live, and die—unveiling the cycles that forge the elements of the universe.</p>
-        <ul>
-          <li>Birth: Nebulae and protostars</li>
-          <li>Life: Main sequence marvels</li>
-          <li>Death: Supernovae, neutron stars, and black holes</li>
-        </ul>
-      </div>
-    </div>
-    
-    <!-- Accordion: Galaxies & Beyond -->
-    <div class="accordion">
-      <div class="accordion-header">Galaxies &amp; Beyond</div>
-      <div class="accordion-content">
-        <p>Explore diverse galactic structures—from majestic spirals to mysterious dark matter realms.</p>
-        <ul>
-          <li>Types of galaxies</li>
-          <li>Intergalactic interactions</li>
-          <li>The expanding cosmos</li>
-        </ul>
-      </div>
-    </div>
-    
-    <!-- Accordion: Future of Space Exploration -->
-    <div class="accordion">
-      <div class="accordion-header">The Future of Space Exploration</div>
-      <div class="accordion-content">
-        <p>From Mars colonization to interstellar travel, discover bold plans shaping humanity's future in space.</p>
-        <ul>
-          <li>Robotic missions &amp; human spaceflight</li>
-          <li>Commercial space ventures</li>
-          <li>Technological challenges and opportunities</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  
-  <!-- Timeline Section -->
-  <section class="section" id="timeline">
-    <h2>Milestones in Space Exploration</h2>
-    <ul class="timeline">
-      <li class="timeline-item">
-        <h4>1957 – Sputnik Launched</h4>
-        <p>The first artificial satellite marks the dawn of space exploration.</p>
-      </li>
-      <li class="timeline-item">
-        <h4>1969 – Moon Landing</h4>
-        <p>Apollo 11 lands on the Moon—a giant leap for mankind.</p>
-      </li>
-      <li class="timeline-item">
-        <h4>2004 – Mars Rover Arrival</h4>
-        <p>Robotic explorers unveil the mysteries of the Red Planet.</p>
-      </li>
-      <li class="timeline-item">
-        <h4>2020 – Commercial Spaceflight</h4>
-        <p>Private ventures revolutionize access to space.</p>
-      </li>
-    </ul>
   </section>
   
   <!-- Quiz Section -->
@@ -375,25 +367,43 @@
       <!-- Question 1 -->
       <div class="quiz-question">
         <p><strong>1. Which event marked the start of space exploration?</strong></p>
-        <label><input type="radio" name="q1" value="incorrect" /> The Moon Landing</label>
-        <label><input type="radio" name="q1" value="correct" /> The launch of Sputnik</label>
-        <label><input type="radio" name="q1" value="incorrect" /> The Mars Rover Arrival</label>
+        <label class="quiz-option">
+          <input type="radio" name="q1" value="incorrect" /> The Moon Landing
+        </label>
+        <label class="quiz-option">
+          <input type="radio" name="q1" value="correct" /> The launch of Sputnik
+        </label>
+        <label class="quiz-option">
+          <input type="radio" name="q1" value="incorrect" /> The Mars Rover Arrival
+        </label>
       </div>
       <!-- Question 2 -->
       <div class="quiz-question">
-        <p><strong>2. What is the main power source of our Solar System?</strong></p>
-        <label><input type="radio" name="q2" value="correct" /> The Sun</label>
-        <label><input type="radio" name="q2" value="incorrect" /> The Moon</label>
-        <label><input type="radio" name="q2" value="incorrect" /> Earth’s core</label>
+        <p><strong>2. What is the primary power source of our Solar System?</strong></p>
+        <label class="quiz-option">
+          <input type="radio" name="q2" value="correct" /> The Sun
+        </label>
+        <label class="quiz-option">
+          <input type="radio" name="q2" value="incorrect" /> The Moon
+        </label>
+        <label class="quiz-option">
+          <input type="radio" name="q2" value="incorrect" /> Earth's core
+        </label>
       </div>
       <!-- Question 3 -->
       <div class="quiz-question">
-        <p><strong>3. What describes the phenomenon of the expanding universe?</strong></p>
-        <label><input type="radio" name="q3" value="incorrect" /> Cosmic Contraction</label>
-        <label><input type="radio" name="q3" value="correct" /> The Expanding Universe</label>
-        <label><input type="radio" name="q3" value="incorrect" /> Stellar Drift</label>
+        <p><strong>3. What phenomenon describes the expanding universe?</strong></p>
+        <label class="quiz-option">
+          <input type="radio" name="q3" value="incorrect" /> Cosmic Contraction
+        </label>
+        <label class="quiz-option">
+          <input type="radio" name="q3" value="correct" /> The Expanding Universe
+        </label>
+        <label class="quiz-option">
+          <input type="radio" name="q3" value="incorrect" /> Stellar Drift
+        </label>
       </div>
-      <button onclick="checkQuiz()">Submit Quiz</button>
+      <button class="quiz-submit" onclick="checkQuiz()">Submit Quiz</button>
       <p class="quiz-feedback" id="quizFeedback"></p>
     </div>
   </section>
@@ -403,9 +413,9 @@
     <p>© 2025 | Cosmos Quest: Journey Through Space</p>
   </footer>
   
-  <!-- JavaScript: Starfield Background, Smooth Scrolling, Accordions, Quiz, Reveal on Scroll -->
+  <!-- JavaScript: Starfield, Smooth Scroll, Card & Quiz Interactivity -->
   <script>
-    // Smooth scrolling for navigation links
+    // Smooth scrolling
     function scrollToSection(id) {
       document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
     }
@@ -415,17 +425,7 @@
       document.body.classList.toggle('dark-mode');
     }
     
-    // Accordion functionality
-    const accHeaders = document.querySelectorAll('.accordion-header');
-    accHeaders.forEach(header => {
-      header.addEventListener('click', () => {
-        header.classList.toggle('active');
-        const content = header.nextElementSibling;
-        content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + 'px';
-      });
-    });
-    
-    // Quiz checker
+    // Quiz Checker
     function checkQuiz() {
       const q1 = document.querySelector('input[name="q1"]:checked');
       const q2 = document.querySelector('input[name="q2"]:checked');
@@ -436,7 +436,7 @@
       if(q3 && q3.value === "correct") score++;
       const feedback = document.getElementById('quizFeedback');
       if (q1 && q2 && q3) {
-        feedback.textContent = `You scored ${score} out of 3! ${score === 3 ? "Excellent work!" : "Keep exploring!"}`;
+        feedback.textContent = `You scored ${score} out of 3! ${score === 3 ? "Stellar work!" : "Keep reaching for the stars!"}`;
         feedback.style.color = score === 3 ? 'lightgreen' : 'yellow';
       } else {
         feedback.textContent = 'Please answer all questions before submitting.';
@@ -444,7 +444,7 @@
       }
     }
     
-    // Reveal sections on scroll (fade-in effect)
+    // Reveal sections on scroll
     const sections = document.querySelectorAll('.section');
     function revealSections() {
       sections.forEach(section => {
