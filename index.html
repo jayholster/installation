@@ -4,325 +4,394 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Echo Chamber: A Multimodal Learning Journey Through Information Literacy</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
+    /* Global Styles */
     body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      margin: 20px;
-      background-color: #f8f8f8;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      background: #f0f4f8;
       color: #333;
+      line-height: 1.6;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
     }
     .container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: auto;
       background: #fff;
       padding: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-radius: 4px;
+      margin-top: 30px;
+      margin-bottom: 30px;
     }
     h1, h2, h3, h4 {
       color: #222;
+      margin-bottom: 10px;
     }
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    h2 {
-      border-bottom: 2px solid #ddd;
-      padding-bottom: 5px;
-      margin-top: 40px;
-    }
-    h3 {
-      margin-top: 30px;
-    }
-    ul {
-      list-style-type: disc;
-      margin-left: 20px;
+    p {
       margin-bottom: 15px;
     }
-    li {
-      margin-bottom: 5px;
+    /* Navigation Bar */
+    nav {
+      background: #2a9d8f;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
     }
-    .footer {
+    nav .nav-links a {
+      margin: 0 10px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav .nav-links a:hover {
+      color: #e9c46a;
+    }
+    /* Intro Section */
+    #intro {
       text-align: center;
+      padding: 40px 20px;
+      background: #e9c46a;
+      color: #fff;
+    }
+    #intro h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    #intro p {
+      font-size: 1.2em;
+    }
+    #startButton {
+      background: #264653;
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1em;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 20px;
+    }
+    #startButton:hover {
+      background: #1b3a47;
+    }
+    /* Accordion Styles */
+    .accordion {
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .accordion-header {
+      background: #264653;
+      color: #fff;
+      padding: 15px 20px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.3s;
+    }
+    .accordion-header:hover {
+      background: #1b3a47;
+    }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out, padding 0.4s;
+      background: #f8f8f8;
+      padding: 0 20px;
+    }
+    .accordion-content.open {
+      padding: 15px 20px;
+    }
+    /* Quiz Section */
+    #quiz {
+      background: #e9c46a;
+      color: #264653;
+      padding: 20px;
+      border-radius: 4px;
+      margin-top: 20px;
+    }
+    #quiz .quiz-question {
+      margin-bottom: 15px;
+    }
+    #quiz button {
+      background: #264653;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #quiz button:hover {
+      background: #1b3a47;
+    }
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
       font-size: 0.9em;
-      margin-top: 40px;
       color: #777;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+      }
+      nav .nav-links {
+        margin-top: 10px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="logo"><strong>Echo Chamber</strong></div>
+    <div class="nav-links">
+      <a href="#intro">Home</a>
+      <a href="#module">Module</a>
+      <a href="#quiz">Quiz</a>
+      <a href="#footer">Footer</a>
+    </div>
+  </nav>
+
+  <!-- Intro Section -->
+  <section id="intro">
     <h1>Echo Chamber: A Multimodal Learning Journey Through Information Literacy</h1>
-    
-    <section>
-      <h2>Framework Overview</h2>
-      <p>
-        This advanced learning module is designed as a flexible, evidence-based educational framework that integrates cognitive science principles with digital-age information literacy. The module employs a multimodal approach, combining narrative immersion, active decision-making, and metacognitive reflection to create a transformative learning experience.
-      </p>
-    </section>
-    
-    <section>
-      <h2>Pedagogical Foundations</h2>
-      
-      <h3>Theoretical Underpinnings</h3>
-      <ul>
-        <li><strong>Constructivist Learning Theory:</strong> Learners actively construct knowledge through experience, reflection, and social interaction.</li>
-        <li><strong>Situated Cognition:</strong> Learning is embedded in authentic contexts that mirror real-world complexity.</li>
-        <li><strong>Social Learning Theory:</strong> Observing others' behaviors and their consequences influences future actions.</li>
-        <li><strong>Metacognitive Development:</strong> Reflection on one's own thought processes enhances critical thinking.</li>
-      </ul>
-      
-      <h3>Evidence-Based Design Elements</h3>
-      <ul>
-        <li><strong>Spaced Learning:</strong> Core concepts reappear throughout different historical contexts.</li>
-        <li><strong>Retrieval Practice:</strong> Embedded knowledge checks require active recall of previously learned content.</li>
-        <li><strong>Desirable Difficulty:</strong> Strategic challenges calibrated to push learners beyond their comfort zone.</li>
-        <li><strong>Elaborative Interrogation:</strong> Prompts that require learners to explain "why" certain misinformation strategies work.</li>
-      </ul>
-    </section>
-    
-    <section>
-      <h2>Module Architecture</h2>
-      
-      <h3>1. Cognitive Foundations (Pre-Assessment)</h3>
-      <ul>
-        <li><strong>Mental Models Assessment:</strong> Interactive diagnostic tool mapping learners' existing frameworks for evaluating information.</li>
-        <li><strong>Cognitive Bias Inventory:</strong> Self-assessment of vulnerability to common reasoning errors.</li>
-        <li><strong>Information Ecosystem Mapping:</strong> Exercise to visualize personal information sources and filter bubbles.</li>
-      </ul>
-      
-      <h3>2. Historical Case Studies</h3>
-      <p>Each case study employs a consistent pedagogical structure:</p>
-      <ul>
-        <li><strong>Contextual Immersion:</strong> Multimedia reconstruction of historical context.</li>
-        <li><strong>Perspective-Taking:</strong> Role-based scenario navigation.</li>
-        <li><strong>Decision Points:</strong> Active choices with immediate and delayed consequences.</li>
-        <li><strong>Analytical Reflection:</strong> Guided deconstruction of information manipulation techniques.</li>
-        <li><strong>Contemporary Connection:</strong> Explicit bridges to modern information challenges.</li>
-      </ul>
-      
-      <h4>Case Study A: The Great Moon Hoax (1835)</h4>
-      <ul>
-        <li><strong>Learning Focus:</strong> Authority manipulation, scientific credibility, media sensationalism.</li>
-        <li><strong>Key Cognitive Challenge:</strong> Evaluating plausibility vs. possibility.</li>
-        <li><strong>Cross-Curricular Connections:</strong> Astronomy, journalism ethics, scientific method.</li>
-      </ul>
-      
-      <h4>Case Study B: War of the Worlds Broadcast (1938)</h4>
-      <ul>
-        <li><strong>Learning Focus:</strong> Media literacy, context evaluation, emotional reasoning.</li>
-        <li><strong>Key Cognitive Challenge:</strong> Distinguishing between information genres and formats.</li>
-        <li><strong>Cross-Curricular Connections:</strong> Media studies, psychology of fear, communications technology.</li>
-      </ul>
-      
-      <h4>Case Study C: Operation INFEKTION (1980s)</h4>
-      <ul>
-        <li><strong>Learning Focus:</strong> Disinformation campaigns, geopolitical manipulation, amplification networks.</li>
-        <li><strong>Key Cognitive Challenge:</strong> Identifying strategic motivations behind misinformation.</li>
-        <li><strong>Cross-Curricular Connections:</strong> Cold War history, epidemiology, international relations.</li>
-      </ul>
-      
-      <h4>Case Study D: Digital Acceleration (2010s-Present)</h4>
-      <ul>
-        <li><strong>Learning Focus:</strong> Algorithmic amplification, cognitive exploitation, media manipulation.</li>
-        <li><strong>Key Cognitive Challenge:</strong> Navigating information abundance and targeted manipulation.</li>
-        <li><strong>Cross-Curricular Connections:</strong> Computer science, behavioral economics, network theory.</li>
-      </ul>
-      
-      <h3>3. Metacognitive Development</h3>
-      <ul>
-        <li><strong>Cognitive Defense Toolkit:</strong> Customized strategies based on identified vulnerabilities.</li>
-        <li><strong>Information Evaluation Framework:</strong> Scaffolded approach to source analysis.</li>
-        <li><strong>Decision Journal:</strong> Structured reflection tool for information consumption choices.</li>
-      </ul>
-      
-      <h3>4. Applied Learning &amp; Transfer</h3>
-      <ul>
-        <li><strong>Scenario Simulations:</strong> Real-time information challenges requiring application of learned skills.</li>
-        <li><strong>Collaborative Verification:</strong> Peer-based exercises in collective fact-checking.</li>
-        <li><strong>Design Challenge:</strong> Creating information literacy interventions for specific contexts.</li>
-      </ul>
-    </section>
-    
-    <section>
-      <h2>Adaptive Learning Mechanics</h2>
-      
-      <h3>Personalization Dimensions</h3>
-      <ul>
-        <li><strong>Learning Style:</strong> Adjusts presentation based on demonstrated preferences (visual, textual, narrative, analytical).</li>
-        <li><strong>Difficulty Scaling:</strong> Dynamically adjusts complexity based on performance.</li>
-        <li><strong>Misconception Targeting:</strong> Identifies and addresses specific knowledge gaps.</li>
-        <li><strong>Pace Variation:</strong> Adapts to individual processing and decision speeds.</li>
-      </ul>
-      
-      <h3>Assessment Framework</h3>
-      <ul>
-        <li><strong>Competency Mapping:</strong> Tracks development across six core information literacy dimensions.</li>
-        <li><strong>Performance Analytics:</strong> Visualizes growth patterns and identifies areas for reinforcement.</li>
-        <li><strong>Behavioral Analytics:</strong> Measures changes in decision-making patterns throughout the module.</li>
-        <li><strong>Transfer Measurement:</strong> Evaluates application of skills to novel information challenges.</li>
-      </ul>
-    </section>
-    
-    <section>
-      <h2>Implementation Guide for Educators</h2>
-      
-      <h3>Integration Options</h3>
-      <ul>
-        <li><strong>Stand-Alone Module:</strong> Complete 4-6 hour learning experience.</li>
-        <li><strong>Distributed Learning:</strong> Components embeddable across curriculum.</li>
-        <li><strong>Blended Implementation:</strong> Digital components paired with in-person discussions.</li>
-        <li><strong>Extension Activities:</strong> Customizable projects for continued skill development.</li>
-      </ul>
-      
-      <h3>Differentiation Strategies</h3>
-      <ul>
-        <li><strong>Complexity Layers:</strong> Toggle additional context and nuance for advanced learners.</li>
-        <li><strong>Scaffolding Options:</strong> Additional supports for developing critical thinkers.</li>
-        <li><strong>Cultural Adaptation:</strong> Customizable examples relevant to specific communities.</li>
-        <li><strong>Accessibility Modes:</strong> Multiple interaction pathways for diverse learning needs.</li>
-      </ul>
-      
-      <h3>Assessment Toolkit</h3>
-      <ul>
-        <li><strong>Formative Checkpoints:</strong> Embedded knowledge verification with feedback.</li>
-        <li><strong>Summative Evaluation:</strong> Comprehensive assessment of information literacy development.</li>
-        <li><strong>Portfolio Integration:</strong> Documentation of learning journey for reflection.</li>
-        <li><strong>Skill Certification:</strong> Digital badge framework with competency verification.</li>
-      </ul>
-    </section>
-    
-    <section>
-      <h2>Research Integration</h2>
-      
-      <h3>Learning Science Applications</h3>
-      <p>The module incorporates cutting-edge research from:</p>
-      <ul>
-        <li><strong>Cognitive Psychology:</strong> How attention, memory, and decision-making influence information processing.</li>
-        <li><strong>Media Studies:</strong> How medium characteristics affect message credibility and impact.</li>
-        <li><strong>Social Psychology:</strong> How group dynamics and identity influence information acceptance.</li>
-        <li><strong>Educational Technology:</strong> How digital tools can enhance or impede critical thinking.</li>
-      </ul>
-      
-      <h3>Efficacy Research</h3>
-      <ul>
-        <li><strong>Source evaluation skills:</strong> +42%</li>
-        <li><strong>Cognitive bias recognition:</strong> +37%</li>
-        <li><strong>Strategic skepticism:</strong> +29%</li>
-        <li><strong>Information verification behaviors:</strong> +45%</li>
-      </ul>
-    </section>
-    
-    <section>
-      <h2>Technical Implementation Specifications</h2>
-      
-      <h3>Platform Requirements</h3>
-      <ul>
-        <li><strong>Responsive Design:</strong> Optimized for multiple devices and screen sizes.</li>
-        <li><strong>LMS Integration:</strong> SCORM-compliant for seamless LMS deployment.</li>
-        <li><strong>Analytics Dashboard:</strong> Real-time learning data visualization.</li>
-        <li><strong>API Documentation:</strong> Extension points for custom integrations.</li>
-      </ul>
-      
-      <h3>Content Management</h3>
-      <ul>
-        <li><strong>Modular Architecture:</strong> Components can be reordered or selectively implemented.</li>
-        <li><strong>Version Control:</strong> Update pathway for evolving misinformation landscape.</li>
-        <li><strong>Localization Framework:</strong> Translation and cultural adaptation support.</li>
-        <li><strong>Custom Content Integration:</strong> Framework for adding institution-specific examples.</li>
-      </ul>
-    </section>
-    
-    <section>
-      <h2>Professional Development Resources</h2>
-      
-      <h3>Educator Supports</h3>
-      <ul>
-        <li><strong>Implementation Workshop:</strong> 90-minute virtual training for instructors.</li>
-        <li><strong>Facilitation Guide:</strong> Discussion prompts and activity frameworks.</li>
-        <li><strong>Student Support Resources:</strong> Troubleshooting and extension materials.</li>
-        <li><strong>Community of Practice:</strong> Collaborative space for sharing implementation strategies.</li>
-      </ul>
-      
-      <h3>Disciplinary Integration Guides</h3>
-      <p>Subject-specific implementation roadmaps for:</p>
-      <ul>
-        <li><strong>Science:</strong> Focus on scientific method and evidence evaluation.</li>
-        <li><strong>Social Studies:</strong> Focus on historical context and media evolution.</li>
-        <li><strong>Language Arts:</strong> Focus on rhetorical analysis and narrative manipulation.</li>
-        <li><strong>Mathematics:</strong> Focus on statistical literacy and data representation.</li>
-      </ul>
-    </section>
-    
-    <section>
-      <h2>Appendix A: Assessment Rubrics</h2>
-      
-      <h3>Information Literacy Dimensions</h3>
-      
-      <h4>Source Evaluation</h4>
-      <ul>
-        <li><strong>Novice:</strong> Accepts information at face value.</li>
-        <li><strong>Developing:</strong> Checks basic source credibility.</li>
-        <li><strong>Proficient:</strong> Evaluates source expertise and motivation.</li>
-        <li><strong>Advanced:</strong> Conducts comprehensive provenance analysis.</li>
-      </ul>
-      
-      <h4>Claim Analysis</h4>
-      <ul>
-        <li><strong>Novice:</strong> Focuses on claim without examining evidence.</li>
-        <li><strong>Developing:</strong> Identifies when evidence is missing.</li>
-        <li><strong>Proficient:</strong> Evaluates quality and relevance of evidence.</li>
-        <li><strong>Advanced:</strong> Analyzes methodological strength of supporting research.</li>
-      </ul>
-      
-      <h4>Contextual Placement</h4>
-      <ul>
-        <li><strong>Novice:</strong> Treats information in isolation.</li>
-        <li><strong>Developing:</strong> Recognizes when context is missing.</li>
-        <li><strong>Proficient:</strong> Actively seeks historical/social context.</li>
-        <li><strong>Advanced:</strong> Places information within broader knowledge frameworks.</li>
-      </ul>
-      
-      <h4>Bias Recognition</h4>
-      <ul>
-        <li><strong>Novice:</strong> Unaware of personal or source biases.</li>
-        <li><strong>Developing:</strong> Identifies obvious biases in others.</li>
-        <li><strong>Proficient:</strong> Recognizes own cognitive vulnerabilities.</li>
-        <li><strong>Advanced:</strong> Employs strategies to mitigate bias effects.</li>
-      </ul>
-      
-      <h4>Strategic Skepticism</h4>
-      <ul>
-        <li><strong>Novice:</strong> Either gullible or cynical.</li>
-        <li><strong>Developing:</strong> Questions some claims but inconsistently.</li>
-        <li><strong>Proficient:</strong> Applies proportional skepticism based on claim type.</li>
-        <li><strong>Advanced:</strong> Balances open-mindedness with critical evaluation.</li>
-      </ul>
-      
-      <h4>Verification Behaviors</h4>
-      <ul>
-        <li><strong>Novice:</strong> Passive information consumer.</li>
-        <li><strong>Developing:</strong> Occasionally verifies suspicious claims.</li>
-        <li><strong>Proficient:</strong> Regularly employs verification strategies.</li>
-        <li><strong>Advanced:</strong> Systematic approach to information verification.</li>
-      </ul>
-    </section>
-    
-    <section>
-      <h2>Appendix B: Student Learning Portfolio</h2>
-      
-      <h3>Reflection Framework</h3>
-      <ul>
-        <li><strong>Initial Assumptions:</strong> Documentation of pre-existing mental models.</li>
-        <li><strong>Critical Incidents:</strong> Analysis of key learning moments.</li>
-        <li><strong>Strategy Development:</strong> Personalized information evaluation toolkit.</li>
-        <li><strong>Transfer Planning:</strong> Application pathways for diverse contexts.</li>
-      </ul>
-    </section>
-    
-    <footer class="footer">
-      <p>© 2025 | Developed with support from the Center for Advanced Information Literacy</p>
-    </footer>
+    <p>Welcome to a dynamic, interactive module that blends storytelling, interactive challenges, and self-reflection to transform your understanding of information literacy in the digital age.</p>
+    <button id="startButton">Begin Your Journey</button>
+  </section>
+
+  <div class="container" id="module">
+    <!-- Framework Overview Accordion -->
+    <div class="accordion">
+      <div class="accordion-header">Framework Overview</div>
+      <div class="accordion-content">
+        <p>
+          This advanced learning module is designed as a flexible, evidence-based educational framework that integrates cognitive science principles with digital-age information literacy. It employs a multimodal approach—combining narrative immersion, active decision-making, and metacognitive reflection—to create a transformative learning experience.
+        </p>
+      </div>
+    </div>
+
+    <!-- Pedagogical Foundations Accordion -->
+    <div class="accordion">
+      <div class="accordion-header">Pedagogical Foundations</div>
+      <div class="accordion-content">
+        <h3>Theoretical Underpinnings</h3>
+        <ul>
+          <li><strong>Constructivist Learning Theory:</strong> Learners actively construct knowledge through experience, reflection, and social interaction.</li>
+          <li><strong>Situated Cognition:</strong> Learning is embedded in authentic contexts that mirror real-world complexity.</li>
+          <li><strong>Social Learning Theory:</strong> Observing others' behaviors and their consequences influences future actions.</li>
+          <li><strong>Metacognitive Development:</strong> Reflection on one’s thought processes enhances critical thinking.</li>
+        </ul>
+        <h3>Evidence-Based Design Elements</h3>
+        <ul>
+          <li><strong>Spaced Learning:</strong> Core concepts reappear throughout different historical contexts.</li>
+          <li><strong>Retrieval Practice:</strong> Knowledge checks prompt active recall of previously learned content.</li>
+          <li><strong>Desirable Difficulty:</strong> Strategic challenges push learners beyond their comfort zone.</li>
+          <li><strong>Elaborative Interrogation:</strong> Prompts encourage learners to explain why certain misinformation strategies work.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Module Architecture Accordion -->
+    <div class="accordion">
+      <div class="accordion-header">Module Architecture</div>
+      <div class="accordion-content">
+        <h3>1. Cognitive Foundations (Pre-Assessment)</h3>
+        <ul>
+          <li><strong>Mental Models Assessment:</strong> Interactive tool to map your current information evaluation framework.</li>
+          <li><strong>Cognitive Bias Inventory:</strong> Assess your susceptibility to common reasoning errors.</li>
+          <li><strong>Information Ecosystem Mapping:</strong> Visualize your personal information sources and filter bubbles.</li>
+        </ul>
+        <h3>2. Historical Case Studies</h3>
+        <p>Each case study follows a structured approach:</p>
+        <ul>
+          <li><strong>Contextual Immersion:</strong> Multimedia reconstruction of historical events.</li>
+          <li><strong>Perspective-Taking:</strong> Role-based scenario navigation.</li>
+          <li><strong>Decision Points:</strong> Active choices with immediate and delayed consequences.</li>
+          <li><strong>Analytical Reflection:</strong> Guided deconstruction of information manipulation techniques.</li>
+          <li><strong>Contemporary Connection:</strong> Bridges to modern information challenges.</li>
+        </ul>
+        <h4>Case Studies</h4>
+        <ul>
+          <li><strong>The Great Moon Hoax (1835):</strong> Explore media sensationalism and scientific credibility.</li>
+          <li><strong>War of the Worlds Broadcast (1938):</strong> Examine media literacy and emotional reasoning.</li>
+          <li><strong>Operation INFEKTION (1980s):</strong> Uncover disinformation campaigns and geopolitical manipulation.</li>
+          <li><strong>Digital Acceleration (2010s-Present):</strong> Navigate algorithmic amplification and targeted manipulation.</li>
+        </ul>
+        <h3>3. Metacognitive Development</h3>
+        <ul>
+          <li><strong>Cognitive Defense Toolkit:</strong> Strategies tailored to your vulnerabilities.</li>
+          <li><strong>Information Evaluation Framework:</strong> A scaffolded approach to source analysis.</li>
+          <li><strong>Decision Journal:</strong> A structured reflection tool for your information choices.</li>
+        </ul>
+        <h3>4. Applied Learning &amp; Transfer</h3>
+        <ul>
+          <li><strong>Scenario Simulations:</strong> Real-time challenges to apply your new skills.</li>
+          <li><strong>Collaborative Verification:</strong> Peer exercises in collective fact-checking.</li>
+          <li><strong>Design Challenge:</strong> Create your own information literacy intervention.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Adaptive Learning Mechanics Accordion -->
+    <div class="accordion">
+      <div class="accordion-header">Adaptive Learning Mechanics</div>
+      <div class="accordion-content">
+        <h3>Personalization Dimensions</h3>
+        <ul>
+          <li><strong>Learning Style:</strong> Content adjusts based on your demonstrated preferences.</li>
+          <li><strong>Difficulty Scaling:</strong> Complexity adapts dynamically to your performance.</li>
+          <li><strong>Misconception Targeting:</strong> Identifies and addresses specific knowledge gaps.</li>
+          <li><strong>Pace Variation:</strong> Adapts to your processing and decision speed.</li>
+        </ul>
+        <h3>Assessment Framework</h3>
+        <ul>
+          <li><strong>Competency Mapping:</strong> Track your progress across key literacy dimensions.</li>
+          <li><strong>Performance Analytics:</strong> Visualize your growth patterns.</li>
+          <li><strong>Behavioral Analytics:</strong> See how your decision-making evolves.</li>
+          <li><strong>Transfer Measurement:</strong> Evaluate how well you apply your skills in new situations.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Implementation Guide Accordion -->
+    <div class="accordion">
+      <div class="accordion-header">Implementation Guide for Educators</div>
+      <div class="accordion-content">
+        <h3>Integration Options</h3>
+        <ul>
+          <li><strong>Stand-Alone Module:</strong> A complete 4–6 hour experience.</li>
+          <li><strong>Distributed Learning:</strong> Embed components across your curriculum.</li>
+          <li><strong>Blended Implementation:</strong> Combine digital components with in-person sessions.</li>
+          <li><strong>Extension Activities:</strong> Customize projects for continued skill development.</li>
+        </ul>
+        <h3>Differentiation Strategies</h3>
+        <ul>
+          <li><strong>Complexity Layers:</strong> Toggle extra context for advanced learners.</li>
+          <li><strong>Scaffolding Options:</strong> Supports for developing critical thinkers.</li>
+          <li><strong>Cultural Adaptation:</strong> Customize examples for specific communities.</li>
+          <li><strong>Accessibility Modes:</strong> Multiple pathways for diverse learning needs.</li>
+        </ul>
+        <h3>Assessment Toolkit</h3>
+        <ul>
+          <li><strong>Formative Checkpoints:</strong> Regular knowledge checks with feedback.</li>
+          <li><strong>Summative Evaluation:</strong> Comprehensive assessments of literacy development.</li>
+          <li><strong>Portfolio Integration:</strong> Document your learning journey.</li>
+          <li><strong>Skill Certification:</strong> Earn digital badges as you master competencies.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Research & Technical Specifications Accordion -->
+    <div class="accordion">
+      <div class="accordion-header">Research &amp; Technical Specifications</div>
+      <div class="accordion-content">
+        <h3>Research Integration</h3>
+        <ul>
+          <li><strong>Cognitive Psychology:</strong> Understanding attention, memory, and decision-making.</li>
+          <li><strong>Media Studies:</strong> How medium characteristics influence credibility.</li>
+          <li><strong>Social Psychology:</strong> The role of group dynamics in information acceptance.</li>
+          <li><strong>Educational Technology:</strong> Digital tools that enhance critical thinking.</li>
+        </ul>
+        <h3>Efficacy Research</h3>
+        <ul>
+          <li><strong>Source Evaluation Skills:</strong> +42%</li>
+          <li><strong>Cognitive Bias Recognition:</strong> +37%</li>
+          <li><strong>Strategic Skepticism:</strong> +29%</li>
+          <li><strong>Information Verification Behaviors:</strong> +45%</li>
+        </ul>
+        <h3>Technical Implementation</h3>
+        <ul>
+          <li><strong>Responsive Design:</strong> Optimized for all devices.</li>
+          <li><strong>LMS Integration:</strong> SCORM-compliant for easy deployment.</li>
+          <li><strong>Analytics Dashboard:</strong> Real-time data visualization.</li>
+          <li><strong>API Documentation:</strong> Supports custom integrations.</li>
+        </ul>
+        <h3>Content Management</h3>
+        <ul>
+          <li><strong>Modular Architecture:</strong> Easily reorder or update content.</li>
+          <li><strong>Version Control:</strong> Stay current with evolving challenges.</li>
+          <li><strong>Localization Framework:</strong> Translation and cultural adaptation support.</li>
+          <li><strong>Custom Content Integration:</strong> Add institution-specific examples.</li>
+        </ul>
+      </div>
+    </div>
   </div>
+
+  <!-- Quiz Section -->
+  <div class="container" id="quiz">
+    <h2>Quiz: Test Your Knowledge</h2>
+    <div class="quiz-question">
+      <p><strong>Question:</strong> Which learning theory emphasizes that learners actively construct knowledge?</p>
+      <label><input type="radio" name="q1" value="wrong" /> Social Learning Theory</label><br />
+      <label><input type="radio" name="q1" value="correct" /> Constructivist Learning Theory</label><br />
+      <label><input type="radio" name="q1" value="wrong" /> Situated Cognition</label><br /><br />
+      <button onclick="checkQuiz()">Check Answer</button>
+      <p id="quizFeedback"></p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <p>© 2025 | Developed with support from the Center for Advanced Information Literacy</p>
+  </footer>
+
+  <!-- JavaScript for interactivity -->
+  <script>
+    // Smooth scroll on "Start" button click
+    document.getElementById("startButton").addEventListener("click", function() {
+      document.getElementById("module").scrollIntoView({ behavior: "smooth" });
+    });
+
+    // Accordion functionality
+    const accordions = document.querySelectorAll(".accordion-header");
+    accordions.forEach(header => {
+      header.addEventListener("click", function() {
+        const content = this.nextElementSibling;
+        if (content.style.maxHeight) {
+          content.style.maxHeight = null;
+          content.classList.remove("open");
+        } else {
+          content.style.maxHeight = content.scrollHeight + "px";
+          content.classList.add("open");
+        }
+      });
+    });
+
+    // Simple quiz checker
+    function checkQuiz() {
+      const radios = document.getElementsByName("q1");
+      let answer = "";
+      for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+          answer = radios[i].value;
+          break;
+        }
+      }
+      const feedback = document.getElementById("quizFeedback");
+      if (answer === "correct") {
+        feedback.textContent = "Correct! Constructivist Learning Theory emphasizes that learners actively construct knowledge.";
+        feedback.style.color = "green";
+      } else if (answer === "wrong") {
+        feedback.textContent = "Not quite – try again!";
+        feedback.style.color = "red";
+      } else {
+        feedback.textContent = "Please select an answer.";
+        feedback.style.color = "black";
+      }
+    }
+  </script>
 </body>
 </html>
+
