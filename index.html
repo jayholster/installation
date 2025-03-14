@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cosmos Quest: Journey Through Space</title>
+  <title>The AI Data Life Cycle: How AI Learns and Why It Matters</title>
   <!-- Google Fonts -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Global Reset & Fonts */
+    /* Reset and Global Styles */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Montserrat', sans-serif;
-      line-height: 1.6;
-      background: #f2f2f2;
-      color: #333;
+      background: #000;
+      color: #e0e0e0;
+      overflow-x: hidden;
       transition: background 0.3s, color 0.3s;
     }
     a { text-decoration: none; color: inherit; }
     h1, h2, h3, h4 { margin-bottom: 20px; }
     p { margin-bottom: 15px; }
     
-    /* Canvas Background */
+    /* Matrix Digital Rain Background */
     #bgCanvas {
       position: fixed;
       top: 0;
@@ -28,50 +28,40 @@
       width: 100%;
       height: 100%;
       z-index: -2;
-      background: #000;
     }
-    
-    /* Dark Mode */
-    body.dark-mode {
-      background: #1c1c1c;
-      color: #ddd;
-    }
-    body.dark-mode nav { background: #333; }
-    body.dark-mode footer { background: #111; }
     
     /* Navigation Bar */
     nav {
       position: fixed;
       top: 0;
       width: 100%;
-      background: #0d47a1;
+      background: rgba(0, 0, 0, 0.8);
       padding: 15px 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 1000;
-      transition: background 0.3s;
     }
-    nav .logo { font-size: 1.5em; font-weight: 700; color: #fff; }
+    nav .logo { font-size: 1.5em; font-weight: 700; color: #0f0; }
     nav .menu { display: flex; gap: 20px; }
-    nav .menu a { font-weight: 600; color: #fff; transition: color 0.3s; }
-    nav .menu a:hover { color: #ffeb3b; }
+    nav .menu a { font-weight: 600; color: #0f0; transition: color 0.3s; }
+    nav .menu a:hover { color: #ff0; }
     nav .toggle-dark {
       background: transparent;
-      border: 1px solid #fff;
+      border: 1px solid #0f0;
       border-radius: 4px;
-      color: #fff;
+      color: #0f0;
       padding: 5px 10px;
       cursor: pointer;
       font-size: 0.9em;
       transition: background 0.3s;
     }
-    nav .toggle-dark:hover { background: rgba(255, 255, 255, 0.2); }
+    nav .toggle-dark:hover { background: rgba(0, 255, 0, 0.2); }
     
-    /* Hero Section with Parallax Background */
+    /* Hero Section */
     .hero {
       height: 100vh;
-      background: linear-gradient(rgba(13,71,161,0.7), rgba(13,71,161,0.7)), url('https://source.unsplash.com/1600x900/?space,galaxy');
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://source.unsplash.com/1600x900/?ai,data');
       background-size: cover;
       background-attachment: fixed;
       background-position: center;
@@ -80,7 +70,6 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      color: #fff;
       padding: 0 20px;
       position: relative;
       z-index: 1;
@@ -88,16 +77,18 @@
     .hero h1 {
       font-size: 3em;
       margin-bottom: 20px;
+      color: #0f0;
       animation: fadeInDown 1s;
     }
     .hero p {
       font-size: 1.3em;
       margin-bottom: 30px;
       animation: fadeInUp 1s;
+      color: #e0e0e0;
     }
     .hero button {
-      background: #fff;
-      color: #0d47a1;
+      background: #0f0;
+      color: #000;
       border: none;
       padding: 12px 25px;
       font-size: 1em;
@@ -107,7 +98,7 @@
     }
     .hero button:hover {
       transform: scale(1.05);
-      background: #f0f0f0;
+      background: #afffa0;
     }
     
     /* Section Container */
@@ -115,9 +106,9 @@
       padding: 60px 20px;
       max-width: 1000px;
       margin: 120px auto 40px;
-      background: #fff;
+      background: rgba(0,0,0,0.8);
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.8s, transform 0.8s;
@@ -125,149 +116,116 @@
       z-index: 2;
     }
     .section.visible { opacity: 1; transform: translateY(0); }
-    .section h2 { text-align: center; margin-bottom: 30px; color: #0d47a1; }
+    .section h2 { text-align: center; margin-bottom: 30px; color: #0f0; }
     
-    /* Module Cards Grid */
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-    }
-    .card {
-      perspective: 1000px;
-    }
-    .card-inner {
+    /* Timeline Styles */
+    .timeline {
       position: relative;
-      width: 100%;
-      padding-top: 140%; /* 5:7 aspect ratio */
-      transition: transform 0.8s;
-      transform-style: preserve-3d;
+      margin: 40px 0;
+      padding: 0;
+      list-style: none;
     }
-    .card:hover .card-inner {
-      transform: rotateY(180deg);
-    }
-    .card-face {
+    .timeline:before {
+      content: '';
       position: absolute;
+      left: 50%;
       top: 0;
+      bottom: 0;
+      width: 4px;
+      background: #0f0;
+      transform: translateX(-50%);
+    }
+    .timeline-item {
+      position: relative;
+      width: 50%;
+      padding: 20px 40px;
+      color: #e0e0e0;
+    }
+    .timeline-item:nth-child(odd) {
       left: 0;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      text-align: right;
     }
-    .card-front {
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding: 20px;
-      color: #fff;
-      font-size: 1.3em;
-      font-weight: 600;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
-    }
-    .card-back {
-      background: #0d47a1;
-      color: #fff;
-      transform: rotateY(180deg);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-    .card-back p {
-      font-size: 0.95em;
-    }
-    .card-back button {
-      margin-top: 15px;
-      background: #fff;
-      color: #0d47a1;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.3s;
-    }
-    .card-back button:hover {
-      transform: scale(1.05);
-      background: #e0e0e0;
-    }
-    
-    /* Quiz Section Styles */
-    .quiz-container {
-      background: #0d47a1;
-      color: #fff;
-      padding: 40px;
-      border-radius: 8px;
+    .timeline-item:nth-child(even) {
+      left: 50%;
       text-align: left;
-      max-width: 600px;
-      margin: 0 auto;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
-    .quiz-container h2 {
+    .timeline-item:before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #000;
+      border: 4px solid #0f0;
+      z-index: 1;
+    }
+    .timeline-item:nth-child(odd):before { right: -8px; }
+    .timeline-item:nth-child(even):before { left: -8px; }
+    
+    /* Quiz Styles */
+    .quiz-container {
+      background: rgba(0,0,0,0.9);
+      color: #e0e0e0;
+      padding: 30px;
+      border-radius: 8px;
       text-align: center;
-      margin-bottom: 20px;
     }
-    .quiz-question {
-      margin-bottom: 20px;
-    }
-    .quiz-question p {
-      margin-bottom: 10px;
-      font-size: 1.1em;
-    }
-    .quiz-option {
+    .quiz-container h2 { margin-bottom: 20px; color: #0f0; }
+    .quiz-container .quiz-question { margin-bottom: 15px; font-size: 1.2em; }
+    .quiz-container label {
       display: block;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 10px 15px;
-      border-radius: 5px;
-      margin-bottom: 10px;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
+      margin: 10px 0;
+      font-size: 1em;
+      text-align: left;
     }
-    .quiz-option:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: scale(1.02);
+    .quiz-container input[type="radio"] {
+      margin-right: 8px;
     }
-    .quiz-option input {
-      margin-right: 10px;
-      vertical-align: middle;
-    }
-    .quiz-submit {
-      display: block;
-      width: 100%;
-      background: #fff;
-      color: #0d47a1;
+    .quiz-container button {
+      background: #0f0;
+      color: #000;
       border: none;
-      padding: 12px 0;
+      padding: 10px 20px;
       font-size: 1em;
       border-radius: 25px;
       cursor: pointer;
-      transition: transform 0.3s, background 0.3s;
-      margin-top: 20px;
+      margin-top: 15px;
+      transition: background 0.3s, transform 0.3s;
     }
-    .quiz-submit:hover {
-      transform: scale(1.03);
-      background: #e0e0e0;
+    .quiz-container button:hover {
+      transform: scale(1.05);
+      background: #afffa0;
     }
-    .quiz-feedback {
-      margin-top: 20px;
+    .quiz-feedback { margin-top: 15px; font-weight: 600; }
+    
+    /* Adventure Section */
+    .adventure {
+      padding: 60px 20px;
+      max-width: 1000px;
+      margin: 120px auto 40px;
+      background: rgba(0,0,0,0.8);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      position: relative;
+      z-index: 2;
       text-align: center;
-      font-weight: 600;
-      font-size: 1.1em;
+    }
+    .adventure h2 { color: #0f0; margin-bottom: 20px; }
+    .adventure p { margin-bottom: 20px; color: #e0e0e0; }
+    .adventure iframe {
+      max-width: 100%;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }
     
     /* Footer */
     footer {
       text-align: center;
       padding: 30px;
-      background: #0d47a1;
-      color: #fff;
+      background: rgba(0,0,0,0.9);
+      color: #0f0;
       position: relative;
       z-index: 2;
     }
@@ -284,167 +242,129 @@
   </style>
 </head>
 <body>
-  <!-- Canvas Background -->
+  <!-- Matrix Digital Rain Background -->
   <canvas id="bgCanvas"></canvas>
   
   <!-- Navigation Bar -->
   <nav>
-    <div class="logo">Cosmos Quest</div>
+    <div class="logo">AI Data Life Cycle</div>
     <div class="menu">
       <a href="#hero" onclick="scrollToSection('hero')">Home</a>
-      <a href="#modules" onclick="scrollToSection('modules')">Modules</a>
+      <a href="#overview" onclick="scrollToSection('overview')">Overview</a>
+      <a href="#timeline" onclick="scrollToSection('timeline')">Timeline</a>
       <a href="#quiz" onclick="scrollToSection('quiz')">Quiz</a>
+      <a href="#adventure" onclick="scrollToSection('adventure')">Adventure</a>
     </div>
-    <button class="toggle-dark" onclick="toggleDarkMode()">Dark Mode</button>
+    <button class="toggle-dark" onclick="toggleDarkMode()">Toggle Theme</button>
   </nav>
   
   <!-- Hero Section -->
   <section class="hero" id="hero">
-    <h1>Welcome to Cosmos Quest</h1>
-    <p>Your immersive journey through space exploration starts now.</p>
-    <button onclick="scrollToSection('modules')">Enter Module</button>
+    <h1>The AI Data Life Cycle</h1>
+    <p>How AI Learns and Why It Matters</p>
+    <button onclick="scrollToSection('overview')">Explore Now</button>
   </section>
   
-  <!-- Modules Section (Card Grid) -->
-  <section class="section" id="modules">
-    <h2>Explore the Cosmos</h2>
-    <div class="card-grid">
-      <!-- Module Card 1: The Solar System -->
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-face card-front" style="background: url('https://source.unsplash.com/400x300/?solar,system') center/cover;">
-            The Solar System
-          </div>
-          <div class="card-face card-back">
-            <p>Discover the planets, moons, asteroids, and the engine of our cosmic neighborhood—the Sun.</p>
-            <button onclick="alert('Dive into the mysteries of our Solar System!')">Learn More</button>
-          </div>
-        </div>
-      </div>
-      <!-- Module Card 2: Stellar Evolution -->
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-face card-front" style="background: url('https://source.unsplash.com/400x300/?star,nebula') center/cover;">
-            Stellar Evolution
-          </div>
-          <div class="card-face card-back">
-            <p>Explore how stars are born, live out their lifespans, and transform through supernovae and beyond.</p>
-            <button onclick="alert('Unveil the secrets of stellar life cycles!')">Learn More</button>
-          </div>
-        </div>
-      </div>
-      <!-- Module Card 3: Galaxies & Beyond -->
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-face card-front" style="background: url('https://source.unsplash.com/400x300/?galaxy') center/cover;">
-            Galaxies &amp; Beyond
-          </div>
-          <div class="card-face card-back">
-            <p>Journey through spiral arms and dark matter, exploring the structures that shape our universe.</p>
-            <button onclick="alert('Embark on an intergalactic adventure!')">Learn More</button>
-          </div>
-        </div>
-      </div>
-      <!-- Module Card 4: Future of Space Exploration -->
-      <div class="card">
-        <div class="card-inner">
-          <div class="card-face card-front" style="background: url('https://source.unsplash.com/400x300/?space,rocket') center/cover;">
-            Future of Space
-          </div>
-          <div class="card-face card-back">
-            <p>From Mars colonies to interstellar travel, see the bold plans that drive humanity’s next frontier.</p>
-            <button onclick="alert('Get ready for the future of space exploration!')">Learn More</button>
-          </div>
-        </div>
-      </div>
-    </div>
+  <!-- Overview Section -->
+  <section class="section" id="overview">
+    <h2>Overview</h2>
+    <p>
+      At the foundation of every AI model lies a complex interplay of data extraction, computational filtering, and human-driven interpretation. Though often invisible, this cycle governs AI’s ability to make decisions and shapes its impact on society.
+    </p>
+    <p>
+      AI does not create new knowledge—it synthesizes and reframes existing information from human activity. However, the data it ingests reflects historical biases and societal inequalities, influencing every decision it makes.
+    </p>
+  </section>
+  
+  <!-- Timeline Section -->
+  <section class="section" id="timeline">
+    <h2>The AI Data Life Cycle Timeline</h2>
+    <ul class="timeline">
+      <li class="timeline-item">
+        <h4>Data Extraction &amp; Sources</h4>
+        <p>Raw data is gathered from digital interactions, archives, and user-generated content—forming the bedrock of AI learning.</p>
+      </li>
+      <li class="timeline-item">
+        <h4>Computational Filtering</h4>
+        <p>Algorithms preprocess and filter the data, extracting meaningful patterns while discarding noise.</p>
+      </li>
+      <li class="timeline-item">
+        <h4>Human-Driven Interpretation</h4>
+        <p>Humans annotate and interpret data, embedding context and meaning that guide the training process.</p>
+      </li>
+      <li class="timeline-item">
+        <h4>Model Training &amp; AI Bias</h4>
+        <p>During training, choices about data inclusion and exclusion can reinforce biases, shaping future outputs.</p>
+      </li>
+      <li class="timeline-item">
+        <h4>Human Influence &amp; AI Agency</h4>
+        <p>User interactions feed back into AI systems, creating feedback loops that continuously refine decision-making.</p>
+      </li>
+      <li class="timeline-item">
+        <h4>Ethical Boundaries &amp; Regulation</h4>
+        <p>Ethical frameworks and regulatory measures are applied to mitigate bias and guide AI toward socially responsible outcomes.</p>
+      </li>
+    </ul>
   </section>
   
   <!-- Quiz Section -->
   <section class="section" id="quiz">
     <div class="quiz-container">
-      <h2>Quiz: Test Your Space IQ</h2>
+      <h2>Quiz: Test Your AI Knowledge</h2>
       <!-- Question 1 -->
       <div class="quiz-question">
-        <p><strong>1. Which event marked the start of space exploration?</strong></p>
-        <label class="quiz-option">
-          <input type="radio" name="q1" value="incorrect" /> The Moon Landing
-        </label>
-        <label class="quiz-option">
-          <input type="radio" name="q1" value="correct" /> The launch of Sputnik
-        </label>
-        <label class="quiz-option">
-          <input type="radio" name="q1" value="incorrect" /> The Mars Rover Arrival
-        </label>
+        <p><strong>1. What is the first step in the AI Data Life Cycle?</strong></p>
+        <label><input type="radio" name="q1" value="incorrect"> Data Filtering</label>
+        <label><input type="radio" name="q1" value="correct"> Data Extraction</label>
+        <label><input type="radio" name="q1" value="incorrect"> Model Training</label>
       </div>
       <!-- Question 2 -->
       <div class="quiz-question">
-        <p><strong>2. What is the primary power source of our Solar System?</strong></p>
-        <label class="quiz-option">
-          <input type="radio" name="q2" value="correct" /> The Sun
-        </label>
-        <label class="quiz-option">
-          <input type="radio" name="q2" value="incorrect" /> The Moon
-        </label>
-        <label class="quiz-option">
-          <input type="radio" name="q2" value="incorrect" /> Earth's core
-        </label>
+        <p><strong>2. How does human-driven interpretation influence AI?</strong></p>
+        <label><input type="radio" name="q2" value="correct"> It provides the necessary context and labels to raw data.</label>
+        <label><input type="radio" name="q2" value="incorrect"> It increases computational speed.</label>
+        <label><input type="radio" name="q2" value="incorrect"> It removes bias entirely.</label>
       </div>
       <!-- Question 3 -->
       <div class="quiz-question">
-        <p><strong>3. What phenomenon describes the expanding universe?</strong></p>
-        <label class="quiz-option">
-          <input type="radio" name="q3" value="incorrect" /> Cosmic Contraction
-        </label>
-        <label class="quiz-option">
-          <input type="radio" name="q3" value="correct" /> The Expanding Universe
-        </label>
-        <label class="quiz-option">
-          <input type="radio" name="q3" value="incorrect" /> Stellar Drift
-        </label>
+        <p><strong>3. What role do ethical boundaries play in the AI Data Life Cycle?</strong></p>
+        <label><input type="radio" name="q3" value="incorrect"> They slow down AI development.</label>
+        <label><input type="radio" name="q3" value="incorrect"> They are irrelevant to AI performance.</label>
+        <label><input type="radio" name="q3" value="correct"> They guide decision-making and help mitigate bias.</label>
       </div>
-      <button class="quiz-submit" onclick="checkQuiz()">Submit Quiz</button>
+      <button onclick="checkQuiz()">Submit Quiz</button>
       <p class="quiz-feedback" id="quizFeedback"></p>
     </div>
   </section>
   
+  <!-- Adventure Section -->
+  <section class="adventure" id="adventure">
+    <h2>AI Ethics Adventure</h2>
+    <p>
+      Immerse yourself in a scenario-driven adventure where your decisions shape AI behavior. Explore ethical dilemmas and uncover how data, human influence, and regulation interact to mold AI outcomes.
+    </p>
+    <!-- Example video embed -->
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/5Q86YgcPHTM" title="AI Ethics Adventure" allowfullscreen></iframe>
+  </section>
+  
   <!-- Footer -->
   <footer>
-    <p>© 2025 | Cosmos Quest: Journey Through Space</p>
+    <p>© 2025 | The AI Data Life Cycle: How AI Learns and Why It Matters</p>
   </footer>
   
-  <!-- JavaScript: Starfield, Smooth Scroll, Card & Quiz Interactivity -->
+  <!-- JavaScript -->
   <script>
-    // Smooth scrolling
+    // Smooth scrolling for navigation links
     function scrollToSection(id) {
       document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
     }
     
-    // Dark mode toggle
+    // Toggle dark mode (if additional adjustments are needed)
     function toggleDarkMode() {
       document.body.classList.toggle('dark-mode');
     }
     
-    // Quiz Checker
-    function checkQuiz() {
-      const q1 = document.querySelector('input[name="q1"]:checked');
-      const q2 = document.querySelector('input[name="q2"]:checked');
-      const q3 = document.querySelector('input[name="q3"]:checked');
-      let score = 0;
-      if(q1 && q1.value === "correct") score++;
-      if(q2 && q2.value === "correct") score++;
-      if(q3 && q3.value === "correct") score++;
-      const feedback = document.getElementById('quizFeedback');
-      if (q1 && q2 && q3) {
-        feedback.textContent = `You scored ${score} out of 3! ${score === 3 ? "Stellar work!" : "Keep reaching for the stars!"}`;
-        feedback.style.color = score === 3 ? 'lightgreen' : 'yellow';
-      } else {
-        feedback.textContent = 'Please answer all questions before submitting.';
-        feedback.style.color = 'tomato';
-      }
-    }
-    
-    // Reveal sections on scroll
+    // Reveal sections on scroll (fade-in effect)
     const sections = document.querySelectorAll('.section');
     function revealSections() {
       sections.forEach(section => {
@@ -457,62 +377,59 @@
     window.addEventListener('scroll', revealSections);
     revealSections();
     
-    // Starfield Background Animation
+    // Quiz functionality
+    function checkQuiz() {
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      const q3 = document.querySelector('input[name="q3"]:checked');
+      let score = 0;
+      if (q1 && q1.value === "correct") score++;
+      if (q2 && q2.value === "correct") score++;
+      if (q3 && q3.value === "correct") score++;
+      const feedback = document.getElementById('quizFeedback');
+      if (q1 && q2 && q3) {
+        feedback.textContent = `You scored ${score} out of 3! ${score === 3 ? "Outstanding knowledge!" : "Keep exploring the cycle."}`;
+        feedback.style.color = score === 3 ? '#0f0' : '#ff0';
+      } else {
+        feedback.textContent = 'Please answer all questions before submitting.';
+        feedback.style.color = '#f00';
+      }
+    }
+    
+    // Matrix Digital Rain Background
     const canvas = document.getElementById('bgCanvas');
     const ctx = canvas.getContext('2d');
-    let stars = [];
-    const numStars = 500;
-    
-    function initStars() {
-      stars = [];
-      for (let i = 0; i < numStars; i++) {
-        stars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          radius: Math.random() * 1.5,
-          dx: (Math.random() - 0.5) * 0.5,
-          dy: (Math.random() - 0.5) * 0.5,
-          opacity: Math.random()
-        });
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const lettersArr = letters.split("");
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+    for (let i = 0; i < columns; i++) {
+      drops[i] = 1;
+    }
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0f0";
+      ctx.font = fontSize + "px monospace";
+      for (let i = 0; i < drops.length; i++) {
+        const text = lettersArr[Math.floor(Math.random() * lettersArr.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
       }
     }
-    
-    function updateStars() {
-      for (let star of stars) {
-        star.x += star.dx;
-        star.y += star.dy;
-        if (star.x < 0) star.x = canvas.width;
-        if (star.x > canvas.width) star.x = 0;
-        if (star.y < 0) star.y = canvas.height;
-        if (star.y > canvas.height) star.y = 0;
-      }
-    }
-    
-    function drawStars() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let star of stars) {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
-        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
-        ctx.fill();
-      }
-    }
-    
-    function animateStars() {
-      updateStars();
-      drawStars();
-      requestAnimationFrame(animateStars);
-    }
-    
-    function resizeCanvas() {
+    setInterval(drawMatrix, 50);
+    window.addEventListener('resize', () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      initStars();
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-    animateStars();
+    });
   </script>
 </body>
 </html>
+
 
