@@ -7,7 +7,7 @@
   <!-- Google Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" />
   <style>
-    /* Reset and global styles */
+    /* Global Reset & Fonts */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Montserrat', sans-serif;
@@ -20,7 +20,18 @@
     h1, h2, h3, h4 { margin-bottom: 20px; }
     p { margin-bottom: 15px; }
     
-    /* Dark Mode Styles */
+    /* Canvas Background */
+    #bgCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: #000;
+    }
+    
+    /* Dark Mode */
     body.dark-mode {
       background: #1c1c1c;
       color: #ddd;
@@ -62,7 +73,7 @@
     /* Hero Section with Parallax Background */
     .hero {
       height: 100vh;
-      background: linear-gradient(rgba(13,71,161,0.7), rgba(13,71,161,0.7)), url('https://source.unsplash.com/1600x900/?space');
+      background: linear-gradient(rgba(13,71,161,0.7), rgba(13,71,161,0.7)), url('https://source.unsplash.com/1600x900/?space,galaxy');
       background-size: cover;
       background-attachment: fixed;
       background-position: center;
@@ -73,6 +84,8 @@
       text-align: center;
       color: #fff;
       padding: 0 20px;
+      position: relative;
+      z-index: 1;
     }
     .hero h1 {
       font-size: 3em;
@@ -110,6 +123,8 @@
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.8s, transform 0.8s;
+      position: relative;
+      z-index: 2;
     }
     .section.visible { opacity: 1; transform: translateY(0); }
     .section h2 { text-align: center; margin-bottom: 30px; color: #0d47a1; }
@@ -234,6 +249,8 @@
       padding: 30px;
       background: #0d47a1;
       color: #fff;
+      position: relative;
+      z-index: 2;
     }
     
     /* Animations */
@@ -248,6 +265,9 @@
   </style>
 </head>
 <body>
+  <!-- Canvas Background -->
+  <canvas id="bgCanvas"></canvas>
+  
   <!-- Navigation Bar -->
   <nav>
     <div class="logo">Cosmos Quest</div>
@@ -270,17 +290,17 @@
   <!-- Module Section -->
   <section class="section" id="module">
     <h2>Explore the Cosmos</h2>
-    <p>Dive into the wonders of space—from our Solar System to the farthest galaxies. Expand your knowledge and challenge your assumptions with interactive content below.</p>
+    <p>Dive into the wonders of space—from our Solar System to the farthest galaxies. Expand your knowledge with interactive content below.</p>
     
-    <!-- Accordion: Solar System -->
+    <!-- Accordion: The Solar System -->
     <div class="accordion">
       <div class="accordion-header">The Solar System</div>
       <div class="accordion-content">
-        <p>Learn about the planets, moons, and the dynamic forces that shape our local cosmic neighborhood.</p>
+        <p>Learn about the planets, moons, and forces that shape our local cosmic neighborhood.</p>
         <ul>
-          <li>The Sun: Our star and the engine of the solar system</li>
+          <li>The Sun: Our stellar engine</li>
           <li>Planets: Rocky worlds and gas giants</li>
-          <li>Asteroids &amp; Comets: Remnants of the early solar system</li>
+          <li>Asteroids &amp; Comets: Remnants of cosmic creation</li>
         </ul>
       </div>
     </div>
@@ -289,10 +309,10 @@
     <div class="accordion">
       <div class="accordion-header">Stellar Evolution</div>
       <div class="accordion-content">
-        <p>Discover how stars are born, live, and die. Understand the cycles that create the elements of the universe.</p>
+        <p>Discover how stars are born, live, and die—unveiling the cycles that forge the elements of the universe.</p>
         <ul>
           <li>Birth: Nebulae and protostars</li>
-          <li>Life: Main sequence stars</li>
+          <li>Life: Main sequence marvels</li>
           <li>Death: Supernovae, neutron stars, and black holes</li>
         </ul>
       </div>
@@ -302,11 +322,11 @@
     <div class="accordion">
       <div class="accordion-header">Galaxies &amp; Beyond</div>
       <div class="accordion-content">
-        <p>Explore the diverse structures in the universe—from spiral galaxies to mysterious dark matter.</p>
+        <p>Explore diverse galactic structures—from majestic spirals to mysterious dark matter realms.</p>
         <ul>
           <li>Types of galaxies</li>
           <li>Intergalactic interactions</li>
-          <li>The expanding universe</li>
+          <li>The expanding cosmos</li>
         </ul>
       </div>
     </div>
@@ -315,9 +335,9 @@
     <div class="accordion">
       <div class="accordion-header">The Future of Space Exploration</div>
       <div class="accordion-content">
-        <p>From Mars colonization to interstellar travel, learn about the bold plans shaping humanity's future in space.</p>
+        <p>From Mars colonization to interstellar travel, discover bold plans shaping humanity's future in space.</p>
         <ul>
-          <li>Robotic missions and human spaceflight</li>
+          <li>Robotic missions &amp; human spaceflight</li>
           <li>Commercial space ventures</li>
           <li>Technological challenges and opportunities</li>
         </ul>
@@ -331,19 +351,19 @@
     <ul class="timeline">
       <li class="timeline-item">
         <h4>1957 – Sputnik Launched</h4>
-        <p>The first artificial satellite, marking the start of space exploration.</p>
+        <p>The first artificial satellite marks the dawn of space exploration.</p>
       </li>
       <li class="timeline-item">
         <h4>1969 – Moon Landing</h4>
-        <p>Apollo 11 lands on the Moon, a giant leap for mankind.</p>
+        <p>Apollo 11 lands on the Moon—a giant leap for mankind.</p>
       </li>
       <li class="timeline-item">
-        <h4>2004 – Mars Rover Landing</h4>
-        <p>Robotic explorers begin to reveal the secrets of the Red Planet.</p>
+        <h4>2004 – Mars Rover Arrival</h4>
+        <p>Robotic explorers unveil the mysteries of the Red Planet.</p>
       </li>
       <li class="timeline-item">
         <h4>2020 – Commercial Spaceflight</h4>
-        <p>Private companies revolutionize access to space.</p>
+        <p>Private ventures revolutionize access to space.</p>
       </li>
     </ul>
   </section>
@@ -354,24 +374,24 @@
       <h2>Quiz: Test Your Space IQ</h2>
       <!-- Question 1 -->
       <div class="quiz-question">
-        <p><strong>1. Which event marked the beginning of space exploration?</strong></p>
+        <p><strong>1. Which event marked the start of space exploration?</strong></p>
         <label><input type="radio" name="q1" value="incorrect" /> The Moon Landing</label>
         <label><input type="radio" name="q1" value="correct" /> The launch of Sputnik</label>
-        <label><input type="radio" name="q1" value="incorrect" /> The Mars Rover landing</label>
+        <label><input type="radio" name="q1" value="incorrect" /> The Mars Rover Arrival</label>
       </div>
       <!-- Question 2 -->
       <div class="quiz-question">
-        <p><strong>2. What powers the solar system?</strong></p>
+        <p><strong>2. What is the main power source of our Solar System?</strong></p>
         <label><input type="radio" name="q2" value="correct" /> The Sun</label>
         <label><input type="radio" name="q2" value="incorrect" /> The Moon</label>
         <label><input type="radio" name="q2" value="incorrect" /> Earth’s core</label>
       </div>
       <!-- Question 3 -->
       <div class="quiz-question">
-        <p><strong>3. What phenomenon describes the expansion of the universe?</strong></p>
-        <label><input type="radio" name="q3" value="incorrect" /> Cosmic contraction</label>
-        <label><input type="radio" name="q3" value="correct" /> The expanding universe</label>
-        <label><input type="radio" name="q3" value="incorrect" /> Stellar drift</label>
+        <p><strong>3. What describes the phenomenon of the expanding universe?</strong></p>
+        <label><input type="radio" name="q3" value="incorrect" /> Cosmic Contraction</label>
+        <label><input type="radio" name="q3" value="correct" /> The Expanding Universe</label>
+        <label><input type="radio" name="q3" value="incorrect" /> Stellar Drift</label>
       </div>
       <button onclick="checkQuiz()">Submit Quiz</button>
       <p class="quiz-feedback" id="quizFeedback"></p>
@@ -383,14 +403,14 @@
     <p>© 2025 | Cosmos Quest: Journey Through Space</p>
   </footer>
   
-  <!-- JavaScript for Interactivity -->
+  <!-- JavaScript: Starfield Background, Smooth Scrolling, Accordions, Quiz, Reveal on Scroll -->
   <script>
     // Smooth scrolling for navigation links
     function scrollToSection(id) {
       document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
     }
     
-    // Dark mode toggle functionality
+    // Dark mode toggle
     function toggleDarkMode() {
       document.body.classList.toggle('dark-mode');
     }
@@ -401,15 +421,11 @@
       header.addEventListener('click', () => {
         header.classList.toggle('active');
         const content = header.nextElementSibling;
-        if (content.style.maxHeight) {
-          content.style.maxHeight = null;
-        } else {
-          content.style.maxHeight = content.scrollHeight + 'px';
-        }
+        content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + 'px';
       });
     });
     
-    // Quiz checking function
+    // Quiz checker
     function checkQuiz() {
       const q1 = document.querySelector('input[name="q1"]:checked');
       const q2 = document.querySelector('input[name="q2"]:checked');
@@ -428,7 +444,7 @@
       }
     }
     
-    // Reveal sections on scroll with a fade-in effect
+    // Reveal sections on scroll (fade-in effect)
     const sections = document.querySelectorAll('.section');
     function revealSections() {
       sections.forEach(section => {
@@ -440,6 +456,63 @@
     }
     window.addEventListener('scroll', revealSections);
     revealSections();
+    
+    // Starfield Background Animation
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    const numStars = 500;
+    
+    function initStars() {
+      stars = [];
+      for (let i = 0; i < numStars; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.5,
+          dx: (Math.random() - 0.5) * 0.5,
+          dy: (Math.random() - 0.5) * 0.5,
+          opacity: Math.random()
+        });
+      }
+    }
+    
+    function updateStars() {
+      for (let star of stars) {
+        star.x += star.dx;
+        star.y += star.dy;
+        if (star.x < 0) star.x = canvas.width;
+        if (star.x > canvas.width) star.x = 0;
+        if (star.y < 0) star.y = canvas.height;
+        if (star.y > canvas.height) star.y = 0;
+      }
+    }
+    
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let star of stars) {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+        ctx.fill();
+      }
+    }
+    
+    function animateStars() {
+      updateStars();
+      drawStars();
+      requestAnimationFrame(animateStars);
+    }
+    
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initStars();
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    animateStars();
   </script>
 </body>
 </html>
+
