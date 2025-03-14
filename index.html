@@ -3,395 +3,443 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Echo Chamber: A Multimodal Learning Journey Through Information Literacy</title>
+  <title>Cosmos Quest: Journey Through Space</title>
   <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" />
   <style>
-    /* Global Styles */
+    /* Reset and global styles */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      background: #f0f4f8;
-      color: #333;
+      font-family: 'Montserrat', sans-serif;
       line-height: 1.6;
+      background: #f2f2f2;
+      color: #333;
+      transition: background 0.3s, color 0.3s;
     }
-    a {
-      text-decoration: none;
-      color: inherit;
+    a { text-decoration: none; color: inherit; }
+    h1, h2, h3, h4 { margin-bottom: 20px; }
+    p { margin-bottom: 15px; }
+    
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background: #1c1c1c;
+      color: #ddd;
     }
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      border-radius: 4px;
-      margin-top: 30px;
-      margin-bottom: 30px;
-    }
-    h1, h2, h3, h4 {
-      color: #222;
-      margin-bottom: 10px;
-    }
-    p {
-      margin-bottom: 15px;
-    }
+    body.dark-mode nav { background: #333; }
+    body.dark-mode .section { background: #2a2a2a; color: #ddd; }
+    body.dark-mode .accordion-header { background: #555; }
+    body.dark-mode footer { background: #111; }
+    
     /* Navigation Bar */
     nav {
-      background: #2a9d8f;
-      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #0d47a1;
+      padding: 15px 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      z-index: 1000;
+      transition: background 0.3s;
+    }
+    nav .logo { font-size: 1.5em; font-weight: 700; color: #fff; }
+    nav .menu { display: flex; gap: 20px; }
+    nav .menu a { font-weight: 600; color: #fff; transition: color 0.3s; }
+    nav .menu a:hover { color: #ffeb3b; }
+    nav .toggle-dark {
+      background: transparent;
+      border: 1px solid #fff;
+      border-radius: 4px;
       color: #fff;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: background 0.3s;
     }
-    nav .nav-links a {
-      margin: 0 10px;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-    nav .nav-links a:hover {
-      color: #e9c46a;
-    }
-    /* Intro Section */
-    #intro {
+    nav .toggle-dark:hover { background: rgba(255, 255, 255, 0.2); }
+    
+    /* Hero Section with Parallax Background */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(rgba(13,71,161,0.7), rgba(13,71,161,0.7)), url('https://source.unsplash.com/1600x900/?space');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      padding: 40px 20px;
-      background: #e9c46a;
       color: #fff;
+      padding: 0 20px;
     }
-    #intro h1 {
-      font-size: 2.5em;
+    .hero h1 {
+      font-size: 3em;
       margin-bottom: 20px;
+      animation: fadeInDown 1s;
     }
-    #intro p {
-      font-size: 1.2em;
+    .hero p {
+      font-size: 1.3em;
+      margin-bottom: 30px;
+      animation: fadeInUp 1s;
     }
-    #startButton {
-      background: #264653;
-      color: #fff;
+    .hero button {
+      background: #fff;
+      color: #0d47a1;
       border: none;
       padding: 12px 25px;
       font-size: 1em;
-      border-radius: 4px;
+      border-radius: 25px;
       cursor: pointer;
-      transition: background 0.3s;
-      margin-top: 20px;
+      transition: transform 0.3s, background 0.3s;
     }
-    #startButton:hover {
-      background: #1b3a47;
+    .hero button:hover {
+      transform: scale(1.05);
+      background: #f0f0f0;
     }
+    
+    /* Section Container */
+    .section {
+      padding: 60px 20px;
+      max-width: 1000px;
+      margin: 120px auto 40px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+    .section h2 { text-align: center; margin-bottom: 30px; color: #0d47a1; }
+    
     /* Accordion Styles */
     .accordion {
-      margin-bottom: 20px;
       border: 1px solid #ddd;
-      border-radius: 4px;
+      border-radius: 8px;
       overflow: hidden;
+      margin-bottom: 20px;
     }
     .accordion-header {
-      background: #264653;
+      background: #0d47a1;
       color: #fff;
-      padding: 15px 20px;
+      padding: 15px;
+      font-weight: 600;
       cursor: pointer;
-      user-select: none;
+      position: relative;
       transition: background 0.3s;
     }
-    .accordion-header:hover {
-      background: #1b3a47;
+    .accordion-header:hover { background: #1565c0; }
+    .accordion-header::after {
+      content: '+';
+      position: absolute;
+      right: 20px;
+      font-size: 1.5em;
     }
+    .accordion-header.active::after { content: '-'; }
     .accordion-content {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.4s ease-out, padding 0.4s;
-      background: #f8f8f8;
-      padding: 0 20px;
+      transition: max-height 0.4s ease-out;
+      background: #f9f9f9;
+      padding: 0 15px;
     }
-    .accordion-content.open {
-      padding: 15px 20px;
+    .accordion-content p,
+    .accordion-content ul { padding: 15px 0; }
+    
+    /* Timeline Styles */
+    .timeline {
+      position: relative;
+      margin: 40px 0;
+      padding: 0;
+      list-style: none;
     }
-    /* Quiz Section */
-    #quiz {
-      background: #e9c46a;
-      color: #264653;
-      padding: 20px;
-      border-radius: 4px;
-      margin-top: 20px;
+    .timeline:before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: #0d47a1;
+      transform: translateX(-50%);
     }
-    #quiz .quiz-question {
-      margin-bottom: 15px;
+    .timeline-item {
+      position: relative;
+      width: 50%;
+      padding: 20px 40px;
     }
-    #quiz button {
-      background: #264653;
+    .timeline-item:nth-child(odd) {
+      left: 0;
+      text-align: right;
+    }
+    .timeline-item:nth-child(even) {
+      left: 50%;
+      text-align: left;
+    }
+    .timeline-item:before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      border: 4px solid #0d47a1;
+      z-index: 1;
+    }
+    .timeline-item:nth-child(odd):before { right: -8px; }
+    .timeline-item:nth-child(even):before { left: -8px; }
+    
+    /* Quiz Styles */
+    .quiz-container {
+      background: #0d47a1;
       color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .quiz-container h2 { margin-bottom: 20px; }
+    .quiz-container .quiz-question { margin-bottom: 15px; font-size: 1.2em; }
+    .quiz-container label {
+      display: block;
+      margin: 10px 0;
+      font-size: 1em;
+      text-align: left;
+    }
+    .quiz-container input[type="radio"] {
+      margin-right: 8px;
+    }
+    .quiz-container button {
+      background: #fff;
+      color: #0d47a1;
       border: none;
-      padding: 8px 15px;
-      border-radius: 4px;
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 25px;
       cursor: pointer;
-      transition: background 0.3s;
+      margin-top: 15px;
+      transition: background 0.3s, transform 0.3s;
     }
-    #quiz button:hover {
-      background: #1b3a47;
+    .quiz-container button:hover {
+      transform: scale(1.05);
+      background: #e0e0e0;
     }
+    .quiz-feedback { margin-top: 15px; font-weight: 600; }
+    
     /* Footer */
     footer {
       text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
-      color: #777;
+      padding: 30px;
+      background: #0d47a1;
+      color: #fff;
     }
-    /* Responsive */
-    @media (max-width: 600px) {
-      nav {
-        flex-direction: column;
-      }
-      nav .nav-links {
-        margin-top: 10px;
-      }
+    
+    /* Animations */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
   <!-- Navigation Bar -->
   <nav>
-    <div class="logo"><strong>Echo Chamber</strong></div>
-    <div class="nav-links">
-      <a href="#intro">Home</a>
-      <a href="#module">Module</a>
-      <a href="#quiz">Quiz</a>
-      <a href="#footer">Footer</a>
+    <div class="logo">Cosmos Quest</div>
+    <div class="menu">
+      <a href="#hero" onclick="scrollToSection('hero')">Home</a>
+      <a href="#module" onclick="scrollToSection('module')">Module</a>
+      <a href="#timeline" onclick="scrollToSection('timeline')">Timeline</a>
+      <a href="#quiz" onclick="scrollToSection('quiz')">Quiz</a>
     </div>
+    <button class="toggle-dark" onclick="toggleDarkMode()">Dark Mode</button>
   </nav>
-
-  <!-- Intro Section -->
-  <section id="intro">
-    <h1>Echo Chamber: A Multimodal Learning Journey Through Information Literacy</h1>
-    <p>Welcome to a dynamic, interactive module that blends storytelling, interactive challenges, and self-reflection to transform your understanding of information literacy in the digital age.</p>
-    <button id="startButton">Begin Your Journey</button>
+  
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <h1>Welcome to Cosmos Quest</h1>
+    <p>Your journey through space exploration starts now.</p>
+    <button onclick="scrollToSection('module')">Enter Module</button>
   </section>
-
-  <div class="container" id="module">
-    <!-- Framework Overview Accordion -->
+  
+  <!-- Module Section -->
+  <section class="section" id="module">
+    <h2>Explore the Cosmos</h2>
+    <p>Dive into the wonders of space—from our Solar System to the farthest galaxies. Expand your knowledge and challenge your assumptions with interactive content below.</p>
+    
+    <!-- Accordion: Solar System -->
     <div class="accordion">
-      <div class="accordion-header">Framework Overview</div>
+      <div class="accordion-header">The Solar System</div>
       <div class="accordion-content">
-        <p>
-          This advanced learning module is designed as a flexible, evidence-based educational framework that integrates cognitive science principles with digital-age information literacy. It employs a multimodal approach—combining narrative immersion, active decision-making, and metacognitive reflection—to create a transformative learning experience.
-        </p>
-      </div>
-    </div>
-
-    <!-- Pedagogical Foundations Accordion -->
-    <div class="accordion">
-      <div class="accordion-header">Pedagogical Foundations</div>
-      <div class="accordion-content">
-        <h3>Theoretical Underpinnings</h3>
+        <p>Learn about the planets, moons, and the dynamic forces that shape our local cosmic neighborhood.</p>
         <ul>
-          <li><strong>Constructivist Learning Theory:</strong> Learners actively construct knowledge through experience, reflection, and social interaction.</li>
-          <li><strong>Situated Cognition:</strong> Learning is embedded in authentic contexts that mirror real-world complexity.</li>
-          <li><strong>Social Learning Theory:</strong> Observing others' behaviors and their consequences influences future actions.</li>
-          <li><strong>Metacognitive Development:</strong> Reflection on one’s thought processes enhances critical thinking.</li>
-        </ul>
-        <h3>Evidence-Based Design Elements</h3>
-        <ul>
-          <li><strong>Spaced Learning:</strong> Core concepts reappear throughout different historical contexts.</li>
-          <li><strong>Retrieval Practice:</strong> Knowledge checks prompt active recall of previously learned content.</li>
-          <li><strong>Desirable Difficulty:</strong> Strategic challenges push learners beyond their comfort zone.</li>
-          <li><strong>Elaborative Interrogation:</strong> Prompts encourage learners to explain why certain misinformation strategies work.</li>
+          <li>The Sun: Our star and the engine of the solar system</li>
+          <li>Planets: Rocky worlds and gas giants</li>
+          <li>Asteroids &amp; Comets: Remnants of the early solar system</li>
         </ul>
       </div>
     </div>
-
-    <!-- Module Architecture Accordion -->
+    
+    <!-- Accordion: Stellar Evolution -->
     <div class="accordion">
-      <div class="accordion-header">Module Architecture</div>
+      <div class="accordion-header">Stellar Evolution</div>
       <div class="accordion-content">
-        <h3>1. Cognitive Foundations (Pre-Assessment)</h3>
+        <p>Discover how stars are born, live, and die. Understand the cycles that create the elements of the universe.</p>
         <ul>
-          <li><strong>Mental Models Assessment:</strong> Interactive tool to map your current information evaluation framework.</li>
-          <li><strong>Cognitive Bias Inventory:</strong> Assess your susceptibility to common reasoning errors.</li>
-          <li><strong>Information Ecosystem Mapping:</strong> Visualize your personal information sources and filter bubbles.</li>
-        </ul>
-        <h3>2. Historical Case Studies</h3>
-        <p>Each case study follows a structured approach:</p>
-        <ul>
-          <li><strong>Contextual Immersion:</strong> Multimedia reconstruction of historical events.</li>
-          <li><strong>Perspective-Taking:</strong> Role-based scenario navigation.</li>
-          <li><strong>Decision Points:</strong> Active choices with immediate and delayed consequences.</li>
-          <li><strong>Analytical Reflection:</strong> Guided deconstruction of information manipulation techniques.</li>
-          <li><strong>Contemporary Connection:</strong> Bridges to modern information challenges.</li>
-        </ul>
-        <h4>Case Studies</h4>
-        <ul>
-          <li><strong>The Great Moon Hoax (1835):</strong> Explore media sensationalism and scientific credibility.</li>
-          <li><strong>War of the Worlds Broadcast (1938):</strong> Examine media literacy and emotional reasoning.</li>
-          <li><strong>Operation INFEKTION (1980s):</strong> Uncover disinformation campaigns and geopolitical manipulation.</li>
-          <li><strong>Digital Acceleration (2010s-Present):</strong> Navigate algorithmic amplification and targeted manipulation.</li>
-        </ul>
-        <h3>3. Metacognitive Development</h3>
-        <ul>
-          <li><strong>Cognitive Defense Toolkit:</strong> Strategies tailored to your vulnerabilities.</li>
-          <li><strong>Information Evaluation Framework:</strong> A scaffolded approach to source analysis.</li>
-          <li><strong>Decision Journal:</strong> A structured reflection tool for your information choices.</li>
-        </ul>
-        <h3>4. Applied Learning &amp; Transfer</h3>
-        <ul>
-          <li><strong>Scenario Simulations:</strong> Real-time challenges to apply your new skills.</li>
-          <li><strong>Collaborative Verification:</strong> Peer exercises in collective fact-checking.</li>
-          <li><strong>Design Challenge:</strong> Create your own information literacy intervention.</li>
+          <li>Birth: Nebulae and protostars</li>
+          <li>Life: Main sequence stars</li>
+          <li>Death: Supernovae, neutron stars, and black holes</li>
         </ul>
       </div>
     </div>
-
-    <!-- Adaptive Learning Mechanics Accordion -->
+    
+    <!-- Accordion: Galaxies & Beyond -->
     <div class="accordion">
-      <div class="accordion-header">Adaptive Learning Mechanics</div>
+      <div class="accordion-header">Galaxies &amp; Beyond</div>
       <div class="accordion-content">
-        <h3>Personalization Dimensions</h3>
+        <p>Explore the diverse structures in the universe—from spiral galaxies to mysterious dark matter.</p>
         <ul>
-          <li><strong>Learning Style:</strong> Content adjusts based on your demonstrated preferences.</li>
-          <li><strong>Difficulty Scaling:</strong> Complexity adapts dynamically to your performance.</li>
-          <li><strong>Misconception Targeting:</strong> Identifies and addresses specific knowledge gaps.</li>
-          <li><strong>Pace Variation:</strong> Adapts to your processing and decision speed.</li>
-        </ul>
-        <h3>Assessment Framework</h3>
-        <ul>
-          <li><strong>Competency Mapping:</strong> Track your progress across key literacy dimensions.</li>
-          <li><strong>Performance Analytics:</strong> Visualize your growth patterns.</li>
-          <li><strong>Behavioral Analytics:</strong> See how your decision-making evolves.</li>
-          <li><strong>Transfer Measurement:</strong> Evaluate how well you apply your skills in new situations.</li>
+          <li>Types of galaxies</li>
+          <li>Intergalactic interactions</li>
+          <li>The expanding universe</li>
         </ul>
       </div>
     </div>
-
-    <!-- Implementation Guide Accordion -->
+    
+    <!-- Accordion: Future of Space Exploration -->
     <div class="accordion">
-      <div class="accordion-header">Implementation Guide for Educators</div>
+      <div class="accordion-header">The Future of Space Exploration</div>
       <div class="accordion-content">
-        <h3>Integration Options</h3>
+        <p>From Mars colonization to interstellar travel, learn about the bold plans shaping humanity's future in space.</p>
         <ul>
-          <li><strong>Stand-Alone Module:</strong> A complete 4–6 hour experience.</li>
-          <li><strong>Distributed Learning:</strong> Embed components across your curriculum.</li>
-          <li><strong>Blended Implementation:</strong> Combine digital components with in-person sessions.</li>
-          <li><strong>Extension Activities:</strong> Customize projects for continued skill development.</li>
-        </ul>
-        <h3>Differentiation Strategies</h3>
-        <ul>
-          <li><strong>Complexity Layers:</strong> Toggle extra context for advanced learners.</li>
-          <li><strong>Scaffolding Options:</strong> Supports for developing critical thinkers.</li>
-          <li><strong>Cultural Adaptation:</strong> Customize examples for specific communities.</li>
-          <li><strong>Accessibility Modes:</strong> Multiple pathways for diverse learning needs.</li>
-        </ul>
-        <h3>Assessment Toolkit</h3>
-        <ul>
-          <li><strong>Formative Checkpoints:</strong> Regular knowledge checks with feedback.</li>
-          <li><strong>Summative Evaluation:</strong> Comprehensive assessments of literacy development.</li>
-          <li><strong>Portfolio Integration:</strong> Document your learning journey.</li>
-          <li><strong>Skill Certification:</strong> Earn digital badges as you master competencies.</li>
+          <li>Robotic missions and human spaceflight</li>
+          <li>Commercial space ventures</li>
+          <li>Technological challenges and opportunities</li>
         </ul>
       </div>
     </div>
-
-    <!-- Research & Technical Specifications Accordion -->
-    <div class="accordion">
-      <div class="accordion-header">Research &amp; Technical Specifications</div>
-      <div class="accordion-content">
-        <h3>Research Integration</h3>
-        <ul>
-          <li><strong>Cognitive Psychology:</strong> Understanding attention, memory, and decision-making.</li>
-          <li><strong>Media Studies:</strong> How medium characteristics influence credibility.</li>
-          <li><strong>Social Psychology:</strong> The role of group dynamics in information acceptance.</li>
-          <li><strong>Educational Technology:</strong> Digital tools that enhance critical thinking.</li>
-        </ul>
-        <h3>Efficacy Research</h3>
-        <ul>
-          <li><strong>Source Evaluation Skills:</strong> +42%</li>
-          <li><strong>Cognitive Bias Recognition:</strong> +37%</li>
-          <li><strong>Strategic Skepticism:</strong> +29%</li>
-          <li><strong>Information Verification Behaviors:</strong> +45%</li>
-        </ul>
-        <h3>Technical Implementation</h3>
-        <ul>
-          <li><strong>Responsive Design:</strong> Optimized for all devices.</li>
-          <li><strong>LMS Integration:</strong> SCORM-compliant for easy deployment.</li>
-          <li><strong>Analytics Dashboard:</strong> Real-time data visualization.</li>
-          <li><strong>API Documentation:</strong> Supports custom integrations.</li>
-        </ul>
-        <h3>Content Management</h3>
-        <ul>
-          <li><strong>Modular Architecture:</strong> Easily reorder or update content.</li>
-          <li><strong>Version Control:</strong> Stay current with evolving challenges.</li>
-          <li><strong>Localization Framework:</strong> Translation and cultural adaptation support.</li>
-          <li><strong>Custom Content Integration:</strong> Add institution-specific examples.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
+  </section>
+  
+  <!-- Timeline Section -->
+  <section class="section" id="timeline">
+    <h2>Milestones in Space Exploration</h2>
+    <ul class="timeline">
+      <li class="timeline-item">
+        <h4>1957 – Sputnik Launched</h4>
+        <p>The first artificial satellite, marking the start of space exploration.</p>
+      </li>
+      <li class="timeline-item">
+        <h4>1969 – Moon Landing</h4>
+        <p>Apollo 11 lands on the Moon, a giant leap for mankind.</p>
+      </li>
+      <li class="timeline-item">
+        <h4>2004 – Mars Rover Landing</h4>
+        <p>Robotic explorers begin to reveal the secrets of the Red Planet.</p>
+      </li>
+      <li class="timeline-item">
+        <h4>2020 – Commercial Spaceflight</h4>
+        <p>Private companies revolutionize access to space.</p>
+      </li>
+    </ul>
+  </section>
+  
   <!-- Quiz Section -->
-  <div class="container" id="quiz">
-    <h2>Quiz: Test Your Knowledge</h2>
-    <div class="quiz-question">
-      <p><strong>Question:</strong> Which learning theory emphasizes that learners actively construct knowledge?</p>
-      <label><input type="radio" name="q1" value="wrong" /> Social Learning Theory</label><br />
-      <label><input type="radio" name="q1" value="correct" /> Constructivist Learning Theory</label><br />
-      <label><input type="radio" name="q1" value="wrong" /> Situated Cognition</label><br /><br />
-      <button onclick="checkQuiz()">Check Answer</button>
-      <p id="quizFeedback"></p>
+  <section class="section" id="quiz">
+    <div class="quiz-container">
+      <h2>Quiz: Test Your Space IQ</h2>
+      <!-- Question 1 -->
+      <div class="quiz-question">
+        <p><strong>1. Which event marked the beginning of space exploration?</strong></p>
+        <label><input type="radio" name="q1" value="incorrect" /> The Moon Landing</label>
+        <label><input type="radio" name="q1" value="correct" /> The launch of Sputnik</label>
+        <label><input type="radio" name="q1" value="incorrect" /> The Mars Rover landing</label>
+      </div>
+      <!-- Question 2 -->
+      <div class="quiz-question">
+        <p><strong>2. What powers the solar system?</strong></p>
+        <label><input type="radio" name="q2" value="correct" /> The Sun</label>
+        <label><input type="radio" name="q2" value="incorrect" /> The Moon</label>
+        <label><input type="radio" name="q2" value="incorrect" /> Earth’s core</label>
+      </div>
+      <!-- Question 3 -->
+      <div class="quiz-question">
+        <p><strong>3. What phenomenon describes the expansion of the universe?</strong></p>
+        <label><input type="radio" name="q3" value="incorrect" /> Cosmic contraction</label>
+        <label><input type="radio" name="q3" value="correct" /> The expanding universe</label>
+        <label><input type="radio" name="q3" value="incorrect" /> Stellar drift</label>
+      </div>
+      <button onclick="checkQuiz()">Submit Quiz</button>
+      <p class="quiz-feedback" id="quizFeedback"></p>
     </div>
-  </div>
-
+  </section>
+  
   <!-- Footer -->
-  <footer id="footer">
-    <p>© 2025 | Developed with support from the Center for Advanced Information Literacy</p>
+  <footer>
+    <p>© 2025 | Cosmos Quest: Journey Through Space</p>
   </footer>
-
-  <!-- JavaScript for interactivity -->
+  
+  <!-- JavaScript for Interactivity -->
   <script>
-    // Smooth scroll on "Start" button click
-    document.getElementById("startButton").addEventListener("click", function() {
-      document.getElementById("module").scrollIntoView({ behavior: "smooth" });
-    });
-
+    // Smooth scrolling for navigation links
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Dark mode toggle functionality
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+    
     // Accordion functionality
-    const accordions = document.querySelectorAll(".accordion-header");
-    accordions.forEach(header => {
-      header.addEventListener("click", function() {
-        const content = this.nextElementSibling;
+    const accHeaders = document.querySelectorAll('.accordion-header');
+    accHeaders.forEach(header => {
+      header.addEventListener('click', () => {
+        header.classList.toggle('active');
+        const content = header.nextElementSibling;
         if (content.style.maxHeight) {
           content.style.maxHeight = null;
-          content.classList.remove("open");
         } else {
-          content.style.maxHeight = content.scrollHeight + "px";
-          content.classList.add("open");
+          content.style.maxHeight = content.scrollHeight + 'px';
         }
       });
     });
-
-    // Simple quiz checker
+    
+    // Quiz checking function
     function checkQuiz() {
-      const radios = document.getElementsByName("q1");
-      let answer = "";
-      for (let i = 0; i < radios.length; i++) {
-        if (radios[i].checked) {
-          answer = radios[i].value;
-          break;
-        }
-      }
-      const feedback = document.getElementById("quizFeedback");
-      if (answer === "correct") {
-        feedback.textContent = "Correct! Constructivist Learning Theory emphasizes that learners actively construct knowledge.";
-        feedback.style.color = "green";
-      } else if (answer === "wrong") {
-        feedback.textContent = "Not quite – try again!";
-        feedback.style.color = "red";
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      const q3 = document.querySelector('input[name="q3"]:checked');
+      let score = 0;
+      if(q1 && q1.value === "correct") score++;
+      if(q2 && q2.value === "correct") score++;
+      if(q3 && q3.value === "correct") score++;
+      const feedback = document.getElementById('quizFeedback');
+      if (q1 && q2 && q3) {
+        feedback.textContent = `You scored ${score} out of 3! ${score === 3 ? "Excellent work!" : "Keep exploring!"}`;
+        feedback.style.color = score === 3 ? 'lightgreen' : 'yellow';
       } else {
-        feedback.textContent = "Please select an answer.";
-        feedback.style.color = "black";
+        feedback.textContent = 'Please answer all questions before submitting.';
+        feedback.style.color = 'tomato';
       }
     }
+    
+    // Reveal sections on scroll with a fade-in effect
+    const sections = document.querySelectorAll('.section');
+    function revealSections() {
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          section.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', revealSections);
+    revealSections();
   </script>
 </body>
 </html>
-
