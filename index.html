@@ -14,13 +14,12 @@
       background: #000;
       color: #e0e0e0;
       overflow-x: hidden;
-      line-height: 1.6;
       transition: background 0.3s, color 0.3s;
     }
     a { text-decoration: none; color: inherit; }
     h1, h2, h3, h4 { margin-bottom: 20px; }
     p { margin-bottom: 15px; }
-
+    
     /* Matrix Digital Rain Background */
     #bgCanvas {
       position: fixed;
@@ -31,6 +30,26 @@
       z-index: -2;
       background: #000;
     }
+    
+    /* Theme Overrides for Black & White */
+    body.bw-theme {
+      color: #fff;
+      background: #000;
+    }
+    body.bw-theme nav .logo,
+    body.bw-theme nav .menu a,
+    body.bw-theme nav .toggle-dark {
+      color: #fff;
+      border-color: #fff;
+    }
+    body.bw-theme .hero h1 { color: #fff; }
+    body.bw-theme .hero button {
+      background: #fff;
+      color: #000;
+    }
+    body.bw-theme .section { background: rgba(0,0,0,0.85); }
+    body.bw-theme .section h2 { color: #fff; }
+    body.bw-theme .quiz-container h2 { color: #fff; }
     
     /* Navigation Bar */
     nav {
@@ -47,7 +66,7 @@
     }
     nav .logo { font-size: 1.8em; font-weight: 700; color: #0f0; }
     nav .menu { display: flex; gap: 20px; }
-    nav .menu a { font-weight: 600; color: #0f0; transition: color 0.3s; position: relative; }
+    nav .menu a { font-weight: 600; color: #0f0; transition: color 0.3s; }
     nav .menu a:hover { color: #ff0; }
     nav .toggle-dark {
       background: transparent;
@@ -60,24 +79,7 @@
       transition: background 0.3s;
     }
     nav .toggle-dark:hover { background: rgba(0, 255, 0, 0.2); }
-
-    /* Back to Top Button */
-    #backToTop {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #0f0;
-      color: #000;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 1100;
-      display: none;
-      transition: transform 0.3s;
-    }
-    #backToTop:hover { transform: scale(1.1); }
-
+    
     /* Hero Section */
     .hero {
       height: 100vh;
@@ -178,77 +180,6 @@
     .timeline-item:nth-child(odd):before { right: -8px; }
     .timeline-item:nth-child(even):before { left: -8px; }
     
-    /* Interactive Diagram Styles */
-    #lifeCycleDiagram { margin: 20px auto; display: block; }
-    .diagram-node { cursor: pointer; transition: transform 0.2s, fill 0.2s; }
-    .diagram-node:hover { transform: scale(1.1); fill: #afffa0; }
-    
-    /* Modal Styles for Diagram Popups */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 2000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.9);
-    }
-    .modal-content {
-      background: #111;
-      margin: 10% auto;
-      padding: 20px;
-      border: 2px solid #0f0;
-      width: 80%;
-      max-width: 600px;
-      border-radius: 10px;
-      color: #0f0;
-      animation: modalFadeIn 0.5s;
-    }
-    .close-button {
-      color: #0f0;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .close-button:hover { color: #ff0; }
-    
-    /* Data Bias Simulator Styles */
-    #biasForm label { display: block; margin: 8px 0; font-size: 1em; }
-    #biasForm button {
-      background: #0f0;
-      color: #000;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: transform 0.3s, background 0.3s;
-    }
-    #biasForm button:hover {
-      transform: scale(1.05);
-      background: #afffa0;
-    }
-    
-    /* Ethics Challenge Styles */
-    #ethicsOptions { text-align: center; margin-top: 20px; }
-    #ethicsOptions button {
-      background: #0f0;
-      color: #000;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 25px;
-      cursor: pointer;
-      margin: 5px;
-      transition: transform 0.3s, background 0.3s;
-    }
-    #ethicsOptions button:hover {
-      transform: scale(1.05);
-      background: #afffa0;
-    }
-    
     /* Quiz Styles */
     .quiz-container {
       background: rgba(0,0,0,0.95);
@@ -325,17 +256,11 @@
       <a href="#hero" onclick="scrollToSection('hero')">Home</a>
       <a href="#overview" onclick="scrollToSection('overview')">Overview</a>
       <a href="#timeline" onclick="scrollToSection('timeline')">Timeline</a>
-      <a href="#diagram" onclick="scrollToSection('diagram')">Diagram</a>
-      <a href="#biasSimulator" onclick="scrollToSection('biasSimulator')">Bias Simulator</a>
-      <a href="#ethicsChallenge" onclick="scrollToSection('ethicsChallenge')">Ethics Challenge</a>
       <a href="#quiz" onclick="scrollToSection('quiz')">Quiz</a>
       <a href="#resources" onclick="scrollToSection('resources')">Resources</a>
     </div>
-    <button class="toggle-dark" onclick="toggleDarkMode()">Toggle Theme</button>
+    <button class="toggle-dark" onclick="toggleTheme()">Toggle Theme</button>
   </nav>
-  
-  <!-- Back to Top Button -->
-  <button id="backToTop" onclick="scrollToSection('hero')">&#8679;</button>
   
   <!-- Hero Section -->
   <section class="hero" id="hero">
@@ -348,10 +273,10 @@
   <section class="section" id="overview">
     <h2>Overview</h2>
     <p>
-      At the foundation of every AI model lies a complex interplay of data extraction, computational filtering, and human-driven interpretation. Though often invisible, this cycle governs AI’s ability to make decisions and shapes its societal impact.
+      At the foundation of every AI model lies a complex interplay of data extraction, computational filtering, and human-driven interpretation. Though often invisible, this cycle governs AI’s ability to make decisions and shapes its impact on society.
     </p>
     <p>
-      AI synthesizes existing information from human activity—but the data it ingests carries historical biases and inequalities that influence its outputs.
+      AI synthesizes existing information from human activity—but the data it ingests carries historical biases and inequalities that ultimately influence its outputs.
     </p>
   </section>
   
@@ -373,11 +298,11 @@
       </li>
       <li class="timeline-item">
         <h4>Model Training &amp; Bias</h4>
-        <p>The model learns from the data; imbalances can reinforce biases that affect outcomes.</p>
+        <p>The model learns from curated data—imbalances can reinforce biases that affect outcomes.</p>
       </li>
       <li class="timeline-item">
         <h4>Human Influence &amp; AI Agency</h4>
-        <p>User interactions continuously refine AI behavior, creating a dynamic feedback loop.</p>
+        <p>User interactions continuously refine AI behavior, creating dynamic feedback loops.</p>
       </li>
       <li class="timeline-item">
         <h4>Ethical Boundaries &amp; Regulation</h4>
@@ -386,64 +311,7 @@
     </ul>
   </section>
   
-  <!-- Interactive Diagram Section -->
-  <section class="section" id="diagram">
-    <h2>Interactive AI Data Life Cycle Diagram</h2>
-    <p>Click on each node to learn more about that stage.</p>
-    <svg id="lifeCycleDiagram" viewBox="0 0 800 400" style="width:100%; height:auto; display:block; margin:auto;">
-      <!-- Connecting Lines -->
-      <line x1="100" y1="200" x2="250" y2="200" stroke="#0f0" stroke-width="2" />
-      <line x1="250" y1="200" x2="400" y2="200" stroke="#0f0" stroke-width="2" />
-      <line x1="400" y1="200" x2="550" y2="200" stroke="#0f0" stroke-width="2" />
-      <line x1="550" y1="200" x2="700" y2="200" stroke="#0f0" stroke-width="2" />
-      <!-- Nodes -->
-      <circle cx="100" cy="200" r="30" fill="#000" stroke="#0f0" stroke-width="4" class="diagram-node" data-title="Data Extraction" data-detail="Raw data is collected from interactions, sensors, and archives." />
-      <circle cx="250" cy="200" r="30" fill="#000" stroke="#0f0" stroke-width="4" class="diagram-node" data-title="Computational Filtering" data-detail="Algorithms sift through data, extracting relevant signals." />
-      <circle cx="400" cy="200" r="30" fill="#000" stroke="#0f0" stroke-width="4" class="diagram-node" data-title="Human-Driven Interpretation" data-detail="Humans provide context and annotation to raw data." />
-      <circle cx="550" cy="200" r="30" fill="#000" stroke="#0f0" stroke-width="4" class="diagram-node" data-title="Model Training & Bias" data-detail="The model learns from curated data, where imbalances can introduce bias." />
-      <circle cx="700" cy="200" r="30" fill="#000" stroke="#0f0" stroke-width="4" class="diagram-node" data-title="Human Influence & Agency" data-detail="User interactions refine AI behavior through continuous feedback." />
-      <circle cx="400" cy="350" r="30" fill="#000" stroke="#0f0" stroke-width="4" class="diagram-node" data-title="Ethical Boundaries & Regulation" data-detail="Regulations and ethics aim to mitigate bias and guide AI responsibly." />
-      <line x1="400" y1="230" x2="400" y2="320" stroke="#0f0" stroke-width="2" />
-    </svg>
-  </section>
-  
-  <!-- Modal for Diagram Popups -->
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <span class="close-button" onclick="closeModal()">&times;</span>
-      <h3 id="modalTitle"></h3>
-      <p id="modalDetail"></p>
-    </div>
-  </div>
-  
-  <!-- Data Bias Simulator Section -->
-  <section class="section" id="biasSimulator">
-    <h2>Data Bias Simulator</h2>
-    <p>Select the characteristics of your training data to simulate potential bias:</p>
-    <form id="biasForm">
-      <label><input type="checkbox" name="data" value="diverse" /> Diverse Data (Inclusive)</label>
-      <label><input type="checkbox" name="data" value="skewed" /> Skewed Data (Overrepresented)</label>
-      <label><input type="checkbox" name="data" value="underrepresented" /> Underrepresented Data (Missing Voices)</label>
-      <label><input type="checkbox" name="data" value="historical" /> Historical Data (Past Biases)</label>
-      <label><input type="checkbox" name="data" value="current" /> Current Trends (Up-to-date Info)</label>
-      <button type="button" onclick="simulateBias()">Simulate Bias</button>
-    </form>
-    <p id="biasResult" style="font-weight:600; margin-top:15px;"></p>
-  </section>
-  
-  <!-- Ethics Challenge Section -->
-  <section class="section" id="ethicsChallenge">
-    <h2>Ethics Challenge</h2>
-    <p>Imagine an AI is making hiring decisions. Which approach would be the most ethical?</p>
-    <div id="ethicsOptions">
-      <button onclick="selectEthics('A')">A: Use historical data without adjustment</button>
-      <button onclick="selectEthics('B')">B: Apply fairness constraints to balance outcomes</button>
-      <button onclick="selectEthics('C')">C: Random selection to avoid bias</button>
-    </div>
-    <p id="ethicsFeedback" style="font-weight:600; margin-top:15px;"></p>
-  </section>
-  
-  <!-- Extended Quiz Section -->
+  <!-- Quiz Section -->
   <section class="section" id="quiz">
     <div class="quiz-container">
       <h2>Quiz: Test Your AI Knowledge</h2>
@@ -504,20 +372,10 @@
       document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
     }
     
-    // Toggle Dark/Light Theme
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
+    // Toggle Theme: Toggles a "bw-theme" class on body.
+    function toggleTheme() {
+      document.body.classList.toggle('bw-theme');
     }
-    
-    // Back to Top Button
-    const backToTop = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) {
-        backToTop.style.display = 'block';
-      } else {
-        backToTop.style.display = 'none';
-      }
-    });
     
     // Reveal Sections on Scroll
     const sections = document.querySelectorAll('.section');
@@ -552,7 +410,9 @@
     function drawMatrix() {
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#0f0";
+      // If bw-theme is active, use white; otherwise use neon green.
+      const textColor = document.body.classList.contains('bw-theme') ? "#fff" : "#0f0";
+      ctx.fillStyle = textColor;
       ctx.font = fontSize + "px monospace";
       for (let i = 0; i < drops.length; i++) {
         const text = lettersArr[Math.floor(Math.random() * lettersArr.length)];
@@ -565,64 +425,6 @@
       requestAnimationFrame(drawMatrix);
     }
     requestAnimationFrame(drawMatrix);
-    
-    // Diagram Modal Functionality
-    const diagramNodes = document.querySelectorAll('.diagram-node');
-    diagramNodes.forEach(node => {
-      node.addEventListener('click', () => {
-        document.getElementById('modalTitle').textContent = node.dataset.title;
-        document.getElementById('modalDetail').textContent = node.dataset.detail;
-        document.getElementById('modal').style.display = 'block';
-      });
-    });
-    function closeModal() {
-      document.getElementById('modal').style.display = 'none';
-    }
-    window.onclick = function(event) {
-      const modal = document.getElementById('modal');
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    };
-    
-    // Data Bias Simulator Function
-    function simulateBias() {
-      const checkboxes = document.querySelectorAll('#biasForm input[type="checkbox"]');
-      let score = 0;
-      checkboxes.forEach(checkbox => {
-        if (checkbox.checked) {
-          if (checkbox.value === "diverse") score -= 1;
-          if (checkbox.value === "skewed") score += 2;
-          if (checkbox.value === "underrepresented") score += 2;
-          if (checkbox.value === "historical") score += 1;
-          if (checkbox.value === "current") score -= 1;
-        }
-      });
-      let resultText = "";
-      if (score >= 3) {
-        resultText = "High bias risk detected! The data is significantly imbalanced.";
-      } else if (score > 0) {
-        resultText = "Moderate bias risk. Consider diversifying the data.";
-      } else {
-        resultText = "Low bias risk. The data appears balanced.";
-      }
-      document.getElementById('biasResult').textContent = resultText;
-    }
-    
-    // Ethics Challenge Function
-    function selectEthics(option) {
-      const feedback = document.getElementById('ethicsFeedback');
-      if (option === 'A') {
-        feedback.textContent = "Option A reinforces historical biases. Not recommended.";
-        feedback.style.color = "#f00";
-      } else if (option === 'B') {
-        feedback.textContent = "Option B is the most ethical approach, balancing outcomes.";
-        feedback.style.color = "#0f0";
-      } else if (option === 'C') {
-        feedback.textContent = "Option C avoids direct bias but fails to address underlying disparities.";
-        feedback.style.color = "#ff0";
-      }
-    }
     
     // Quiz Checker Function
     function checkQuiz() {
@@ -645,14 +447,5 @@
       }
     }
   </script>
-  
-  <!-- Modal Element -->
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <span class="close-button" onclick="closeModal()">&times;</span>
-      <h3 id="modalTitle"></h3>
-      <p id="modalDetail"></p>
-    </div>
-  </div>
 </body>
 </html>
