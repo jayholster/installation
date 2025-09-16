@@ -4,6 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>Living Mural · Minimal MVP</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: rgba(15, 23, 42, 0.9);
+      --panel-border: rgba(148, 163, 184, 0.24);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.14);
+      --success: #34d399;
+      --warning: #fbbf24;
+      --error: #f87171;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+
+
   <title>Living Prompt Mural · MVP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,7 +42,7 @@
       --text: #f8fafc;
       --muted: #94a3b8;
       --shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-==
+
   <title>Living Prompt Mural MVP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,11 +61,404 @@
     }
 
     * {
+
       box-sizing: border-box;
     }
 
     body {
       margin: 0;
+
+      min-height: 100vh;
+      background: radial-gradient(circle at 18% 12%, rgba(56, 189, 248, 0.18), transparent 55%),
+        radial-gradient(circle at 82% 18%, rgba(129, 140, 248, 0.12), transparent 60%),
+        linear-gradient(165deg, #050b18 0%, #0b1220 100%);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      width: min(1100px, 100%);
+      padding: clamp(20px, 3vw, 40px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(24px, 3vw, 36px);
+    }
+
+    header {
+      text-align: center;
+      display: grid;
+      gap: 12px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      letter-spacing: -0.02em;
+    }
+
+    header p {
+      margin: 0 auto;
+      max-width: 620px;
+      color: rgba(226, 232, 240, 0.88);
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    main {
+      display: grid;
+      gap: clamp(20px, 3vw, 32px);
+    }
+
+    @media (min-width: 960px) {
+      main {
+        grid-template-columns: minmax(420px, 1fr) minmax(320px, 360px);
+        align-items: start;
+      }
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 22px;
+      box-shadow: 0 24px 48px rgba(5, 12, 24, 0.36);
+      padding: clamp(20px, 3vw, 32px);
+      display: grid;
+      gap: 18px;
+    }
+
+    .panel h2,
+    .panel h3 {
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+
+    .panel h2 {
+      font-size: 1.4rem;
+    }
+
+    .panel h3 {
+      font-size: 1.1rem;
+      color: rgba(226, 232, 240, 0.92);
+    }
+
+    .mural-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .mural-header span {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .mural-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button,
+    .button {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease;
+      background: rgba(56, 189, 248, 0.16);
+      color: var(--text);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.4);
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.5);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .button-secondary {
+      background: rgba(148, 163, 184, 0.18);
+    }
+
+    .button-danger {
+      background: rgba(248, 113, 113, 0.14);
+    }
+
+    .mural-canvas {
+      border-radius: 18px;
+      border: 1px dashed rgba(148, 163, 184, 0.32);
+      background: radial-gradient(circle at 22% 18%, rgba(56, 189, 248, 0.15), transparent 55%),
+        radial-gradient(circle at 78% 72%, rgba(14, 165, 233, 0.12), transparent 60%),
+        rgba(15, 23, 42, 0.85);
+      min-height: 360px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 18px;
+      align-items: center;
+      justify-items: center;
+      padding: clamp(18px, 3vw, 26px);
+      position: relative;
+    }
+
+    .mural-empty {
+      color: rgba(148, 163, 184, 0.72);
+      text-align: center;
+      max-width: 340px;
+      margin: 0;
+    }
+
+    .mural-tile {
+      width: clamp(180px, 26vw, 260px);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      text-align: center;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 20px;
+      padding: 14px 14px 18px;
+      box-shadow: 0 12px 30px rgba(6, 11, 22, 0.46);
+      animation: pop-in 320ms ease;
+    }
+
+    .mural-tile.is-new {
+      box-shadow: 0 16px 34px rgba(56, 189, 248, 0.22);
+    }
+
+    .mural-tile canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .tile-caption {
+      display: grid;
+      gap: 8px;
+    }
+
+    .caption-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .tile-style {
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .tile-meta {
+      font-size: 0.78rem;
+      color: rgba(226, 232, 240, 0.7);
+    }
+
+    .tile-prompt {
+      margin: 0;
+      font-size: 0.82rem;
+      line-height: 1.4;
+      color: rgba(203, 213, 225, 0.85);
+    }
+
+    .tile-prompt.empty {
+      color: rgba(148, 163, 184, 0.75);
+      font-style: italic;
+    }
+
+    @keyframes pop-in {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .controls {
+      display: grid;
+      gap: 18px;
+    }
+
+    fieldset {
+      border: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    legend {
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+    }
+
+    .style-options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .style-option {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.26);
+      background: rgba(15, 23, 42, 0.6);
+      cursor: pointer;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .style-option:hover {
+      border-color: rgba(56, 189, 248, 0.45);
+    }
+
+    .style-option input {
+      accent-color: var(--accent);
+      width: 18px;
+      height: 18px;
+    }
+
+    .style-description {
+      display: grid;
+      gap: 4px;
+    }
+
+    .style-description span:first-child {
+      font-weight: 600;
+    }
+
+    label {
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      display: block;
+    }
+
+    textarea,
+    select,
+    input[type='file'],
+    input[type='text'] {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: rgba(15, 23, 42, 0.7);
+      color: var(--text);
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    input[type='file'] {
+      padding: 10px;
+    }
+
+    .hint {
+      margin: 0;
+      font-size: 0.85rem;
+      color: rgba(148, 163, 184, 0.78);
+    }
+
+    .error {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--error);
+    }
+
+    .sample-prompts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .sample-prompts button {
+      background: rgba(56, 189, 248, 0.12);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 500;
+      border: 1px solid rgba(56, 189, 248, 0.28);
+    }
+
+    .sample-prompts button:hover {
+      background: rgba(56, 189, 248, 0.2);
+    }
+
+    .preview-stage {
+      border: 1px dashed rgba(148, 163, 184, 0.35);
+      border-radius: 16px;
+      padding: 20px;
+      min-height: 220px;
+      display: grid;
+      place-items: center;
+      background: rgba(15, 23, 42, 0.55);
+      text-align: center;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .preview-stage.is-dragging {
+      border-color: rgba(56, 189, 248, 0.55);
+      background: rgba(15, 23, 42, 0.75);
+    }
+
+    .preview-stage.is-loading::after {
+      content: 'Loading preview…';
+      font-size: 0.85rem;
+      color: rgba(148, 163, 184, 0.8);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .preview-stage img {
+      max-width: 100%;
+      max-height: 240px;
+      border-radius: 14px;
+      box-shadow: 0 12px 28px rgba(5, 12, 24, 0.42);
+      display: none;
+    }
+
+    .preview-stage.ready img {
+      display: block;
+    }
+
+    .preview-placeholder {
+      color: rgba(148, 163, 184, 0.8);
+      font-size: 0.9rem;
+    }
+
+    .preview-meta {
+      display: grid;
+      gap: 6px;
+
       font-family: 'Inter', sans-serif;
 
       background: radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.2), transparent 55%),
@@ -395,10 +809,654 @@
       border-radius: 18px;
       border: 1px solid rgba(148, 163, 184, 0.24);
       background: rgba(15, 23, 42, 0.9);
+
     }
 
     .preview-actions {
       display: flex;
+
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .feather-control {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.88rem;
+      color: rgba(203, 213, 225, 0.9);
+    }
+
+    .feather-control input[type='range'] {
+      flex: 1;
+      accent-color: var(--accent);
+    }
+
+    .style-note {
+      margin: 0;
+      font-size: 0.88rem;
+      color: rgba(203, 213, 225, 0.92);
+    }
+
+    .style-note strong {
+      color: rgba(248, 250, 252, 0.92);
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.82rem;
+      color: rgba(148, 163, 184, 0.7);
+      padding-bottom: 16px;
+    }
+
+    .mural-tile[data-style='impasto'] .tile-style {
+      color: #fbbf24;
+    }
+
+    .mural-tile[data-style='cartoon'] .tile-style {
+      color: #38bdf8;
+    }
+
+    .mural-tile[data-style='ink'] .tile-style {
+      color: #a855f7;
+    }
+
+    .mural-tile[data-style='collage'] .tile-style {
+      color: #f97316;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Living Prompt Mural</h1>
+      <p>
+        A minimal working prototype: drop in what you made with Midjourney, Sora, or your camera, soften the edges, and place
+        it into a shared mural. Every control below works so the board can feel the flow.
+      </p>
+    </header>
+    <main>
+      <section class="panel" aria-labelledby="mural-title">
+        <div class="mural-header">
+          <div>
+            <h2 id="mural-title">Mural in Progress</h2>
+            <span id="tileCount" aria-live="polite">0 tiles</span>
+          </div>
+          <div class="mural-actions">
+            <button class="button-secondary" type="button" id="shuffleLayout" disabled>Shuffle</button>
+            <button class="button-danger" type="button" id="clearMural">Clear mural</button>
+          </div>
+        </div>
+        <div id="muralCanvas" class="mural-canvas" aria-live="polite">
+          <p id="muralEmptyState" class="mural-empty">Add images from the studio to see the mural blend together.</p>
+        </div>
+        <p class="feather-control">
+          <span>Edge feather</span>
+          <input id="featherRange" type="range" min="0" max="80" value="28" />
+          <span id="featherValue">28 px</span>
+        </p>
+      </section>
+      <section class="panel controls" aria-labelledby="studio-title">
+        <h2 id="studio-title">Studio Controls</h2>
+        <fieldset>
+          <legend>Choose a style lane</legend>
+          <div class="style-options">
+            <label class="style-option">
+              <input type="radio" name="styleLane" value="impasto" checked />
+              <div class="style-description">
+                <span>Impasto Paint World</span>
+                <span class="hint">Thick brushstrokes, golden side light, living texture.</span>
+              </div>
+            </label>
+            <label class="style-option">
+              <input type="radio" name="styleLane" value="cartoon" />
+              <div class="style-description">
+                <span>Cartoon Storyboard</span>
+                <span class="hint">Bold outlines, playful motion, color-block energy.</span>
+              </div>
+            </label>
+            <label class="style-option">
+              <input type="radio" name="styleLane" value="ink" />
+              <div class="style-description">
+                <span>Ink &amp; Wash</span>
+                <span class="hint">Loose washes, gentle gradients, poetic line.</span>
+              </div>
+            </label>
+            <label class="style-option">
+              <input type="radio" name="styleLane" value="collage" />
+              <div class="style-description">
+                <span>Collage Reverie</span>
+                <span class="hint">Cut-paper textures, layered ephemera, warm grain.</span>
+              </div>
+            </label>
+          </div>
+        </fieldset>
+        <p id="styleSummary" class="style-note"></p>
+        <div>
+          <label for="promptInput">Prompt notes for the wall label</label>
+          <textarea id="promptInput" placeholder="Describe the feeling, materials, or story behind your piece."></textarea>
+          <div class="sample-prompts" id="samplePrompts" aria-live="polite"></div>
+        </div>
+        <div>
+          <label for="fileInput">Upload images (PNG, JPG — up to 10 MB each)</label>
+          <input id="fileInput" type="file" accept="image/*" multiple />
+          <p class="hint">Queue: <span id="queueCount">0</span> waiting</p>
+          <p id="uploadFeedback" class="hint" aria-live="polite"></p>
+          <p id="uploadError" class="error" role="status" aria-live="assertive"></p>
+        </div>
+        <div>
+          <h3>Preview</h3>
+          <div id="previewStage" class="preview-stage" role="region" aria-live="polite">
+            <img id="previewImage" alt="Current preview" />
+            <p id="previewPlaceholder" class="preview-placeholder">
+              Drop an image here or use the upload button to start.
+            </p>
+          </div>
+          <div class="preview-meta">
+            <p id="previewInfo" class="hint">No image in review.</p>
+            <p id="previewNotes" class="hint">Prompt notes appear here once you add them.</p>
+          </div>
+          <div class="preview-actions">
+            <button class="button-secondary" type="button" id="skipButton" disabled>Skip / next</button>
+            <button type="button" id="keepButton" disabled>Add to mural</button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      This single HTML file keeps everything client-side for review. Uploads stay in your browser while we demo the flow.
+    </footer>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const STYLE_LANES = {
+        impasto: {
+          label: 'Impasto Paint World',
+          summary: 'Lean into thick paint, side-light, and saturated warmth.',
+          samples: [
+            'Thick oil impasto of twilight rooftops glowing with orange rim light',
+            'Palette knife portrait lit by stained glass reflection',
+            'Golden hour wet-on-wet brushwork of a community garden in bloom'
+          ]
+        },
+        cartoon: {
+          label: 'Cartoon Storyboard',
+          summary: 'High contrast characters, motion lines, and playful blocking.',
+          samples: [
+            'Dynamic cartoon friends planting trees with exaggerated motion lines',
+            'Bold storyboard frame of kids remixing a mural, comic halftones',
+            'Saturday morning style hero pose celebrating community care'
+          ]
+        },
+        ink: {
+          label: 'Ink & Wash',
+          summary: 'Atmospheric washes, delicate line work, and quiet gradients.',
+          samples: [
+            'Loose ink wash of a rainy city street reflecting neon puddles',
+            'Brush and ink portrait with soft shadow wash and handwritten notes',
+            'Monochrome landscape with drifting clouds and layered mountains'
+          ]
+        },
+        collage: {
+          label: 'Collage Reverie',
+          summary: 'Layered paper, zine textures, and overlapping ephemera.',
+          samples: [
+            'Analog collage of archival photos layered with handmade paper textures',
+            'Cut-paper dreamscape mixing flora, community portraits, and fabric',
+            'Mixed-media collage with typography celebrating mutual aid stories'
+          ]
+        }
+      };
+
+      const state = {
+        currentStyle: 'impasto',
+        queue: [],
+        preview: null,
+        tiles: [],
+        feather: 28
+      };
+
+      const elements = {
+        styleRadios: document.querySelectorAll("input[name='styleLane']"),
+        styleSummary: document.getElementById('styleSummary'),
+        samplePrompts: document.getElementById('samplePrompts'),
+        promptInput: document.getElementById('promptInput'),
+        fileInput: document.getElementById('fileInput'),
+        queueCount: document.getElementById('queueCount'),
+        uploadFeedback: document.getElementById('uploadFeedback'),
+        uploadError: document.getElementById('uploadError'),
+        previewStage: document.getElementById('previewStage'),
+        previewImage: document.getElementById('previewImage'),
+        previewPlaceholder: document.getElementById('previewPlaceholder'),
+        previewInfo: document.getElementById('previewInfo'),
+        previewNotes: document.getElementById('previewNotes'),
+        keepButton: document.getElementById('keepButton'),
+        skipButton: document.getElementById('skipButton'),
+        mural: document.getElementById('muralCanvas'),
+        muralEmpty: document.getElementById('muralEmptyState'),
+        tileCount: document.getElementById('tileCount'),
+        clearButton: document.getElementById('clearMural'),
+        shuffleButton: document.getElementById('shuffleLayout'),
+        featherRange: document.getElementById('featherRange'),
+        featherValue: document.getElementById('featherValue')
+      };
+
+      const MAX_FILE_SIZE = 10 * 1024 * 1024;
+      const MAX_TILE_DIMENSION = 420;
+      let redrawTimer = null;
+
+      function init() {
+        elements.styleRadios.forEach((radio) => {
+          radio.addEventListener('change', () => {
+            if (radio.checked) {
+              selectStyle(radio.value);
+            }
+          });
+        });
+
+        elements.promptInput.addEventListener('input', () => {
+          updatePreviewNotes(elements.promptInput.value.trim());
+        });
+
+        elements.fileInput.addEventListener('change', (event) => {
+          const files = Array.from(event.target.files || []);
+          ingestFiles(files);
+          event.target.value = '';
+        });
+
+        elements.previewStage.addEventListener('dragover', (event) => {
+          event.preventDefault();
+          elements.previewStage.classList.add('is-dragging');
+        });
+
+        elements.previewStage.addEventListener('dragleave', () => {
+          elements.previewStage.classList.remove('is-dragging');
+        });
+
+        elements.previewStage.addEventListener('drop', (event) => {
+          event.preventDefault();
+          elements.previewStage.classList.remove('is-dragging');
+          const files = Array.from(event.dataTransfer?.files || []);
+          ingestFiles(files);
+        });
+
+        elements.keepButton.addEventListener('click', addPreviewToMural);
+        elements.skipButton.addEventListener('click', () => {
+          skipPreview();
+        });
+        elements.clearButton.addEventListener('click', clearMural);
+        elements.shuffleButton.addEventListener('click', shuffleMural);
+
+        elements.previewImage.addEventListener('load', () => {
+          if (!state.preview) return;
+          if (elements.previewImage.src !== state.preview.dataUrl) {
+            return;
+          }
+          state.preview.width = elements.previewImage.naturalWidth;
+          state.preview.height = elements.previewImage.naturalHeight;
+          updatePreviewInfo();
+        });
+
+        elements.featherRange.addEventListener('input', (event) => {
+          const value = Number(event.target.value);
+          state.feather = value;
+          elements.featherValue.textContent = `${value} px`;
+          scheduleRedraw();
+        });
+
+        selectStyle(state.currentStyle);
+        updatePreviewUI();
+        updateQueueCount();
+        updatePreviewNotes('');
+      }
+
+      function selectStyle(styleId) {
+        state.currentStyle = styleId;
+        const style = STYLE_LANES[styleId];
+        if (!style) return;
+        elements.styleSummary.innerHTML = `<strong>${style.label}:</strong> ${style.summary}`;
+        renderSamplePrompts(style.samples || []);
+        if (state.preview) {
+          state.preview.styleId = styleId;
+          updatePreviewInfo();
+        }
+      }
+
+      function renderSamplePrompts(samples) {
+        elements.samplePrompts.innerHTML = '';
+        samples.forEach((sample) => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.textContent = sample;
+          button.addEventListener('click', () => {
+            elements.promptInput.value = sample;
+            updatePreviewNotes(sample);
+          });
+          elements.samplePrompts.appendChild(button);
+        });
+      }
+
+      function ingestFiles(files) {
+        if (!files.length) return;
+        let accepted = 0;
+        const errors = [];
+        files.forEach((file) => {
+          if (!file.type.startsWith('image/')) {
+            errors.push(`Skipped ${file.name} (not an image).`);
+            return;
+          }
+          if (file.size > MAX_FILE_SIZE) {
+            errors.push(`Skipped ${file.name} (over 10 MB).`);
+            return;
+          }
+          state.queue.push(file);
+          accepted += 1;
+        });
+
+        if (accepted) {
+          elements.uploadFeedback.textContent = `Added ${accepted} image${accepted === 1 ? '' : 's'} to the queue.`;
+          if (!state.preview) {
+            loadNextFromQueue();
+          } else {
+            updatePreviewUI();
+          }
+        } else {
+          elements.uploadFeedback.textContent = '';
+        }
+        elements.uploadError.textContent = errors.join(' ');
+        updateQueueCount();
+      }
+
+      function loadNextFromQueue() {
+        if (!state.queue.length) {
+          state.preview = null;
+          updatePreviewUI();
+          return;
+        }
+        const file = state.queue.shift();
+        updateQueueCount();
+        const preview = {
+          file,
+          dataUrl: null,
+          styleId: state.currentStyle,
+          prompt: elements.promptInput.value.trim(),
+          width: null,
+          height: null
+        };
+        state.preview = preview;
+        updatePreviewUI();
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          if (state.preview !== preview) {
+            return;
+          }
+          preview.dataUrl = event.target?.result || null;
+          updatePreviewUI();
+        };
+        reader.onerror = () => {
+          if (state.preview === preview) {
+            elements.uploadError.textContent = `Could not read ${file.name}.`;
+            state.preview = null;
+            updatePreviewUI();
+          }
+          loadNextFromQueue();
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function updateQueueCount() {
+        elements.queueCount.textContent = state.queue.length;
+      }
+
+      function formatDimensions(width, height) {
+        return width > 0 && height > 0 ? `${width} × ${height}px` : '—';
+      }
+
+      function truncate(text, maxLength) {
+        if (!text) return '';
+        const clean = `${text}`.trim();
+        return clean.length > maxLength ? `${clean.slice(0, Math.max(0, maxLength - 1))}…` : clean;
+      }
+
+      function updatePreviewUI() {
+        const preview = state.preview;
+        elements.previewStage.classList.remove('is-loading', 'ready');
+        if (!preview) {
+          elements.previewPlaceholder.textContent = 'Drop an image here or use the upload button to start.';
+          elements.previewImage.src = '';
+          elements.previewImage.style.display = 'none';
+          elements.previewPlaceholder.style.display = 'block';
+        } else if (!preview.dataUrl) {
+          elements.previewStage.classList.add('is-loading');
+          elements.previewPlaceholder.textContent = `Loading ${preview.file.name}…`;
+          elements.previewImage.src = '';
+          elements.previewImage.style.display = 'none';
+          elements.previewPlaceholder.style.display = 'block';
+        } else {
+          elements.previewStage.classList.add('ready');
+          elements.previewPlaceholder.textContent = '';
+          if (elements.previewImage.src !== preview.dataUrl) {
+            elements.previewImage.src = preview.dataUrl;
+          }
+          elements.previewImage.style.display = 'block';
+          elements.previewPlaceholder.style.display = 'none';
+        }
+        updatePreviewInfo();
+        refreshControls();
+      }
+
+      function updatePreviewInfo() {
+        const preview = state.preview;
+        if (!preview) {
+          elements.previewInfo.textContent = 'No image in review.';
+          updatePreviewNotes(elements.promptInput.value.trim());
+          return;
+        }
+        const style = STYLE_LANES[preview.styleId] || { label: 'Unknown style' };
+        const sizeMb = (preview.file.size / (1024 * 1024)).toFixed(2);
+        const dimensions = preview.width && preview.height ? `${preview.width} × ${preview.height}px` : 'Loading size…';
+        elements.previewInfo.textContent = `${style.label} • ${dimensions} • ${sizeMb} MB`;
+        updatePreviewNotes(preview.prompt || elements.promptInput.value.trim());
+      }
+
+      function updatePreviewNotes(notes) {
+        const text = notes?.trim() || '';
+        if (state.preview) {
+          state.preview.prompt = text;
+        }
+        elements.previewNotes.textContent = text ? `Notes: “${text}”` : 'Prompt notes appear here once you add them.';
+      }
+
+      function refreshControls() {
+        elements.keepButton.disabled = !(state.preview && state.preview.dataUrl);
+        elements.skipButton.disabled = !state.preview && state.queue.length === 0;
+        elements.shuffleButton.disabled = state.tiles.length < 2;
+      }
+
+      function addPreviewToMural() {
+        const preview = state.preview;
+        if (!preview || !preview.dataUrl) {
+          return;
+        }
+        elements.keepButton.disabled = true;
+        const tile = document.createElement('figure');
+        tile.className = 'mural-tile';
+        tile.dataset.style = preview.styleId;
+        tile.tabIndex = 0;
+
+        const canvas = document.createElement('canvas');
+        canvas.className = 'tile-canvas';
+        canvas.setAttribute('aria-hidden', 'true');
+
+        const caption = document.createElement('figcaption');
+        caption.className = 'tile-caption';
+
+        const head = document.createElement('div');
+        head.className = 'caption-head';
+        const styleSpan = document.createElement('span');
+        styleSpan.className = 'tile-style';
+        styleSpan.textContent = STYLE_LANES[preview.styleId]?.label || 'Selected style';
+        const metaSpan = document.createElement('span');
+        metaSpan.className = 'tile-meta';
+        metaSpan.textContent =
+          preview.width && preview.height ? `${preview.width} × ${preview.height}px` : 'Rendering…';
+        head.append(styleSpan, metaSpan);
+
+        const promptP = document.createElement('p');
+        promptP.className = 'tile-prompt';
+        if (preview.prompt) {
+          const trimmedPrompt = preview.prompt.trim();
+          const summary = truncate(trimmedPrompt, 140);
+          promptP.textContent = `“${summary}”`;
+          if (summary.length < trimmedPrompt.length) {
+            promptP.title = trimmedPrompt;
+          }
+        } else {
+          promptP.textContent = 'Add prompt notes to tell this story.';
+          promptP.classList.add('empty');
+        }
+
+        caption.append(head, promptP);
+        tile.append(canvas, caption);
+        elements.mural.appendChild(tile);
+        elements.muralEmpty.hidden = true;
+
+        const tileRecord = {
+          dataUrl: preview.dataUrl,
+          canvas,
+          metaSpan,
+          prompt: preview.prompt,
+          styleId: preview.styleId,
+          originalWidth: preview.width,
+          originalHeight: preview.height
+        };
+        state.tiles.push(tileRecord);
+        updateTileCount();
+        refreshControls();
+
+        drawBlendedCanvas(canvas, preview.dataUrl, state.feather).then(({ width, height }) => {
+          const ariaPrompt = truncate(preview.prompt, 160);
+          metaSpan.textContent = formatDimensions(width, height);
+          tile.setAttribute(
+            'aria-label',
+            `${STYLE_LANES[preview.styleId]?.label || 'Tile'}${ariaPrompt ? `, prompt: ${ariaPrompt}` : ''}`
+          );
+        });
+
+        tile.classList.add('is-new');
+        setTimeout(() => tile.classList.remove('is-new'), 600);
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          tile.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+        }
+
+        state.preview = null;
+        updatePreviewUI();
+        loadNextFromQueue();
+      }
+
+      function drawBlendedCanvas(canvas, dataUrl, feather) {
+        return new Promise((resolve) => {
+          if (!dataUrl) {
+            resolve({ width: 0, height: 0 });
+            return;
+          }
+          const image = new Image();
+          image.onload = () => {
+            const context = canvas.getContext('2d');
+            if (!context) {
+              resolve({ width: 0, height: 0 });
+              return;
+            }
+            const scale = Math.min(1, MAX_TILE_DIMENSION / Math.max(image.width, image.height));
+            const width = Math.max(1, Math.round(image.width * scale));
+            const height = Math.max(1, Math.round(image.height * scale));
+            canvas.width = width;
+            canvas.height = height;
+            context.clearRect(0, 0, width, height);
+            context.globalCompositeOperation = 'source-over';
+            context.drawImage(image, 0, 0, width, height);
+            const featherPx = Math.max(0, Math.min(feather, Math.max(width, height) / 1.5));
+            if (featherPx > 0) {
+              const maxRadius = Math.sqrt(width * width + height * height) / 2;
+              const innerRadius = Math.max(0, maxRadius - featherPx);
+              const gradient = context.createRadialGradient(
+                width / 2,
+                height / 2,
+                innerRadius,
+                width / 2,
+                height / 2,
+                maxRadius
+              );
+              gradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
+              gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+              context.globalCompositeOperation = 'destination-in';
+              context.fillStyle = gradient;
+              context.fillRect(0, 0, width, height);
+              context.globalCompositeOperation = 'source-over';
+            }
+            resolve({ width, height });
+          };
+          image.onerror = () => {
+            resolve({ width: 0, height: 0 });
+          };
+          image.src = dataUrl;
+        });
+      }
+
+      function skipPreview() {
+        state.preview = null;
+        updatePreviewUI();
+        loadNextFromQueue();
+      }
+
+      function clearMural() {
+        state.tiles = [];
+        elements.mural.querySelectorAll('.mural-tile').forEach((tile) => tile.remove());
+        elements.muralEmpty.hidden = false;
+        updateTileCount();
+        refreshControls();
+      }
+
+      function shuffleMural() {
+        if (state.tiles.length < 2) return;
+        const tiles = Array.from(elements.mural.querySelectorAll('.mural-tile'));
+        tiles.sort(() => Math.random() - 0.5);
+        tiles.forEach((tile) => elements.mural.appendChild(tile));
+        state.tiles.sort(() => Math.random() - 0.5);
+      }
+
+      function scheduleRedraw() {
+        if (!state.tiles.length) return;
+        if (redrawTimer) {
+          window.clearTimeout(redrawTimer);
+        }
+        redrawTimer = window.setTimeout(() => {
+          state.tiles.forEach((tile) => {
+            drawBlendedCanvas(tile.canvas, tile.dataUrl, state.feather).then(({ width, height }) => {
+              tile.metaSpan.textContent = formatDimensions(width, height);
+            });
+          });
+        }, 120);
+      }
+
+      function updateTileCount() {
+        const count = state.tiles.length;
+        elements.tileCount.textContent = count === 1 ? '1 tile' : `${count} tiles`;
+        elements.shuffleButton.disabled = count < 2;
+      }
+
+      init();
+    });
+
       flex-wrap: wrap;
       gap: 12px;
       align-items: center;
@@ -3098,6 +4156,7 @@
     });
 
     init();
+        
   </script>
 </body>
 </html>
