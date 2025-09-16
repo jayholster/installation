@@ -2,489 +2,1353 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The AI Data Life Cycle: How AI Learns and Why It Matters</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Living Mural Studio · Interactive Prototype</title>
   <style>
-    /* Reset & Global Styles */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background: #000;
-      color: #e0e0e0;
-      overflow-x: hidden;
-      transition: background 0.3s, color 0.3s;
+    :root {
+      color-scheme: dark;
+      --bg: #050a15;
+      --bg-soft: rgba(15, 25, 48, 0.78);
+      --panel: rgba(18, 28, 50, 0.86);
+      --panel-border: rgba(120, 140, 180, 0.26);
+      --text: #f1f5f9;
+      --muted: rgba(203, 213, 225, 0.72);
+      --accent: #5eead4;
+      --accent-strong: #38bdf8;
+      --warning: #fbbf24;
+      --error: #f87171;
+      --feather-stop: 72%;
+      --tile-shadow: rgba(8, 15, 32, 0.6);
+      font-family: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at 10% 10%, rgba(56, 189, 248, 0.18), transparent 55%),
+        radial-gradient(circle at 80% 0%, rgba(94, 234, 212, 0.16), transparent 65%),
+        radial-gradient(circle at 50% 90%, rgba(129, 140, 248, 0.18), transparent 58%),
+        linear-gradient(160deg, #030712, #0b152a 52%, #050a15 100%);
     }
-    a { text-decoration: none; color: inherit; }
-    h1, h2, h3, h4 { margin-bottom: 20px; }
-    p { margin-bottom: 15px; }
-    
-    /* Matrix Digital Rain Background */
-    #bgCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      background: transparent;
+    }
+
+    .app-shell {
+      width: min(1260px, 100%);
+      padding: clamp(18px, 2.8vw, 42px);
+      display: grid;
+      gap: clamp(20px, 3vw, 36px);
+    }
+
+    header.hero {
+      display: grid;
+      gap: 12px;
+      text-align: center;
+    }
+
+    header.hero h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -0.02em;
+    }
+
+    header.hero p {
+      margin: 0 auto;
+      max-width: 720px;
+      line-height: 1.6;
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    .layout {
+      display: grid;
+      gap: clamp(18px, 2vw, 24px);
+    }
+
+    @media (min-width: 1080px) {
+      .layout {
+        grid-template-columns: minmax(260px, 290px) minmax(460px, 1fr) minmax(230px, 280px);
+        align-items: start;
+      }
+    }
+
+    .panel {
+      background: var(--panel);
+      border-radius: 24px;
+      border: 1px solid var(--panel-border);
+      box-shadow: 0 32px 60px rgba(4, 12, 28, 0.4);
+      padding: clamp(20px, 2.6vw, 32px);
+      display: grid;
+      gap: 20px;
+    }
+
+    .panel h2,
+    .panel h3 {
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+
+    .panel h2 {
+      font-size: 1.32rem;
+    }
+
+    .panel h3 {
+      font-size: 1.08rem;
+      color: rgba(226, 232, 240, 0.92);
+    }
+
+    .section-copy {
+      font-size: 0.94rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .style-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+
+    .style-card {
+      position: relative;
+      padding: 12px 14px 40px;
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(40, 54, 82, 0.55));
+      cursor: pointer;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.2s ease;
+      display: grid;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    .style-card::after {
+      content: attr(data-label);
+      position: absolute;
+      inset: auto 12px 12px;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(241, 245, 249, 0.6);
+    }
+
+    .style-card .swatches {
+      display: flex;
+      gap: 6px;
+    }
+
+    .style-card .swatches span {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(8, 15, 32, 0.3);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+    }
+
+    .style-card strong {
+      font-size: 0.92rem;
+    }
+
+    .style-card p {
+      margin: 0;
+      font-size: 0.76rem;
+      line-height: 1.4;
+      color: rgba(203, 213, 225, 0.78);
+      min-height: 56px;
+    }
+
+    .style-card.active {
+      border-color: rgba(94, 234, 212, 0.75);
+      box-shadow: 0 16px 40px rgba(14, 165, 233, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .prompt-block {
+      display: grid;
+      gap: 12px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 96px;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      background: rgba(7, 12, 24, 0.72);
+      color: var(--text);
+      padding: 16px;
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    textarea:focus {
+      outline: 2px solid rgba(94, 234, 212, 0.6);
+      outline-offset: 2px;
+    }
+
+    .prompt-guides {
+      font-size: 0.82rem;
+      color: var(--muted);
+      display: grid;
+      gap: 8px;
+    }
+
+    .prompt-guides span {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .prompt-guides span::before {
+      content: "•";
+      color: var(--accent);
+      opacity: 0.7;
+    }
+
+    .dropzone {
+      border: 1.5px dashed rgba(148, 163, 184, 0.3);
+      border-radius: 18px;
+      padding: 28px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      gap: 8px;
+      background: rgba(10, 18, 34, 0.6);
+      transition: border-color 0.18s ease, background-color 0.18s ease;
+      cursor: pointer;
+    }
+
+    .dropzone.dragover {
+      border-color: rgba(94, 234, 212, 0.7);
+      background: rgba(13, 52, 70, 0.45);
+    }
+
+    .dropzone p {
+      margin: 0;
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button,
+    .ghost-button {
+      border-radius: 999px;
+      border: none;
+      padding: 10px 18px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    button.primary {
+      background: linear-gradient(120deg, rgba(94, 234, 212, 0.9), rgba(56, 189, 248, 0.85));
+      color: #031018;
+      box-shadow: 0 12px 28px rgba(14, 165, 233, 0.36);
+    }
+
+    button.secondary {
+      background: rgba(148, 163, 184, 0.16);
+      color: var(--text);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+    }
+
+    button.ghost,
+    .ghost-button {
+      background: transparent;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      color: rgba(226, 232, 240, 0.8);
+    }
+
+    button.danger {
+      background: rgba(248, 113, 113, 0.18);
+      color: rgba(254, 226, 226, 0.9);
+      border: 1px solid rgba(248, 113, 113, 0.32);
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    button:not(:disabled):hover,
+    .ghost-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 28px rgba(15, 23, 42, 0.45);
+    }
+
+    .preview-frame {
+      border-radius: 22px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: rgba(9, 15, 28, 0.82);
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .preview-frame figure {
+      margin: 0;
+      border-radius: 18px;
+      background: rgba(3, 9, 20, 0.6);
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      display: grid;
+      place-items: center;
+    }
+
+    .preview-frame img {
       width: 100%;
       height: 100%;
-      z-index: -2;
-      background: #000;
+      object-fit: cover;
+      border-radius: 18px;
+      mask-image: radial-gradient(128% 128% at 50% 50%, rgba(0, 0, 0, 1) var(--feather-stop), rgba(0, 0, 0, 0) 100%);
     }
-    
-    /* Theme Overrides for Black & White Mode */
-    body.bw-theme {
-      color: #fff;
-      background: #000;
+
+    .preview-placeholder {
+      font-size: 0.88rem;
+      color: rgba(203, 213, 225, 0.66);
+      display: grid;
+      place-items: center;
+      height: 100%;
+      gap: 10px;
+      text-align: center;
     }
-    body.bw-theme nav .logo,
-    body.bw-theme nav .menu a,
-    body.bw-theme nav .toggle-dark {
-      color: #fff;
-      border-color: #fff;
+
+    .preview-meta {
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: var(--muted);
+      display: grid;
+      gap: 6px;
     }
-    body.bw-theme .hero h1 { color: #fff; }
-    body.bw-theme .hero button {
-      background: #fff;
-      color: #000;
+
+    .preview-meta strong {
+      color: rgba(241, 245, 249, 0.94);
     }
-    body.bw-theme .section { background: rgba(0,0,0,0.85); }
-    body.bw-theme .section h2 { color: #fff; }
-    body.bw-theme .quiz-container h2 { color: #fff; }
-    
-    /* Navigation Bar */
-    nav {
-      position: fixed;
-      top: 0;
+
+    .mural-shell {
+      display: grid;
+      gap: 18px;
+    }
+
+    .mural-shell header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .mural-shell header h2 {
+      margin: 0;
+      letter-spacing: -0.01em;
+      font-size: 1.4rem;
+    }
+
+    .mural-shell header span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .mural-stage {
+      position: relative;
+      border-radius: 28px;
+      padding: clamp(18px, 2vw, 24px);
+      background: linear-gradient(160deg, rgba(6, 12, 25, 0.94), rgba(16, 30, 54, 0.88));
+      border: 1px solid rgba(94, 234, 212, 0.1);
+      box-shadow: inset 0 0 0 1px rgba(94, 234, 212, 0.08), 0 40px 80px rgba(3, 8, 20, 0.55);
+      min-height: min(64vh, 560px);
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 14px;
+    }
+
+    .mural-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(8, minmax(60px, 1fr));
+      grid-auto-rows: minmax(60px, 1fr);
+      gap: 12px;
+      height: 100%;
+    }
+
+    .mural-grid::before {
+      content: "";
+      position: absolute;
+      inset: -4px;
+      background: radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.15), transparent 70%),
+        radial-gradient(circle at 78% 24%, rgba(94, 234, 212, 0.12), transparent 62%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .mural-empty {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: rgba(226, 232, 240, 0.6);
+      font-size: 0.94rem;
+      letter-spacing: 0.01em;
+      padding: 0 40px;
+      z-index: 0;
+    }
+
+    .mural-tile {
+      position: relative;
+      border-radius: 26px;
+      overflow: hidden;
+      background: rgba(8, 16, 32, 0.8);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 22px 40px var(--tile-shadow);
+      z-index: 1;
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      isolation: isolate;
+    }
+
+    .mural-tile img {
       width: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      padding: 15px 30px;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(1.05) contrast(1.02);
+      mask-image: radial-gradient(130% 130% at 50% 50%, rgba(0, 0, 0, 1) var(--feather-stop), rgba(0, 0, 0, 0) 100%);
+      mix-blend-mode: lighten;
+    }
+
+    .mural-tile::after {
+      content: "";
+      position: absolute;
+      inset: -30%;
+      background: conic-gradient(from 180deg, rgba(94, 234, 212, 0.15), transparent 30%, rgba(59, 130, 246, 0.15) 68%, transparent 82%, rgba(236, 72, 153, 0.12));
+      opacity: 0.4;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .mural-tile:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 26px 60px rgba(8, 20, 48, 0.75);
+    }
+
+    .mural-tile .tile-label {
+      position: absolute;
+      inset: auto 14px 14px;
+      background: rgba(9, 16, 32, 0.72);
+      border-radius: 16px;
+      padding: 10px 14px;
+      font-size: 0.78rem;
+      line-height: 1.4;
+      color: rgba(226, 232, 240, 0.92);
+      backdrop-filter: blur(6px);
+      display: grid;
+      gap: 4px;
+    }
+
+    .tile-label strong {
+      color: var(--text);
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+    }
+
+    .mural-tile.just-added {
+      animation: glow 1.8s ease-out;
+    }
+
+    @keyframes glow {
+      0% {
+        box-shadow: 0 0 0 rgba(94, 234, 212, 0.7);
+      }
+      40% {
+        box-shadow: 0 0 36px rgba(94, 234, 212, 0.55);
+      }
+      100% {
+        box-shadow: 0 22px 40px var(--tile-shadow);
+      }
+    }
+
+    .mural-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.8rem;
+      color: rgba(203, 213, 225, 0.76);
+    }
+
+    .legend-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(8, 16, 32, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+    }
+
+    .legend-chip span {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+    }
+
+    .queue-list {
+      display: grid;
+      gap: 12px;
+      max-height: 280px;
+      overflow: auto;
+      padding-right: 6px;
+    }
+
+    .queue-card {
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      padding: 14px;
+      background: rgba(8, 16, 34, 0.7);
+      display: grid;
+      gap: 10px;
+    }
+
+    .queue-card header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.8);
+      gap: 10px;
     }
-    nav .logo { font-size: 1.8em; font-weight: 700; color: #0f0; }
-    nav .menu { display: flex; gap: 20px; }
-    nav .menu a { font-weight: 600; color: #0f0; transition: color 0.3s; }
-    nav .menu a:hover { color: #ff0; }
-    nav .toggle-dark {
-      background: transparent;
-      border: 1px solid #0f0;
-      border-radius: 4px;
-      color: #0f0;
-      padding: 5px 10px;
-      cursor: pointer;
-      font-size: 0.9em;
-      transition: background 0.3s;
+
+    .queue-card header strong {
+      font-size: 0.9rem;
     }
-    nav .toggle-dark:hover { background: rgba(0, 255, 0, 0.2); }
-    
-    /* Hero Section */
-    .hero {
-      height: 100vh;
-      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
-        url('https://source.unsplash.com/1600x900/?ai,data,technology');
-      background-size: cover;
-      background-attachment: fixed;
-      background-position: center;
+
+    .queue-card small {
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+
+    .queue-card footer {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .queue-card.active {
+      border-color: rgba(94, 234, 212, 0.6);
+      box-shadow: 0 16px 38px rgba(56, 189, 248, 0.28);
+    }
+
+    .queue-empty {
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .slider-row {
+      display: grid;
+      gap: 6px;
+      font-size: 0.82rem;
+    }
+
+    .slider-row label {
+      color: rgba(226, 232, 240, 0.82);
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      text-align: center;
-      padding: 0 20px;
-      position: relative;
-      z-index: 1;
+      gap: 12px;
     }
-    .hero h1 {
-      font-size: 3.5em;
-      margin-bottom: 20px;
-      color: #0f0;
-      animation: fadeInDown 1s;
+
+    input[type="range"] {
+      width: 100%;
     }
-    .hero p {
-      font-size: 1.5em;
-      margin-bottom: 30px;
-      animation: fadeInUp 1s;
-      color: #e0e0e0;
+
+    .stats {
+      display: grid;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--muted);
     }
-    .hero button {
-      background: #0f0;
-      color: #000;
-      border: none;
-      padding: 12px 25px;
-      font-size: 1.1em;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: transform 0.3s, background 0.3s;
-    }
-    .hero button:hover {
-      transform: scale(1.05);
-      background: #afffa0;
-    }
-    
-    /* Section Container */
-    .section {
-      padding: 60px 20px;
-      max-width: 1000px;
-      margin: 140px auto 40px;
-      background: rgba(0,0,0,0.85);
-      border-radius: 10px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.7);
+
+    .toast {
+      position: fixed;
+      inset: auto 16px 18px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      background: rgba(8, 16, 32, 0.85);
+      box-shadow: 0 24px 46px rgba(3, 8, 20, 0.45);
+      font-size: 0.86rem;
+      color: rgba(226, 232, 240, 0.94);
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.8s, transform 0.8s;
-      position: relative;
-      z-index: 2;
+      transform: translateY(12px);
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      pointer-events: none;
     }
-    .section.visible { opacity: 1; transform: translateY(0); }
-    .section h2 { text-align: center; margin-bottom: 30px; color: #0f0; }
-    
-    /* Timeline Styles */
-    .timeline {
-      position: relative;
-      margin: 40px 0;
-      padding: 0;
-      list-style: none;
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
     }
-    .timeline:before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: #0f0;
-      transform: translateX(-50%);
-    }
-    .timeline-item {
-      position: relative;
-      width: 50%;
-      padding: 20px 40px;
-      color: #e0e0e0;
-    }
-    .timeline-item:nth-child(odd) { left: 0; text-align: right; }
-    .timeline-item:nth-child(even) { left: 50%; text-align: left; }
-    .timeline-item:before {
-      content: '';
-      position: absolute;
-      top: 20px;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: #000;
-      border: 4px solid #0f0;
-      z-index: 1;
-    }
-    .timeline-item:nth-child(odd):before { right: -8px; }
-    .timeline-item:nth-child(even):before { left: -8px; }
-    
-    /* Detailed Narrative Section */
-    .narrative {
-      padding: 60px 20px;
-      max-width: 1000px;
-      margin: 140px auto 40px;
-      background: rgba(0,0,0,0.9);
-      border-radius: 10px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.7);
-      position: relative;
-      z-index: 2;
-    }
-    .narrative h2 { text-align: center; margin-bottom: 30px; color: #0f0; }
-    .narrative p { margin-bottom: 20px; font-size: 1.1em; line-height: 1.8; }
-    
-    /* Quiz Styles */
-    .quiz-container {
-      background: rgba(0,0,0,0.95);
-      color: #e0e0e0;
-      padding: 30px;
-      border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.7);
-    }
-    .quiz-container h2 { margin-bottom: 20px; color: #0f0; }
-    .quiz-container .quiz-question { margin-bottom: 15px; font-size: 1.2em; text-align: left; }
-    .quiz-container label { display: block; margin: 10px 0; font-size: 1em; }
-    .quiz-container input[type="radio"] { margin-right: 8px; }
-    .quiz-container button {
-      background: #0f0;
-      color: #000;
-      border: none;
-      padding: 12px 24px;
-      font-size: 1em;
-      border-radius: 25px;
-      cursor: pointer;
-      margin-top: 15px;
-      transition: transform 0.3s, background 0.3s;
-    }
-    .quiz-container button:hover {
-      transform: scale(1.05);
-      background: #afffa0;
-    }
-    .quiz-feedback { margin-top: 15px; font-weight: 600; }
-    
-    /* Resources Section */
-    #resources ul { list-style: none; text-align: center; }
-    #resources li { margin: 10px 0; }
-    #resources a {
-      color: #0f0;
-      border-bottom: 2px solid transparent;
-      transition: border-bottom 0.3s;
-    }
-    #resources a:hover { border-bottom: 2px solid #0f0; }
-    
-    /* Footer */
+
     footer {
+      font-size: 0.75rem;
+      color: rgba(148, 163, 184, 0.72);
       text-align: center;
-      padding: 30px;
-      background: rgba(0,0,0,0.9);
-      color: #0f0;
-      position: relative;
-      z-index: 2;
+      line-height: 1.6;
+      max-width: 840px;
+      margin: 0 auto;
     }
-    
-    /* Animations */
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 880px) {
+      .mural-grid {
+        grid-template-columns: repeat(4, minmax(60px, 1fr));
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .panel,
+      .mural-shell {
+        order: unset;
+      }
     }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes modalFadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+
+    @media (max-width: 540px) {
+      header.hero p {
+        font-size: 0.96rem;
+      }
+
+      .style-grid {
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
+      }
+
+      .mural-stage {
+        min-height: 420px;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Matrix Digital Rain Background -->
-  <canvas id="bgCanvas"></canvas>
-  
-  <!-- Navigation Bar -->
-  <nav>
-    <div class="logo">AI Data Life Cycle</div>
-    <div class="menu">
-      <a href="#hero" onclick="scrollToSection('hero')">Home</a>
-      <a href="#overview" onclick="scrollToSection('overview')">Overview</a>
-      <a href="#timeline" onclick="scrollToSection('timeline')">Timeline</a>
-      <a href="#narrative" onclick="scrollToSection('narrative')">Narrative</a>
-      <a href="#quiz" onclick="scrollToSection('quiz')">Quiz</a>
-      <a href="#resources" onclick="scrollToSection('resources')">Resources</a>
-    </div>
-    <button class="toggle-dark" onclick="toggleTheme()">Toggle Theme</button>
-  </nav>
-  
-  <!-- Hero Section -->
-  <section class="hero" id="hero">
-    <h1>The AI Data Life Cycle</h1>
-    <p>How AI Learns and Why It Matters</p>
-    <button onclick="scrollToSection('overview')">Explore Now</button>
-  </section>
-  
-  <!-- Overview Section -->
-  <section class="section" id="overview">
-    <h2>Overview</h2>
-    <p>
-      Every AI model is built upon a complex interplay of data extraction, computational filtering, and human-driven interpretation. Though the process often remains unseen, it defines AI’s decision-making abilities and shapes its impact on society.
-    </p>
-    <p>
-      AI does not create new knowledge; it synthesizes and reframes information generated by human activity. Yet, the data fed into these systems reflects historical biases and inequalities—shaping outcomes in ways that matter.
-    </p>
-  </section>
-  
-  <!-- Timeline Section -->
-  <section class="section" id="timeline">
-    <h2>The AI Data Life Cycle Timeline</h2>
-    <ul class="timeline">
-      <li class="timeline-item">
-        <h4>Data Extraction &amp; Sources</h4>
-        <p>Raw data is gathered from digital interactions, archives, and user content—forming the bedrock of AI learning.</p>
-      </li>
-      <li class="timeline-item">
-        <h4>Computational Filtering</h4>
-        <p>Algorithms preprocess and filter the data, isolating meaningful signals from noise.</p>
-      </li>
-      <li class="timeline-item">
-        <h4>Human-Driven Interpretation</h4>
-        <p>Humans annotate and contextualize data, providing essential insights for training.</p>
-      </li>
-      <li class="timeline-item">
-        <h4>Model Training &amp; Bias</h4>
-        <p>The model learns from curated data—imbalances can reinforce biases that affect outcomes.</p>
-      </li>
-      <li class="timeline-item">
-        <h4>Human Influence &amp; AI Agency</h4>
-        <p>User interactions continuously refine AI behavior, creating dynamic feedback loops.</p>
-      </li>
-      <li class="timeline-item">
-        <h4>Ethical Boundaries &amp; Regulation</h4>
-        <p>Ethical guidelines and regulatory measures are applied to mitigate bias and ensure responsible AI.</p>
-      </li>
-    </ul>
-  </section>
-  
-  <!-- Detailed Narrative Section -->
-  <section class="narrative" id="narrative">
-    <h2>Detailed Narrative</h2>
-    <p>
-      At the foundation of every AI model is an interwoven process of data extraction, computational filtering, and human-driven interpretation. This cycle governs AI’s capacity to learn and make decisions, determining the scope of its potential impact.
-    </p>
-    <p>
-      AI does not generate new knowledge; it synthesizes, reframes, and regurgitates existing information drawn from human activity, both past and present. Every interaction—whether through a chatbot conversation, AI-generated document, or image request—feeds into the system. These interactions, stored and used for training, shape future outputs and reinforce existing structures.
-    </p>
-    <p>
-      For example, a chatbot trained on a user’s previous text messages may mirror the communication style it absorbs, becoming a reflection of past interactions. Similarly, an AI model trained on corporate hiring data might reinforce patterns that systematically favor certain demographics, encoding historical inequalities into future decisions. Data is never neutral; it mirrors the systems from which it originates.
-    </p>
-    <p>
-      During model training, choices about which data to include or exclude become mechanisms of control. Even the most advanced models can inadvertently perpetuate bias if their training datasets overrepresent certain perspectives while neglecting others. Such biases may manifest in outputs that marginalize or misinform.
-    </p>
-    <p>
-      As AI begins to function with a degree of agency—absorbing user interactions and making inferences beyond direct human instruction—it transitions from a passive tool to an active participant. AI systems, such as chatbots that adapt to emotional cues, can shape user behavior as much as they are shaped by it, creating feedback loops that influence identity and perception.
-    </p>
-    <p>
-      Finally, the consequences of AI’s decision-making extend into policy, governance, and institutional control. Ethical frameworks and regulatory measures are imposed to guide AI behavior, yet these interventions are often inconsistent. The social act of training AI has real-world implications—demonstrating that AI ethics is not merely technical, but deeply intertwined with our values and societal structures.
-    </p>
-  </section>
-  
-  <!-- Quiz Section -->
-  <section class="section" id="quiz">
-    <div class="quiz-container">
-      <h2>Quiz: Test Your AI Knowledge</h2>
-      <!-- Question 1 -->
-      <div class="quiz-question">
-        <p><strong>1. What is the first step in the AI Data Life Cycle?</strong></p>
-        <label><input type="radio" name="q1" value="incorrect"> Data Filtering</label>
-        <label><input type="radio" name="q1" value="correct"> Data Extraction</label>
-        <label><input type="radio" name="q1" value="incorrect"> Model Training</label>
-      </div>
-      <!-- Question 2 -->
-      <div class="quiz-question">
-        <p><strong>2. How does human-driven interpretation influence AI?</strong></p>
-        <label><input type="radio" name="q2" value="correct"> It provides context and essential annotations.</label>
-        <label><input type="radio" name="q2" value="incorrect"> It speeds up computation.</label>
-        <label><input type="radio" name="q2" value="incorrect"> It completely eliminates bias.</label>
-      </div>
-      <!-- Question 3 -->
-      <div class="quiz-question">
-        <p><strong>3. What role do ethical boundaries play in AI?</strong></p>
-        <label><input type="radio" name="q3" value="incorrect"> They are irrelevant to AI.</label>
-        <label><input type="radio" name="q3" value="correct"> They guide AI development and help mitigate bias.</label>
-        <label><input type="radio" name="q3" value="incorrect"> They hinder innovation.</label>
-      </div>
-      <!-- Question 4 -->
-      <div class="quiz-question">
-        <p><strong>4. Which stage is most prone to introducing bias into an AI model?</strong></p>
-        <label><input type="radio" name="q4" value="incorrect"> Data Extraction</label>
-        <label><input type="radio" name="q4" value="correct"> Model Training &amp; Bias</label>
-        <label><input type="radio" name="q4" value="incorrect"> Computational Filtering</label>
-      </div>
-      <button onclick="checkQuiz()">Submit Quiz</button>
-      <p class="quiz-feedback" id="quizFeedback"></p>
-    </div>
-  </section>
-  
-  <!-- Resources Section -->
-  <section class="section" id="resources">
-    <h2>Additional Resources</h2>
-    <ul>
-      <li><a href="https://www.aitopics.org/" target="_blank">AI Topics - MIT</a></li>
-      <li><a href="https://ai.google/" target="_blank">Google AI</a></li>
-      <li><a href="https://openai.com/research/" target="_blank">OpenAI Research</a></li>
-      <li><a href="https://www.brookings.edu/topic/artificial-intelligence/" target="_blank">Brookings: AI &amp; Policy</a></li>
-      <li><a href="https://www.ibm.com/cloud/learn/what-is-artificial-intelligence" target="_blank">IBM: What is AI?</a></li>
-    </ul>
-  </section>
-  
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 | The AI Data Life Cycle: How AI Learns and Why It Matters</p>
-  </footer>
-  
-  <!-- JavaScript -->
+  <div class="app-shell">
+    <header class="hero">
+      <h1>Living Mural Studio</h1>
+      <p>
+        A standalone prototype for the board review: curate your own style lane, preview contributions,
+        and flow them into a single mural where every tile blends along shared edges.
+      </p>
+    </header>
+    <main class="layout" aria-label="Living Mural prototype">
+      <section class="panel" aria-label="Creator studio">
+        <div>
+          <h2>1. Choose a style lane</h2>
+          <p class="section-copy">
+            Each lane carries edge behavior, palette nudges, and prompt language to keep the mural coherent.
+          </p>
+        </div>
+        <div class="style-grid" id="styleGrid" role="listbox" aria-label="Styles"></div>
+
+        <div class="prompt-block">
+          <div>
+            <h3>2. Shape your prompt</h3>
+            <p class="section-copy">
+              Focus on feeling, light, and materials. Your prompt saves with the tile so visitors can learn how it was made.
+            </p>
+          </div>
+          <textarea id="promptInput" placeholder="Describe the scene, light, and feeling…"></textarea>
+          <div class="prompt-guides" id="promptGuides"></div>
+          <div class="actions">
+            <button type="button" class="secondary" id="loadExample">See lane example</button>
+            <button type="button" class="ghost" id="clearPrompt">Clear prompt</button>
+          </div>
+        </div>
+
+        <div>
+          <h3>3. Bring your image</h3>
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload or drop files">
+            <svg width="42" height="42" fill="none" stroke="rgba(94,234,212,0.8)" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5v14" stroke-linecap="round"></path>
+              <path d="M5 12h14" stroke-linecap="round"></path>
+            </svg>
+            <p>Drop images or click to browse. Up to 10 MB each, multiple uploads welcome.</p>
+            <input type="file" id="fileInput" accept="image/*" multiple hidden />
+          </div>
+        </div>
+
+        <div class="preview-frame" aria-live="polite">
+          <h3>Preview &amp; refine</h3>
+          <figure id="previewFigure">
+            <div class="preview-placeholder" id="previewPlaceholder">
+              <span>Drop an image or load an example to preview it here.</span>
+            </div>
+          </figure>
+          <div class="preview-meta" id="previewMeta"></div>
+          <div class="actions">
+            <button type="button" class="primary" id="sendToMural" disabled>Submit to mural</button>
+            <button type="button" class="ghost" id="skipPreview" disabled>Skip / try another</button>
+            <button type="button" class="ghost" id="removePreview" disabled>Remove</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="mural-shell" aria-label="Mural focus area">
+        <header>
+          <div>
+            <h2>The mural</h2>
+            <span id="muralStatus">Waiting for the first tile.</span>
+          </div>
+          <div class="actions">
+            <button type="button" class="ghost" id="tourMural">Camera tour</button>
+            <button type="button" class="ghost" id="exportMural">Save montage</button>
+            <button type="button" class="danger" id="resetMural">Reset</button>
+          </div>
+        </header>
+        <div class="mural-stage">
+          <div class="mural-grid" id="muralGrid" aria-live="polite"></div>
+          <div class="mural-empty" id="muralEmpty">When a tile is submitted it feathers into this shared canvas. Styles cluster, but edges stay soft so the mural feels intentional.</div>
+        </div>
+        <div class="mural-legend" id="legend"></div>
+      </section>
+
+      <aside class="panel" aria-label="Queue and settings">
+        <div>
+          <h2>Queue &amp; settings</h2>
+          <p class="section-copy">
+            Track uploaded tiles, tweak feathering, and surface prompt literacy snapshots for the board.
+          </p>
+        </div>
+        <div class="stats" id="stats"></div>
+        <div class="slider-row">
+          <label for="featherRange">Blend feather <span id="featherValue">72%</span></label>
+          <input type="range" id="featherRange" min="60" max="90" value="72" />
+        </div>
+        <div>
+          <h3>Upload queue</h3>
+          <div class="queue-list" id="queueList"></div>
+          <p class="queue-empty" id="queueEmpty">Queue is clear. Upload or sample a tile to see it here.</p>
+        </div>
+        <div class="actions">
+          <button type="button" class="ghost" id="shuffleQueue">Shuffle queue</button>
+          <button type="button" class="ghost" id="clearQueue">Clear queue</button>
+        </div>
+        <div>
+          <h3>Prompt literacy snapshot</h3>
+          <ul class="section-copy" id="literacyList" style="margin:0; padding-left:18px; display:grid; gap:8px;"></ul>
+        </div>
+      </aside>
+    </main>
+    <footer>
+      MVP instrumentation: client-side upload queue (10&nbsp;MB cap), blended edges via radial masks, style-specific prompt cues,
+      and a shared canvas ready for AWS-backed storage. Built for the 3 Dots creative board grant review.
+    </footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="assertive"></div>
+
   <script>
-    // Smooth Scrolling
-    function scrollToSection(id) {
-      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    const MAX_SIZE = 10 * 1024 * 1024;
+    const state = {
+      styles: [
+        {
+          id: "impasto",
+          name: "Impasto Paint World",
+          description: "Thick palette knife strokes, warm gold light, tactile canvas tooth.",
+          palette: ["#f7ad45", "#2d396b", "#ec6f7a"],
+          guides: [
+            "Name the medium: oil, palette knife, layered pigment.",
+            "Anchor the light: golden hour, sidelight, studio lamp.",
+            "Add a feeling: hopeful, reflective, celebratory."
+          ],
+          literacy: [
+            "Translate emotions into material metaphors (joy as bright varnish).",
+            "Invite subjects from personal memory or local culture.",
+            "Respect likeness—get consent before using someone else's face."
+          ],
+          examples: [
+            {
+              title: "Sun-drenched guardians",
+              prompt:
+                "Impasto portrait of two mentors bathed in honeyed evening light, palette knife swirls and thick varnish glow.",
+              colors: ["#fdb96b", "#243766"],
+            }
+          ],
+        },
+        {
+          id: "cartoon",
+          name: "Storyboard Cartoon",
+          description: "Bold outlines, flat color beats, kinetic motion cues.",
+          palette: ["#ffb4b4", "#1d3557", "#43d9ad"],
+          guides: [
+            "Use action words—leaping, twirling, popping.",
+            "Describe the background like a stage set with props.",
+            "Clarify mood with color temperatures and sound words."
+          ],
+          literacy: [
+            "Balance playfulness with respect: celebrate community stories, avoid caricature.",
+            "Credit cultural references, especially when remixing iconic styles.",
+            "Offer alt text that highlights motion, color, and intent."
+          ],
+          examples: [
+            {
+              title: "Community dance beat",
+              prompt:
+                "Cartoon storyboard panel of neighbors dancing under string lights, bold outlines, neon accents, onomatopoeia bubbles."
+            }
+          ],
+        },
+        {
+          id: "linewash",
+          name: "Line & Wash",
+          description: "Ink outlines with translucent watercolor bloom and paper grain.",
+          palette: ["#f8ede0", "#1f2937", "#4e9fd1"],
+          guides: [
+            "Mention line weight—delicate, gestural, calligraphic.",
+            "Name pigments: ultramarine, burnt sienna, quinacridone rose.",
+            "Describe what should stay loose vs. detailed."
+          ],
+          literacy: [
+            "Slow observation: prompts can invite mindful sketching moments.",
+            "Honor source material—cite sketches or archival references.",
+            "Include sensory cues: the sound of brushes, the smell of rain."
+          ],
+          examples: [
+            {
+              title: "Rainy plaza study",
+              prompt:
+                "Line-and-wash sketch of the community plaza after rain, wet pavement reflections, indigo shadows, ink hatching."
+            }
+          ],
+        },
+        {
+          id: "photocollage",
+          name: "Memory Collage",
+          description: "Layered paper cut-outs, photographic fragments, soft edges.",
+          palette: ["#fde68a", "#475569", "#ec4899"],
+          guides: [
+            "List textures: newsprint, fabric scraps, archival photos.",
+            "Blend time periods—note eras, locations, and symbolic motifs.",
+            "Invite contributors to add captions or handwritten overlays."
+          ],
+          literacy: [
+            "Keep context: describe whose story the collage carries.",
+            "Mix sourced images ethically—obtain rights or use public domain.",
+            "Offer translation or dual-language text for inclusivity."
+          ],
+          examples: [
+            {
+              title: "Interwoven histories",
+              prompt:
+                "Photo collage of neighborhood founders layered with plant motifs and ribbon handwriting, sunlit paper edges blending together."
+            }
+          ],
+        },
+      ],
+      currentStyle: null,
+      queue: [],
+      mural: [],
+      previewId: null,
+      tileCount: 0,
+      toastTimer: null,
+    };
+
+    const styleGrid = document.getElementById("styleGrid");
+    const promptInput = document.getElementById("promptInput");
+    const promptGuides = document.getElementById("promptGuides");
+    const loadExampleBtn = document.getElementById("loadExample");
+    const clearPromptBtn = document.getElementById("clearPrompt");
+    const dropzone = document.getElementById("dropzone");
+    const fileInput = document.getElementById("fileInput");
+    const previewFigure = document.getElementById("previewFigure");
+    const previewPlaceholder = document.getElementById("previewPlaceholder");
+    const previewMeta = document.getElementById("previewMeta");
+    const sendToMuralBtn = document.getElementById("sendToMural");
+    const skipPreviewBtn = document.getElementById("skipPreview");
+    const removePreviewBtn = document.getElementById("removePreview");
+    const muralGrid = document.getElementById("muralGrid");
+    const muralEmpty = document.getElementById("muralEmpty");
+    const muralStatus = document.getElementById("muralStatus");
+    const legend = document.getElementById("legend");
+    const featherRange = document.getElementById("featherRange");
+    const featherValue = document.getElementById("featherValue");
+    const queueList = document.getElementById("queueList");
+    const queueEmpty = document.getElementById("queueEmpty");
+    const stats = document.getElementById("stats");
+    const shuffleQueueBtn = document.getElementById("shuffleQueue");
+    const clearQueueBtn = document.getElementById("clearQueue");
+    const literacyList = document.getElementById("literacyList");
+    const toast = document.getElementById("toast");
+
+    function init() {
+      renderStyles();
+      selectStyle(state.styles[0].id);
+      updateLegend();
+      updateStats();
+      attachEvents();
     }
-    
-    // Toggle Theme: Add/remove the "bw-theme" class on body.
-    function toggleTheme() {
-      document.body.classList.toggle('bw-theme');
-    }
-    
-    // Reveal Sections on Scroll
-    const sections = document.querySelectorAll('.section, .narrative');
-    function revealSections() {
-      sections.forEach(section => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 100) {
-          section.classList.add('visible');
-        }
+
+    function renderStyles() {
+      styleGrid.innerHTML = "";
+      state.styles.forEach((style) => {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "style-card";
+        card.setAttribute("role", "option");
+        card.setAttribute("data-label", style.name.split(" ")[0]);
+        card.dataset.id = style.id;
+        card.innerHTML = `
+          <strong>${style.name}</strong>
+          <p>${style.description}</p>
+          <div class="swatches">
+            ${style.palette
+              .map((color) => `<span style="background:${color}"></span>`)
+              .join("")}
+          </div>
+        `;
+        card.addEventListener("click", () => selectStyle(style.id));
+        styleGrid.appendChild(card);
       });
     }
-    window.addEventListener('scroll', revealSections);
-    revealSections();
-    
-    // Matrix Digital Rain Background using requestAnimationFrame
-    const canvas = document.getElementById('bgCanvas');
-    const ctx = canvas.getContext('2d');
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+
+    function selectStyle(styleId) {
+      const style = state.styles.find((s) => s.id === styleId);
+      if (!style) return;
+      state.currentStyle = style;
+      document.querySelectorAll(".style-card").forEach((card) => {
+        card.classList.toggle("active", card.dataset.id === styleId);
+      });
+      promptGuides.innerHTML = style.guides
+        .map((guide) => `<span>${guide}</span>`)
+        .join("");
+      if (!promptInput.value) {
+        promptInput.placeholder = style.examples[0]?.prompt || "Describe your piece";
+      }
+      renderLiteracy(style.literacy);
     }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-    const letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const lettersArr = letters.split("");
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const drops = [];
-    for (let i = 0; i < columns; i++) {
-      drops[i] = 1;
+
+    function renderLiteracy(items) {
+      literacyList.innerHTML = items.map((item) => `<li>${item}</li>`).join("");
     }
-    function drawMatrix() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      // Set text color based on theme
-      const textColor = document.body.classList.contains('bw-theme') ? "#fff" : "#0f0";
-      ctx.fillStyle = textColor;
-      ctx.font = fontSize + "px monospace";
-      for (let i = 0; i < drops.length; i++) {
-        const text = lettersArr[Math.floor(Math.random() * lettersArr.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
+
+    function attachEvents() {
+      loadExampleBtn.addEventListener("click", loadExampleTile);
+      clearPromptBtn.addEventListener("click", () => {
+        promptInput.value = "";
+      });
+      dropzone.addEventListener("click", () => fileInput.click());
+      dropzone.addEventListener("dragover", (event) => {
+        event.preventDefault();
+        dropzone.classList.add("dragover");
+      });
+      dropzone.addEventListener("dragleave", () => dropzone.classList.remove("dragover"));
+      dropzone.addEventListener("drop", (event) => {
+        event.preventDefault();
+        dropzone.classList.remove("dragover");
+        handleFiles(event.dataTransfer.files);
+      });
+      dropzone.addEventListener("keypress", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          fileInput.click();
         }
-        drops[i]++;
-      }
-      requestAnimationFrame(drawMatrix);
+      });
+      fileInput.addEventListener("change", (event) => {
+        handleFiles(event.target.files);
+        fileInput.value = "";
+      });
+      sendToMuralBtn.addEventListener("click", () => {
+        if (state.previewId) {
+          moveTileToMural(state.previewId);
+        }
+      });
+      skipPreviewBtn.addEventListener("click", skipPreview);
+      removePreviewBtn.addEventListener("click", () => removeTile(state.previewId));
+      featherRange.addEventListener("input", (event) => {
+        const value = event.target.value;
+        document.documentElement.style.setProperty("--feather-stop", `${value}%`);
+        featherValue.textContent = `${value}%`;
+      });
+      shuffleQueueBtn.addEventListener("click", shuffleQueue);
+      clearQueueBtn.addEventListener("click", clearQueue);
+      document.getElementById("resetMural").addEventListener("click", resetMural);
+      document.getElementById("tourMural").addEventListener("click", () => {
+        showToast("Camera tour would pan through clusters in the live build.");
+      });
+      document.getElementById("exportMural").addEventListener("click", () => {
+        showToast("Export would trigger an AWS MediaConvert job in production.");
+      });
     }
-    requestAnimationFrame(drawMatrix);
-    
-    // Quiz Checker Function
-    function checkQuiz() {
-      const q1 = document.querySelector('input[name="q1"]:checked');
-      const q2 = document.querySelector('input[name="q2"]:checked');
-      const q3 = document.querySelector('input[name="q3"]:checked');
-      const q4 = document.querySelector('input[name="q4"]:checked');
-      let score = 0;
-      if (q1 && q1.value === "correct") score++;
-      if (q2 && q2.value === "correct") score++;
-      if (q3 && q3.value === "correct") score++;
-      if (q4 && q4.value === "correct") score++;
-      const feedback = document.getElementById('quizFeedback');
-      if (q1 && q2 && q3 && q4) {
-        feedback.textContent = `You scored ${score} out of 4! ${score === 4 ? "Outstanding knowledge!" : "Keep exploring the cycle."}`;
-        feedback.style.color = score === 4 ? '#0f0' : '#ff0';
+
+    function truncateText(value, limit = 120) {
+      const text = String(value ?? "").trim();
+      if (!text) return "";
+      return text.length > limit ? `${text.slice(0, limit - 1)}…` : text;
+    }
+
+    function createMetaRow(label, value) {
+      const row = document.createElement("div");
+      const title = document.createElement("strong");
+      title.textContent = label;
+      const lineBreak = document.createElement("br");
+      const detail = document.createElement("span");
+      detail.textContent = value;
+      row.append(title, lineBreak, detail);
+      return row;
+    }
+
+    function loadExampleTile() {
+      const style = state.currentStyle;
+      if (!style || !style.examples.length) return;
+      const example = style.examples[Math.floor(Math.random() * style.examples.length)];
+      const tile = buildTile({
+        id: `sample-${Date.now()}`,
+        src: createSampleImage(style, example),
+        name: example.title,
+        prompt: example.prompt,
+        styleId: style.id,
+        styleName: style.name,
+        origin: "example",
+        createdAt: new Date().toISOString(),
+      });
+      state.queue.unshift(tile);
+      state.previewId = tile.id;
+      updateQueue();
+      updatePreview();
+      showToast(`Loaded a ${style.name} example.`);
+    }
+
+    function createSampleImage(style, example) {
+      const [c1, c2, c3] = style.palette;
+      const title = example.title.replace(/&/g, "&amp;");
+      const prompt = example.prompt.replace(/&/g, "&amp;");
+      const svg = `
+        <svg xmlns='http://www.w3.org/2000/svg' width='640' height='480' viewBox='0 0 640 480'>
+          <defs>
+            <linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'>
+              <stop offset='0%' stop-color='${c1}' stop-opacity='0.95'/>
+              <stop offset='60%' stop-color='${c2}' stop-opacity='0.88'/>
+              <stop offset='100%' stop-color='${c3}' stop-opacity='0.88'/>
+            </linearGradient>
+            <filter id='grain'>
+              <feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' />
+              <feColorMatrix values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.45 0' />
+            </filter>
+          </defs>
+          <rect width='640' height='480' fill='url(#grad)' />
+          <rect width='640' height='480' filter='url(#grain)' opacity='0.16' />
+          <g fill='white' fill-opacity='0.72'>
+            <text x='32' y='72' font-family='Inter, sans-serif' font-weight='700' font-size='32'>${style.name}</text>
+            <text x='32' y='120' font-family='Inter, sans-serif' font-size='18' opacity='0.9'>${title}</text>
+            <foreignObject x='32' y='156' width='576' height='260'>
+              <body xmlns='http://www.w3.org/1999/xhtml'>
+                <div style='font-family:Inter, sans-serif;font-size:16px;line-height:1.5;opacity:0.85;'>${prompt}</div>
+              </body>
+            </foreignObject>
+          </g>
+        </svg>
+      `;
+      return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+    }
+
+    function handleFiles(fileList) {
+      const files = Array.from(fileList || []);
+      if (!files.length) return;
+      files.forEach((file) => {
+        if (!file.type.startsWith("image/")) {
+          showToast("Only image files are supported for now.");
+          return;
+        }
+        if (file.size > MAX_SIZE) {
+          showToast(`${file.name} is over 10 MB. Please upload a smaller file.`);
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const tile = buildTile({
+            id: `tile-${Date.now()}-${Math.random().toString(16).slice(2, 7)}`,
+            src: event.target.result,
+            name: file.name,
+            size: file.size,
+            prompt: promptInput.value.trim(),
+            styleId: state.currentStyle.id,
+            styleName: state.currentStyle.name,
+            origin: "upload",
+            createdAt: new Date().toISOString(),
+          });
+          state.queue.push(tile);
+          if (!state.previewId) {
+            state.previewId = tile.id;
+          }
+          updateQueue();
+          updatePreview();
+          updateStats();
+          showToast(`${file.name} added to queue.`);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function buildTile({ id, src, name, size = 0, prompt = "", styleId, styleName, origin, createdAt }) {
+      const spanOptions = [
+        { x: 2, y: 2, ratio: "1" },
+        { x: 3, y: 2, ratio: "3 / 2" },
+        { x: 2, y: 3, ratio: "2 / 3" },
+      ];
+      const variant = spanOptions[Math.floor(Math.random() * spanOptions.length)];
+      return {
+        id,
+        src,
+        name,
+        size,
+        prompt,
+        styleId,
+        styleName,
+        origin,
+        createdAt,
+        spanX: variant.x,
+        spanY: variant.y,
+        ratio: variant.ratio,
+      };
+    }
+
+    function updateQueue() {
+      queueList.innerHTML = "";
+      if (!state.queue.length) {
+        queueEmpty.hidden = false;
+        updateStats();
+        return;
+      }
+      queueEmpty.hidden = true;
+      state.queue.forEach((tile) => {
+        const card = document.createElement("article");
+        card.className = "queue-card";
+        if (tile.id === state.previewId) {
+          card.classList.add("active");
+        }
+
+        const header = document.createElement("header");
+        const nameEl = document.createElement("strong");
+        nameEl.textContent = tile.name || "Sample tile";
+        const styleEl = document.createElement("small");
+        styleEl.textContent = tile.styleName;
+        header.append(nameEl, styleEl);
+
+        const promptEl = document.createElement("small");
+        const promptText = truncateText(tile.prompt);
+        promptEl.textContent = promptText || "No prompt yet.";
+
+        const footer = document.createElement("footer");
+        const previewButton = document.createElement("button");
+        previewButton.type = "button";
+        previewButton.className = "ghost";
+        previewButton.textContent = "Preview";
+        previewButton.addEventListener("click", () => {
+          state.previewId = tile.id;
+          updatePreview();
+          updateQueue();
+        });
+
+        const submitButton = document.createElement("button");
+        submitButton.type = "button";
+        submitButton.className = "ghost";
+        submitButton.textContent = "Add to mural";
+        submitButton.addEventListener("click", () => moveTileToMural(tile.id));
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "ghost";
+        removeButton.textContent = "Remove";
+        removeButton.addEventListener("click", () => removeTile(tile.id));
+
+        footer.append(previewButton, submitButton, removeButton);
+
+        card.append(header, promptEl, footer);
+        queueList.appendChild(card);
+      });
+      updateStats();
+    }
+
+    function updatePreview() {
+      const tile = state.queue.find((item) => item.id === state.previewId);
+      previewFigure.innerHTML = "";
+      previewMeta.innerHTML = "";
+      if (!tile) {
+        previewFigure.appendChild(previewPlaceholder);
+        previewPlaceholder.hidden = false;
+        sendToMuralBtn.disabled = true;
+        skipPreviewBtn.disabled = !state.queue.length;
+        removePreviewBtn.disabled = true;
+        return;
+      }
+      previewPlaceholder.hidden = true;
+      const img = document.createElement("img");
+      img.src = tile.src;
+      img.alt = tile.prompt || `${tile.styleName} tile`;
+      img.style.aspectRatio = tile.ratio;
+      previewFigure.appendChild(img);
+
+      const promptRow = createMetaRow("Prompt", tile.prompt ? truncateText(tile.prompt, 200) : "No prompt saved yet.");
+      const laneRow = createMetaRow("Lane", tile.styleName);
+      const sourceRow = createMetaRow("Source", tile.origin === "upload" ? "Upload" : "Lane example");
+      previewMeta.append(promptRow, laneRow, sourceRow);
+
+      sendToMuralBtn.disabled = false;
+      skipPreviewBtn.disabled = state.queue.length <= 1;
+      removePreviewBtn.disabled = false;
+    }
+
+    function moveTileToMural(tileId) {
+      const index = state.queue.findIndex((item) => item.id === tileId);
+      if (index === -1) return;
+      const [tile] = state.queue.splice(index, 1);
+      tile.addedAt = new Date().toISOString();
+      state.mural.push(tile);
+      state.tileCount += 1;
+      renderMural(tile.id);
+      updateQueue();
+      updatePreviewAfterRemoval(tileId);
+      updateStats();
+      showToast(`${tile.styleName} tile landed on the mural.`);
+    }
+
+    function updatePreviewAfterRemoval(tileId) {
+      if (state.previewId === tileId) {
+        state.previewId = state.queue[0]?.id || null;
+      }
+      updatePreview();
+    }
+
+    function removeTile(tileId) {
+      const index = state.queue.findIndex((item) => item.id === tileId);
+      if (index === -1) return;
+      const [tile] = state.queue.splice(index, 1);
+      updateQueue();
+      updatePreviewAfterRemoval(tileId);
+      showToast(`${tile.name || "Sample tile"} removed from queue.`);
+    }
+
+    function skipPreview() {
+      if (!state.queue.length) return;
+      const currentIndex = state.queue.findIndex((item) => item.id === state.previewId);
+      const nextIndex = (currentIndex + 1) % state.queue.length;
+      state.previewId = state.queue[nextIndex].id;
+      updatePreview();
+      updateQueue();
+    }
+
+    function renderMural(highlightId) {
+      muralGrid.innerHTML = "";
+      state.mural.forEach((tile) => {
+        const item = document.createElement("article");
+        item.className = "mural-tile";
+        if (tile.id === highlightId) {
+          item.classList.add("just-added");
+        }
+        item.style.gridColumn = `span ${tile.spanX}`;
+        item.style.gridRow = `span ${tile.spanY}`;
+        item.style.aspectRatio = tile.ratio;
+
+        const img = document.createElement("img");
+        img.src = tile.src;
+        img.alt = tile.prompt || tile.styleName;
+
+        const label = document.createElement("div");
+        label.className = "tile-label";
+        const title = document.createElement("strong");
+        title.textContent = tile.styleName;
+        const summary = document.createElement("span");
+        summary.textContent = tile.prompt ? truncateText(tile.prompt) : "Prompt pending";
+        label.append(title, summary);
+
+        item.append(img, label);
+        muralGrid.appendChild(item);
+      });
+      if (state.mural.length) {
+        muralEmpty.style.display = "none";
+        muralStatus.textContent = `${state.mural.length} tile${state.mural.length === 1 ? "" : "s"} in play`;
       } else {
-        feedback.textContent = 'Please answer all questions before submitting.';
-        feedback.style.color = '#f00';
+        muralEmpty.style.display = "grid";
+        muralStatus.textContent = "Waiting for the first tile.";
       }
     }
+
+    function updateLegend() {
+      legend.innerHTML = state.styles
+        .map(
+          (style) => `
+            <span class="legend-chip">
+              <span style="background:${style.palette[0]}"></span>
+              ${style.name}
+            </span>
+          `
+        )
+        .join("");
+    }
+
+    function updateStats() {
+      const queueCount = state.queue.length;
+      const totalTiles = state.mural.length;
+      stats.innerHTML = `
+        <div>Queue: <strong>${queueCount}</strong> item${queueCount === 1 ? "" : "s"}</div>
+        <div>Mural tiles: <strong>${totalTiles}</strong></div>
+        <div>Total created this session: <strong>${state.tileCount}</strong></div>
+      `;
+    }
+
+    function shuffleQueue() {
+      for (let i = state.queue.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [state.queue[i], state.queue[j]] = [state.queue[j], state.queue[i]];
+      }
+      state.previewId = state.queue[0]?.id || null;
+      updateQueue();
+      updatePreview();
+      showToast("Queue shuffled to keep the flow fresh.");
+    }
+
+    function clearQueue() {
+      if (!state.queue.length) return;
+      state.queue = [];
+      state.previewId = null;
+      updateQueue();
+      updatePreview();
+      showToast("Queue cleared.");
+    }
+
+    function resetMural() {
+      state.mural = [];
+      state.tileCount = 0;
+      renderMural();
+      updateStats();
+      showToast("Mural reset for a fresh session.");
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(state.toastTimer);
+      state.toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3200);
+    }
+
+    init();
   </script>
 </body>
 </html>
-
