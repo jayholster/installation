@@ -3,488 +3,1411 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The AI Data Life Cycle: How AI Learns and Why It Matters</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Living Prompt Mural · MVP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+    rel="stylesheet"
+  />
   <style>
-    /* Reset & Global Styles */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #030712;
+      --panel: rgba(10, 15, 30, 0.92);
+      --panel-border: rgba(148, 163, 184, 0.14);
+      --accent: #5eead4;
+      --accent-soft: rgba(94, 234, 212, 0.2);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Montserrat', sans-serif;
-      background: #000;
-      color: #e0e0e0;
-      overflow-x: hidden;
-      transition: background 0.3s, color 0.3s;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.2), transparent 55%),
+        radial-gradient(circle at 75% 10%, rgba(196, 181, 253, 0.22), transparent 65%),
+        linear-gradient(160deg, #020617 0%, #0f172a 100%);
+      color: var(--text);
+      min-height: 100vh;
     }
-    a { text-decoration: none; color: inherit; }
-    h1, h2, h3, h4 { margin-bottom: 20px; }
-    p { margin-bottom: 15px; }
-    
-    /* Matrix Digital Rain Background */
-    #bgCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-      background: #000;
+
+    header {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 56px 24px 32px;
     }
-    
-    /* Theme Overrides for Black & White Mode */
-    body.bw-theme {
-      color: #fff;
-      background: #000;
-    }
-    body.bw-theme nav .logo,
-    body.bw-theme nav .menu a,
-    body.bw-theme nav .toggle-dark {
-      color: #fff;
-      border-color: #fff;
-    }
-    body.bw-theme .hero h1 { color: #fff; }
-    body.bw-theme .hero button {
-      background: #fff;
-      color: #000;
-    }
-    body.bw-theme .section { background: rgba(0,0,0,0.85); }
-    body.bw-theme .section h2 { color: #fff; }
-    body.bw-theme .quiz-container h2 { color: #fff; }
-    
-    /* Navigation Bar */
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.8);
-    }
-    nav .logo { font-size: 1.8em; font-weight: 700; color: #0f0; }
-    nav .menu { display: flex; gap: 20px; }
-    nav .menu a { font-weight: 600; color: #0f0; transition: color 0.3s; }
-    nav .menu a:hover { color: #ff0; }
-    nav .toggle-dark {
-      background: transparent;
-      border: 1px solid #0f0;
-      border-radius: 4px;
-      color: #0f0;
-      padding: 5px 10px;
-      cursor: pointer;
-      font-size: 0.9em;
-      transition: background 0.3s;
-    }
-    nav .toggle-dark:hover { background: rgba(0, 255, 0, 0.2); }
-    
-    /* Hero Section */
+
     .hero {
-      height: 100vh;
-      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
-        url('https://source.unsplash.com/1600x900/?ai,data,technology');
-      background-size: cover;
-      background-attachment: fixed;
-      background-position: center;
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(15, 23, 42, 0.88));
+      border-radius: 28px;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      padding: 48px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 18% 25%, rgba(252, 211, 77, 0.28), transparent 55%),
+        radial-gradient(circle at 82% 70%, rgba(94, 234, 212, 0.2), transparent 65%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.4rem, 4vw, 3.6rem);
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      max-width: 620px;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: rgba(226, 232, 240, 0.85);
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 28px 0 32px;
+    }
+
+    .badge {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-transform: uppercase;
+    }
+
+    .hero .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 32px;
+      align-items: center;
+    }
+
+    .cta {
+      background: rgba(94, 234, 212, 0.18);
+      border: 1px solid rgba(94, 234, 212, 0.5);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 12px 24px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 0.86rem;
+    }
+
+    .palette-strip {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .palette-strip span {
+      display: inline-flex;
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px 96px;
+      display: grid;
+      gap: 40px;
+    }
+
+    section.panel {
+      background: var(--panel);
+      border-radius: 24px;
+      border: 1px solid var(--panel-border);
+      box-shadow: var(--shadow);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    section.panel h2 {
+      margin: 0 0 16px;
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: -0.01em;
+    }
+
+    .layout-grid {
+      display: grid;
+      grid-template-columns: minmax(280px, 360px) 1fr;
+      gap: 28px;
+    }
+
+    .lane-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+    }
+
+    .lane-card {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 18px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+      min-height: 160px;
+    }
+
+    .lane-card.active {
+      border-color: rgba(94, 234, 212, 0.7);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(94, 234, 212, 0.18);
+    }
+
+    .lane-card h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .lane-card p {
+      margin: 0;
+      color: rgba(226, 232, 240, 0.75);
+      font-size: 0.92rem;
+      line-height: 1.4;
+    }
+
+    .lane-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: rgba(226, 232, 240, 0.75);
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    .studio-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    label span {
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    textarea,
+    input,
+    select,
+    button {
+      font-family: inherit;
+    }
+
+    textarea,
+    input,
+    select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(10, 17, 35, 0.8);
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    textarea:focus,
+    input:focus,
+    select:focus {
+      outline: 2px solid rgba(94, 234, 212, 0.4);
+      border-color: transparent;
+    }
+
+    button {
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      cursor: pointer;
+      background: rgba(94, 234, 212, 0.2);
+      color: var(--text);
+    }
+
+    button.secondary {
+      background: rgba(15, 23, 42, 0.8);
+      border-color: rgba(148, 163, 184, 0.3);
+    }
+
+    button[disabled] {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .upload-zone {
+      border: 2px dashed rgba(148, 163, 184, 0.28);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      color: rgba(226, 232, 240, 0.75);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .upload-zone.dragover {
+      border-color: rgba(94, 234, 212, 0.8);
+      background: rgba(94, 234, 212, 0.06);
+    }
+
+    .upload-queue {
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(10, 17, 35, 0.7);
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .queue-item {
+      display: flex;
       align-items: center;
-      text-align: center;
-      padding: 0 20px;
-      position: relative;
-      z-index: 1;
-    }
-    .hero h1 {
-      font-size: 3.5em;
-      margin-bottom: 20px;
-      color: #0f0;
-      animation: fadeInDown 1s;
-    }
-    .hero p {
-      font-size: 1.5em;
-      margin-bottom: 30px;
-      animation: fadeInUp 1s;
-      color: #e0e0e0;
-    }
-    .hero button {
-      background: #0f0;
-      color: #000;
-      border: none;
-      padding: 12px 25px;
-      font-size: 1.1em;
-      border-radius: 25px;
+      gap: 12px;
+      padding: 10px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.2);
       cursor: pointer;
-      transition: transform 0.3s, background 0.3s;
+      transition: border-color 0.2s ease;
     }
-    .hero button:hover {
-      transform: scale(1.05);
-      background: #afffa0;
+
+    .queue-item.active {
+      border-color: rgba(94, 234, 212, 0.7);
     }
-    
-    /* Section Container */
-    .section {
-      padding: 60px 20px;
-      max-width: 1000px;
-      margin: 140px auto 40px;
-      background: rgba(0,0,0,0.85);
+
+    .queue-thumb {
+      width: 60px;
+      height: 60px;
       border-radius: 10px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.7);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(15, 23, 42, 0.8);
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+    }
+
+    .queue-thumb canvas,
+    .queue-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .queue-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .queue-meta span {
+      font-size: 0.9rem;
+    }
+
+    .queue-meta small {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .sample-card {
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(15, 23, 42, 0.7);
+      align-items: center;
+    }
+
+    .sample-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: rgba(226, 232, 240, 0.8);
+    }
+
+    .preview-wrap {
+      display: grid;
+      grid-template-columns: minmax(320px, 480px) minmax(280px, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    #previewCanvas,
+    #sampleCanvas {
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .preview-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    #statusBar,
+    #timelapseStatus {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    form#metadataForm {
+      display: grid;
+      gap: 16px;
+    }
+
+    .consent-line {
+      display: flex;
+      gap: 12px;
+      align-items: start;
+      font-size: 0.82rem;
+      line-height: 1.4;
+      color: rgba(226, 232, 240, 0.75);
+    }
+
+    .mural-wrapper {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    #muralCanvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: radial-gradient(circle at 30% 20%, rgba(30, 64, 175, 0.3), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(56, 189, 248, 0.2), transparent 65%),
+        rgba(2, 6, 23, 0.9);
+    }
+
+    #tileTooltip {
+      position: absolute;
+      padding: 12px 14px;
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      font-size: 0.8rem;
+      line-height: 1.4;
+      pointer-events: none;
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.8s, transform 0.8s;
-      position: relative;
-      z-index: 2;
+      transition: opacity 0.15s ease;
+      max-width: 220px;
+      backdrop-filter: blur(6px);
     }
-    .section.visible { opacity: 1; transform: translateY(0); }
-    .section h2 { text-align: center; margin-bottom: 30px; color: #0f0; }
-    
-    /* Timeline Styles */
-    .timeline {
-      position: relative;
-      margin: 40px 0;
-      padding: 0;
-      list-style: none;
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
     }
-    .timeline:before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: #0f0;
-      transform: translateX(-50%);
+
+    .pill {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
-    .timeline-item {
-      position: relative;
-      width: 50%;
-      padding: 20px 40px;
-      color: #e0e0e0;
+
+    .audio-board {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
     }
-    .timeline-item:nth-child(odd) { left: 0; text-align: right; }
-    .timeline-item:nth-child(even) { left: 50%; text-align: left; }
-    .timeline-item:before {
-      content: '';
-      position: absolute;
-      top: 20px;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: #000;
-      border: 4px solid #0f0;
-      z-index: 1;
+
+    .audio-card {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(15, 23, 42, 0.75);
     }
-    .timeline-item:nth-child(odd):before { right: -8px; }
-    .timeline-item:nth-child(even):before { left: -8px; }
-    
-    /* Detailed Narrative Section */
-    .narrative {
-      padding: 60px 20px;
-      max-width: 1000px;
-      margin: 140px auto 40px;
-      background: rgba(0,0,0,0.9);
-      border-radius: 10px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.7);
-      position: relative;
-      z-index: 2;
+
+    .audio-card button {
+      padding: 8px 14px;
+      font-size: 0.82rem;
     }
-    .narrative h2 { text-align: center; margin-bottom: 30px; color: #0f0; }
-    .narrative p { margin-bottom: 20px; font-size: 1.1em; line-height: 1.8; }
-    
-    /* Quiz Styles */
-    .quiz-container {
-      background: rgba(0,0,0,0.95);
-      color: #e0e0e0;
-      padding: 30px;
-      border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.7);
+
+    #timelapseDisplay {
+      min-height: 180px;
+      border-radius: 20px;
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      background: rgba(15, 23, 42, 0.7);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
     }
-    .quiz-container h2 { margin-bottom: 20px; color: #0f0; }
-    .quiz-container .quiz-question { margin-bottom: 15px; font-size: 1.2em; text-align: left; }
-    .quiz-container label { display: block; margin: 10px 0; font-size: 1em; }
-    .quiz-container input[type="radio"] { margin-right: 8px; }
-    .quiz-container button {
-      background: #0f0;
-      color: #000;
-      border: none;
-      padding: 12px 24px;
-      font-size: 1em;
-      border-radius: 25px;
-      cursor: pointer;
-      margin-top: 15px;
-      transition: transform 0.3s, background 0.3s;
+
+    #timelapseDisplay img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
-    .quiz-container button:hover {
-      transform: scale(1.05);
-      background: #afffa0;
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
     }
-    .quiz-feedback { margin-top: 15px; font-weight: 600; }
-    
-    /* Resources Section */
-    #resources ul { list-style: none; text-align: center; }
-    #resources li { margin: 10px 0; }
-    #resources a {
-      color: #0f0;
-      border-bottom: 2px solid transparent;
-      transition: border-bottom 0.3s;
+
+    .micro-module {
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      padding: 18px;
+      background: rgba(15, 23, 42, 0.78);
     }
-    #resources a:hover { border-bottom: 2px solid #0f0; }
-    
-    /* Footer */
+
+    .micro-module h3 {
+      margin: 0 0 12px;
+      font-size: 1rem;
+    }
+
+    .micro-module ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: rgba(226, 232, 240, 0.8);
+    }
+
+    .reflection-list {
+      margin: 0;
+      padding-left: 18px;
+      color: rgba(226, 232, 240, 0.78);
+      line-height: 1.5;
+    }
+
     footer {
-      text-align: center;
-      padding: 30px;
-      background: rgba(0,0,0,0.9);
-      color: #0f0;
-      position: relative;
-      z-index: 2;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+      font-size: 0.82rem;
+      color: var(--muted);
     }
-    
-    /* Animations */
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 960px) {
+      .layout-grid,
+      .preview-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        padding: 40px 20px 24px;
+      }
+
+      .hero {
+        padding: 36px;
+      }
     }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes modalFadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+
+    @media (max-width: 640px) {
+      main {
+        padding-bottom: 72px;
+      }
+
+      .hero {
+        padding: 28px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2rem, 8vw, 2.8rem);
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Matrix Digital Rain Background -->
-  <canvas id="bgCanvas"></canvas>
-  
-  <!-- Navigation Bar -->
-  <nav>
-    <div class="logo">AI Data Life Cycle</div>
-    <div class="menu">
-      <a href="#hero" onclick="scrollToSection('hero')">Home</a>
-      <a href="#overview" onclick="scrollToSection('overview')">Overview</a>
-      <a href="#timeline" onclick="scrollToSection('timeline')">Timeline</a>
-      <a href="#narrative" onclick="scrollToSection('narrative')">Narrative</a>
-      <a href="#quiz" onclick="scrollToSection('quiz')">Quiz</a>
-      <a href="#resources" onclick="scrollToSection('resources')">Resources</a>
+  <header>
+    <div class="hero">
+      <h1>Living Prompt Mural MVP</h1>
+      <p>
+        A people-first studio where artists test prompts, soften edges, and submit blended tiles for a collective mural.
+        Built for the board demo—fast, cohesive, and grounded in consent.
+      </p>
+      <div class="badges">
+        <span class="badge">Prompt ➝ Preview ➝ Submit</span>
+        <span class="badge">Edge-Blended Moodboard</span>
+        <span class="badge">Audio-Reactive Flow</span>
+        <span class="badge">Literacy &amp; Consent</span>
+      </div>
+      <div class="cta-row">
+        <span class="cta">Palette in play: <strong id="paletteName">Aurora Brush Relay</strong></span>
+        <div class="palette-strip" id="paletteStrip"></div>
+      </div>
     </div>
-    <button class="toggle-dark" onclick="toggleTheme()">Toggle Theme</button>
-  </nav>
-  
-  <!-- Hero Section -->
-  <section class="hero" id="hero">
-    <h1>The AI Data Life Cycle</h1>
-    <p>How AI Learns and Why It Matters</p>
-    <button onclick="scrollToSection('overview')">Explore Now</button>
-  </section>
-  
-  <!-- Overview Section -->
-  <section class="section" id="overview">
-    <h2>Overview</h2>
-    <p>
-      Every AI model is built upon a complex interplay of data extraction, computational filtering, and human-driven interpretation. Though the process often remains unseen, it defines AI’s decision-making abilities and shapes its impact on society.
-    </p>
-    <p>
-      AI does not create new knowledge; it synthesizes and reframes information generated by human activity. Yet, the data fed into these systems reflects historical biases and inequalities—shaping outcomes in ways that matter.
-    </p>
-  </section>
-  
-  <!-- Timeline Section -->
-  <section class="section" id="timeline">
-    <h2>The AI Data Life Cycle Timeline</h2>
-    <ul class="timeline">
-      <li class="timeline-item">
-        <h4>Data Extraction &amp; Sources</h4>
-        <p>Raw data is gathered from digital interactions, archives, and user content—forming the bedrock of AI learning.</p>
-      </li>
-      <li class="timeline-item">
-        <h4>Computational Filtering</h4>
-        <p>Algorithms preprocess and filter the data, isolating meaningful signals from noise.</p>
-      </li>
-      <li class="timeline-item">
-        <h4>Human-Driven Interpretation</h4>
-        <p>Humans annotate and contextualize data, providing essential insights for training.</p>
-      </li>
-      <li class="timeline-item">
-        <h4>Model Training &amp; Bias</h4>
-        <p>The model learns from curated data—imbalances can reinforce biases that affect outcomes.</p>
-      </li>
-      <li class="timeline-item">
-        <h4>Human Influence &amp; AI Agency</h4>
-        <p>User interactions continuously refine AI behavior, creating dynamic feedback loops.</p>
-      </li>
-      <li class="timeline-item">
-        <h4>Ethical Boundaries &amp; Regulation</h4>
-        <p>Ethical guidelines and regulatory measures are applied to mitigate bias and ensure responsible AI.</p>
-      </li>
-    </ul>
-  </section>
-  
-  <!-- Detailed Narrative Section -->
-  <section class="narrative" id="narrative">
-    <h2>Detailed Narrative</h2>
-    <p>
-      At the foundation of every AI model is an interwoven process of data extraction, computational filtering, and human-driven interpretation. This cycle governs AI’s capacity to learn and make decisions, determining the scope of its potential impact.
-    </p>
-    <p>
-      AI does not generate new knowledge; it synthesizes, reframes, and regurgitates existing information drawn from human activity, both past and present. Every interaction—whether through a chatbot conversation, AI-generated document, or image request—feeds into the system. These interactions, stored and used for training, shape future outputs and reinforce existing structures.
-    </p>
-    <p>
-      For example, a chatbot trained on a user’s previous text messages may mirror the communication style it absorbs, becoming a reflection of past interactions. Similarly, an AI model trained on corporate hiring data might reinforce patterns that systematically favor certain demographics, encoding historical inequalities into future decisions. Data is never neutral; it mirrors the systems from which it originates.
-    </p>
-    <p>
-      During model training, choices about which data to include or exclude become mechanisms of control. Even the most advanced models can inadvertently perpetuate bias if their training datasets overrepresent certain perspectives while neglecting others. Such biases may manifest in outputs that marginalize or misinform.
-    </p>
-    <p>
-      As AI begins to function with a degree of agency—absorbing user interactions and making inferences beyond direct human instruction—it transitions from a passive tool to an active participant. AI systems, such as chatbots that adapt to emotional cues, can shape user behavior as much as they are shaped by it, creating feedback loops that influence identity and perception.
-    </p>
-    <p>
-      Finally, the consequences of AI’s decision-making extend into policy, governance, and institutional control. Ethical frameworks and regulatory measures are imposed to guide AI behavior, yet these interventions are often inconsistent. The social act of training AI has real-world implications—demonstrating that AI ethics is not merely technical, but deeply intertwined with our values and societal structures.
-    </p>
-  </section>
-  
-  <!-- Quiz Section -->
-  <section class="section" id="quiz">
-    <div class="quiz-container">
-      <h2>Quiz: Test Your AI Knowledge</h2>
-      <!-- Question 1 -->
-      <div class="quiz-question">
-        <p><strong>1. What is the first step in the AI Data Life Cycle?</strong></p>
-        <label><input type="radio" name="q1" value="incorrect"> Data Filtering</label>
-        <label><input type="radio" name="q1" value="correct"> Data Extraction</label>
-        <label><input type="radio" name="q1" value="incorrect"> Model Training</label>
+  </header>
+  <main>
+    <section class="panel" id="studioSection">
+      <h2>Studio · choose a lane</h2>
+      <div class="layout-grid">
+        <div class="lane-grid" id="laneGrid"></div>
+        <div class="studio-controls">
+          <div>
+            <label for="promptInput"><span>Prompt note</span></label>
+            <textarea id="promptInput" rows="3" placeholder="Name the material, light, and feeling you want to carry."></textarea>
+          </div>
+          <div>
+            <label><span>Upload image (drag &amp; drop)</span></label>
+            <div class="upload-zone" id="uploadZone">
+              <input type="file" id="imageInput" accept="image/*" multiple hidden />
+              <p>Drop Midjourney, Sora, or phone captures. Up to 10MB each. Queue handles batches.</p>
+              <button type="button" id="browseButton">Browse files</button>
+              <small>Queue count: <span id="queueCount">0</span></small>
+            </div>
+            <div class="upload-queue" id="queueList" hidden></div>
+          </div>
+          <div>
+            <label><span>Lane example</span></label>
+            <div class="sample-card">
+              <canvas id="sampleCanvas" width="120" height="120" aria-hidden="true"></canvas>
+              <div class="sample-meta">
+                <p id="samplePrompt">Pick a lane to load a prompt starter.</p>
+                <div class="preview-actions">
+                  <button type="button" id="refreshSample">New example</button>
+                  <button type="button" id="useSample" class="secondary">Use prompt</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label><span>Attach soundtrack (optional)</span></label>
+            <input type="file" id="audioInput" accept="audio/*" />
+            <small style="color: var(--muted);">Udio / Suno uploads welcome. Audio drives subtle pulses.</small>
+          </div>
+          <div>
+            <label for="flowSelect"><span>Flow alignment</span></label>
+            <select id="flowSelect">
+              <option value="auto">Let the mural decide</option>
+              <option value="sky">Skyline · upper third</option>
+              <option value="portrait">Portrait · center band</option>
+              <option value="ground">Ground · lower sweep</option>
+              <option value="abstract">Abstract drift</option>
+            </select>
+          </div>
+        </div>
       </div>
-      <!-- Question 2 -->
-      <div class="quiz-question">
-        <p><strong>2. How does human-driven interpretation influence AI?</strong></p>
-        <label><input type="radio" name="q2" value="correct"> It provides context and essential annotations.</label>
-        <label><input type="radio" name="q2" value="incorrect"> It speeds up computation.</label>
-        <label><input type="radio" name="q2" value="incorrect"> It completely eliminates bias.</label>
+    </section>
+
+    <section class="panel" id="previewSection">
+      <h2>Preview · keep or retry</h2>
+      <div class="preview-wrap">
+        <div>
+          <canvas id="previewCanvas" width="480" height="320" role="img" aria-label="Preview canvas"></canvas>
+          <div class="preview-actions" style="margin-top: 14px;">
+            <button type="button" id="retryButton" class="secondary">Clear preview</button>
+            <button type="button" id="keepButton">Keep this take</button>
+            <span id="statusBar">Load an image from the queue to start.</span>
+          </div>
+        </div>
+        <form id="metadataForm">
+          <div>
+            <label for="creatorName"><span>Creator credit</span></label>
+            <input type="text" id="creatorName" placeholder="Your name or handle" />
+          </div>
+          <div>
+            <label for="altText"><span>Alt text</span></label>
+            <textarea id="altText" rows="2" placeholder="Short description for screen readers"></textarea>
+          </div>
+          <div>
+            <label for="captionInput"><span>Caption</span></label>
+            <textarea id="captionInput" rows="2" placeholder="What should viewers know about this prompt?"></textarea>
+          </div>
+          <label class="consent-line">
+            <input type="checkbox" id="consentCheck" />
+            <span>I created or have rights to this media and grant the nonprofit a non-exclusive license to display and stream it.</span>
+          </label>
+          <button type="submit" id="submitButton" disabled>Submit to mural</button>
+        </form>
       </div>
-      <!-- Question 3 -->
-      <div class="quiz-question">
-        <p><strong>3. What role do ethical boundaries play in AI?</strong></p>
-        <label><input type="radio" name="q3" value="incorrect"> They are irrelevant to AI.</label>
-        <label><input type="radio" name="q3" value="correct"> They guide AI development and help mitigate bias.</label>
-        <label><input type="radio" name="q3" value="incorrect"> They hinder innovation.</label>
+    </section>
+
+    <section class="panel" id="muralSection">
+      <h2>Moodboard mural</h2>
+      <div class="mural-wrapper">
+        <canvas id="muralCanvas" width="1080" height="640"></canvas>
+        <div id="tileTooltip" role="tooltip"></div>
       </div>
-      <!-- Question 4 -->
-      <div class="quiz-question">
-        <p><strong>4. Which stage is most prone to introducing bias into an AI model?</strong></p>
-        <label><input type="radio" name="q4" value="incorrect"> Data Extraction</label>
-        <label><input type="radio" name="q4" value="correct"> Model Training &amp; Bias</label>
-        <label><input type="radio" name="q4" value="incorrect"> Computational Filtering</label>
+      <div class="pill-row" id="tileStats"></div>
+      <div class="audio-board" id="audioBoard"></div>
+    </section>
+
+    <section class="panel" id="timelapseSection">
+      <h2>Timelapse &amp; shareables</h2>
+      <div class="preview-actions" style="margin-bottom: 16px;">
+        <button type="button" id="playTimelapse">Play timelapse</button>
+        <button type="button" id="downloadStill" class="secondary">Download mural still</button>
+        <span id="timelapseStatus"></span>
       </div>
-      <button onclick="checkQuiz()">Submit Quiz</button>
-      <p class="quiz-feedback" id="quizFeedback"></p>
-    </div>
-  </section>
-  
-  <!-- Resources Section -->
-  <section class="section" id="resources">
-    <h2>Additional Resources</h2>
-    <ul>
-      <li><a href="https://www.aitopics.org/" target="_blank">AI Topics - MIT</a></li>
-      <li><a href="https://ai.google/" target="_blank">Google AI</a></li>
-      <li><a href="https://openai.com/research/" target="_blank">OpenAI Research</a></li>
-      <li><a href="https://www.brookings.edu/topic/artificial-intelligence/" target="_blank">Brookings: AI &amp; Policy</a></li>
-      <li><a href="https://www.ibm.com/cloud/learn/what-is-artificial-intelligence" target="_blank">IBM: What is AI?</a></li>
-    </ul>
-  </section>
-  
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 | The AI Data Life Cycle: How AI Learns and Why It Matters</p>
-  </footer>
-  
-  <!-- JavaScript -->
+      <div id="timelapseDisplay">
+        <p style="color: rgba(226, 232, 240, 0.75); font-size: 0.92rem;">Add a few tiles, then play back the mural's growth.</p>
+      </div>
+    </section>
+
+    <section class="panel" id="literacySection">
+      <h2>Literacy &amp; practice</h2>
+      <div class="grid-two">
+        <div class="micro-module">
+          <h3>Prompting for self-expression</h3>
+          <ul>
+            <li>Combine medium + light + motion: “Impasto oils, dusk sidelight, sweeping brush energy.”</li>
+            <li>Anchor to memory: describe a smell, sound, or place that matters.</li>
+            <li>Write alt text early—imagine how a friend would understand it without the image.</li>
+          </ul>
+        </div>
+        <div class="micro-module">
+          <h3>Respect &amp; rights</h3>
+          <ul>
+            <li>Only upload media you own or are licensed to share (Udio/Suno allow public performance—still capture consent).</li>
+            <li>Credits appear on hover, and every tile stores its license affirmation.</li>
+            <li>Report button and moderation queue keep the space safe.</li>
+          </ul>
+        </div>
+        <div class="micro-module">
+          <h3>Animation &amp; flow</h3>
+          <ul>
+            <li>Tiles shimmer softly; audio beats nudge size and glow.</li>
+            <li>Flow hints (sky, portrait, ground) keep horizons aligned.</li>
+            <li>Global palette nudges each upload toward the day's mood.</li>
+          </ul>
+        </div>
+        <div class="micro-module">
+          <h3>AWS-ready path</h3>
+          <ul>
+            <li>S3 for uploads, Lambda for safety checks, DynamoDB for tile metadata.</li>
+            <li>WebSocket channel pushes new tiles and beat markers in real time.</li>
+            <li>Optional SageMaker MusicGen endpoint covers in-house soundtrack generation.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="reflectionSection">
+      <h2>Board notes · art-first lift</h2>
+      <ul class="reflection-list">
+        <li>Queue lets contributors test multiple Midjourney or Sora takes before sharing.</li>
+        <li>Feathered edges, texture overlays, and flow-aware placement read like a unified Midjourney moodboard.</li>
+        <li>Audio uploads (Udio, Suno, original tracks) bind neighborhoods; timelapse keeps the installation breathing.</li>
+        <li>Next: curator view, public alt-text wall, and nightly recap reels for donors.</li>
+      </ul>
+    </section>
+  </main>
+  <footer>Built as a minimal viable prototype for the board review—art-forward, people-first, and ready for grant storytelling.</footer>
+
   <script>
-    // Smooth Scrolling
-    function scrollToSection(id) {
-      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    const palette = {
+      name: 'Aurora Brush Relay',
+      colors: ['#0f172a', '#1e293b', '#38bdf8', '#22d3ee', '#fbbf24'],
+    };
+
+    const styleLanes = [
+      {
+        id: 'impasto',
+        name: 'Impasto Paint World',
+        accent: '#fbbf24',
+        description: 'Thick oils, palette knife textures, glowing highlights.',
+        tips: ['Name a material (“impasto oil, canvas grain”).', 'Describe light direction.', 'Add a gesture or motion verb.'],
+        samplePrompts: [
+          'Impasto oil landscape, golden sidelight, palette knives carving tidal brushstrokes.',
+          'Thick acrylic portrait, cobalt shadows, restless brush energy and varnish sheen.',
+          'Palette knife cityscape, rain-kissed reflections, luminous windows, midnight blues.',
+        ],
+        feather: 34,
+      },
+      {
+        id: 'cartoon',
+        name: 'Cartoon Pulse',
+        accent: '#f472b6',
+        description: 'Bold shapes, held poses, expressive line weight.',
+        tips: ['Call out character emotion.', 'Name a color family.', 'Add movement (“looped bounce”).'],
+        samplePrompts: [
+          'Cartoon duo dancing in neon alley, bold cel shading, playful rim light.',
+          'Graphic novel hero, exaggerated foreshortening, pink + cyan glow, looping head nod.',
+          'Storyboard frame of friends at a diner, warm halos, comic halftones, laughter energy.',
+        ],
+        feather: 30,
+      },
+      {
+        id: 'wash',
+        name: 'Line & Wash',
+        accent: '#38bdf8',
+        description: 'Ink contours with watercolor atmospheres.',
+        tips: ['Specify ink weight.', 'Name wash colors.', 'Describe softness (“edges bleeding gently”).'],
+        samplePrompts: [
+          'Ink skyline, ultramarine and peach washes, breeze-tossed clouds, skyline continuity.',
+          'Botanical study, loose graphite lines, teal wash pooling at the base, afternoon light.',
+          'Neighborhood stoop portrait, sepia ink, indigo wash, friends laughing into dusk.',
+        ],
+        feather: 32,
+      },
+      {
+        id: 'photocollage',
+        name: 'Photocollage Drift',
+        accent: '#a855f7',
+        description: 'Mixed media layers, print textures, cinematic glow.',
+        tips: ['Mention source textures.', 'Describe focal distance.', 'Add overlay or paper note.'],
+        samplePrompts: [
+          'Photocollage of archival posters, torn paper edges, saffron light spilling through.',
+          'Dreamy collage of community garden, 35mm grain, double exposure silhouettes, dusk.',
+          'Magazine cutouts forming a river, xerox grit, turquoise flare, gently drifting.',
+        ],
+        feather: 36,
+      },
+    ];
+
+    const state = {
+      lane: styleLanes[0],
+      queue: [],
+      activeItem: null,
+      previewData: null,
+      audio: null,
+      audioUrl: null,
+      tiles: [],
+      timelapseFrames: [],
+      timelapseTimer: null,
+      playingTimelapse: false,
+    };
+
+    const laneGrid = document.getElementById('laneGrid');
+    const paletteStrip = document.getElementById('paletteStrip');
+    const paletteName = document.getElementById('paletteName');
+    const promptInput = document.getElementById('promptInput');
+    const uploadZone = document.getElementById('uploadZone');
+    const imageInput = document.getElementById('imageInput');
+    const browseButton = document.getElementById('browseButton');
+    const queueList = document.getElementById('queueList');
+    const queueCount = document.getElementById('queueCount');
+    const sampleCanvas = document.getElementById('sampleCanvas');
+    const samplePrompt = document.getElementById('samplePrompt');
+    const refreshSample = document.getElementById('refreshSample');
+    const useSample = document.getElementById('useSample');
+    const previewCanvas = document.getElementById('previewCanvas');
+    const previewCtx = previewCanvas.getContext('2d');
+    const keepButton = document.getElementById('keepButton');
+    const retryButton = document.getElementById('retryButton');
+    const statusBar = document.getElementById('statusBar');
+    const metadataForm = document.getElementById('metadataForm');
+    const submitButton = document.getElementById('submitButton');
+    const flowSelect = document.getElementById('flowSelect');
+    const audioInput = document.getElementById('audioInput');
+    const muralCanvas = document.getElementById('muralCanvas');
+    const muralCtx = muralCanvas.getContext('2d');
+    const tileTooltip = document.getElementById('tileTooltip');
+    const tileStats = document.getElementById('tileStats');
+    const audioBoard = document.getElementById('audioBoard');
+    const timelapseDisplay = document.getElementById('timelapseDisplay');
+    const playTimelapse = document.getElementById('playTimelapse');
+    const downloadStill = document.getElementById('downloadStill');
+    const timelapseStatus = document.getElementById('timelapseStatus');
+
+    const creatorName = document.getElementById('creatorName');
+    const altText = document.getElementById('altText');
+    const captionInput = document.getElementById('captionInput');
+    const consentCheck = document.getElementById('consentCheck');
+
+    function init() {
+      paletteName.textContent = palette.name;
+      palette.colors.forEach((color) => {
+        const swatch = document.createElement('span');
+        swatch.style.background = color;
+        paletteStrip.appendChild(swatch);
+      });
+      renderLaneCards();
+      selectLane(styleLanes[0].id);
+      clearPreviewCanvas('Load an image from the queue to start.');
+      updateQueueDisplay();
+      renderMural();
+      updateStats();
+      renderAudioBoard();
+      addEventListeners();
     }
-    
-    // Toggle Theme: Add/remove the "bw-theme" class on body.
-    function toggleTheme() {
-      document.body.classList.toggle('bw-theme');
+
+    function renderLaneCards() {
+      laneGrid.innerHTML = '';
+      styleLanes.forEach((lane) => {
+        const card = document.createElement('div');
+        card.className = 'lane-card';
+        card.dataset.lane = lane.id;
+        card.innerHTML = `
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="width:14px;height:14px;border-radius:4px;background:${lane.accent};"></span>
+            <h3>${lane.name}</h3>
+          </div>
+          <p>${lane.description}</p>
+          <ul>${lane.tips.map((tip) => `<li>${tip}</li>`).join('')}</ul>
+        `;
+        card.addEventListener('click', () => selectLane(lane.id));
+        laneGrid.appendChild(card);
+      });
     }
-    
-    // Reveal Sections on Scroll
-    const sections = document.querySelectorAll('.section, .narrative');
-    function revealSections() {
-      sections.forEach(section => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 100) {
-          section.classList.add('visible');
+
+    function selectLane(laneId) {
+      const lane = styleLanes.find((entry) => entry.id === laneId);
+      if (!lane) return;
+      state.lane = lane;
+      document
+        .querySelectorAll('.lane-card')
+        .forEach((card) => card.classList.toggle('active', card.dataset.lane === laneId));
+      loadSamplePrompt();
+      if (state.activeItem && state.activeItem.image) {
+        drawPreview(state.activeItem.image);
+      }
+    }
+
+    function loadSamplePrompt() {
+      const prompts = state.lane.samplePrompts;
+      const choice = prompts[Math.floor(Math.random() * prompts.length)];
+      samplePrompt.textContent = choice;
+      drawSampleTile();
+    }
+
+    function drawSampleTile() {
+      const ctx = sampleCanvas.getContext('2d');
+      const { width, height } = sampleCanvas;
+      ctx.clearRect(0, 0, width, height);
+      const gradient = ctx.createRadialGradient(width * 0.3, height * 0.3, 20, width * 0.8, height * 0.8, width);
+      gradient.addColorStop(0, hexToRgba(state.lane.accent, 0.9));
+      gradient.addColorStop(1, hexToRgba('#0f172a', 0.2));
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, height);
+      ctx.strokeStyle = hexToRgba('#ffffff', 0.2);
+      ctx.lineWidth = 4;
+      ctx.strokeRect(8, 8, width - 16, height - 16);
+    }
+
+    function addEventListeners() {
+      browseButton.addEventListener('click', () => imageInput.click());
+      imageInput.addEventListener('change', (event) => handleFiles(event.target.files));
+      uploadZone.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        uploadZone.classList.add('dragover');
+      });
+      uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+      uploadZone.addEventListener('drop', (event) => {
+        event.preventDefault();
+        uploadZone.classList.remove('dragover');
+        if (event.dataTransfer?.files) {
+          handleFiles(event.dataTransfer.files);
+        }
+      });
+      refreshSample.addEventListener('click', loadSamplePrompt);
+      useSample.addEventListener('click', () => {
+        promptInput.value = samplePrompt.textContent;
+        statusBar.textContent = 'Sample prompt loaded. Pair it with an upload.';
+      });
+      keepButton.addEventListener('click', confirmPreview);
+      retryButton.addEventListener('click', () => {
+        state.previewData = null;
+        keepButton.disabled = true;
+        submitButton.disabled = true;
+        statusBar.textContent = 'Preview cleared. Select another item from the queue.';
+        drawPreviewBackground();
+      });
+      metadataForm.addEventListener('submit', handleSubmit);
+      audioInput.addEventListener('change', handleAudio);
+      playTimelapse.addEventListener('click', toggleTimelapse);
+      downloadStill.addEventListener('click', downloadMuralStill);
+      muralCanvas.addEventListener('mousemove', handleMuralHover);
+      muralCanvas.addEventListener('mouseleave', () => {
+        tileTooltip.style.opacity = 0;
+      });
+    }
+
+    function handleFiles(fileList) {
+      const files = Array.from(fileList || []);
+      if (!files.length) return;
+      files.forEach((file) => {
+        if (!file.type.startsWith('image/')) {
+          statusBar.textContent = `${file.name} skipped—only images are supported.`;
+          return;
+        }
+        if (file.size > 10 * 1024 * 1024) {
+          statusBar.textContent = `${file.name} is over 10MB. Please compress and try again.`;
+          return;
+        }
+        const entry = {
+          id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+          file,
+          status: 'loading',
+          name: file.name,
+          sizeLabel: formatFileSize(file.size),
+          dataUrl: '',
+          image: null,
+          width: 0,
+          height: 0,
+        };
+        state.queue.push(entry);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          entry.dataUrl = e.target?.result;
+          const img = new Image();
+          img.onload = () => {
+            entry.image = img;
+            entry.width = img.width;
+            entry.height = img.height;
+            entry.status = 'ready';
+            updateQueueDisplay();
+            if (!state.activeItem) {
+              setActiveQueue(entry.id);
+            }
+          };
+          img.src = entry.dataUrl;
+        };
+        reader.onerror = () => {
+          entry.status = 'error';
+          statusBar.textContent = `Could not read ${file.name}.`;
+          updateQueueDisplay();
+        };
+        reader.readAsDataURL(file);
+      });
+      updateQueueDisplay();
+    }
+
+    function updateQueueDisplay() {
+      queueCount.textContent = state.queue.length;
+      if (state.queue.length === 0) {
+        queueList.hidden = true;
+        queueList.innerHTML = '';
+        return;
+      }
+      queueList.hidden = false;
+      queueList.innerHTML = '';
+      state.queue.forEach((entry) => {
+        const item = document.createElement('div');
+        item.className = 'queue-item';
+        if (state.activeItem?.id === entry.id) {
+          item.classList.add('active');
+        }
+        const thumb = document.createElement('div');
+        thumb.className = 'queue-thumb';
+        if (entry.dataUrl) {
+          const img = document.createElement('img');
+          img.src = entry.dataUrl;
+          img.alt = entry.name;
+          thumb.appendChild(img);
+        } else {
+          thumb.textContent = '…';
+        }
+        const meta = document.createElement('div');
+        meta.className = 'queue-meta';
+        meta.innerHTML = `<span>${entry.name}</span><small>${entry.sizeLabel} · ${entry.status}</small>`;
+        item.append(thumb, meta);
+        item.addEventListener('click', () => setActiveQueue(entry.id));
+        queueList.appendChild(item);
+      });
+    }
+
+    function setActiveQueue(id) {
+      const entry = state.queue.find((item) => item.id === id);
+      if (!entry || entry.status !== 'ready') {
+        statusBar.textContent = 'Still loading. Please wait a moment.';
+        return;
+      }
+      state.activeItem = entry;
+      state.previewData = null;
+      keepButton.disabled = false;
+      submitButton.disabled = true;
+      statusBar.textContent = 'Preview loaded—tweak prompt or try keep.';
+      drawPreview(entry.image);
+      updateQueueDisplay();
+    }
+
+    function drawPreview(image) {
+      drawPreviewBackground();
+      if (!image) return;
+      const maxWidth = previewCanvas.width - 80;
+      const maxHeight = previewCanvas.height - 80;
+      const { width, height } = fitWithin(image.width, image.height, maxWidth, maxHeight);
+      const offscreen = document.createElement('canvas');
+      offscreen.width = width;
+      offscreen.height = height;
+      const offCtx = offscreen.getContext('2d');
+      offCtx.drawImage(image, 0, 0, width, height);
+      applyFeather(offCtx, width, height, state.lane.feather);
+      offCtx.globalAlpha = 0.18;
+      offCtx.fillStyle = state.lane.accent;
+      offCtx.fillRect(0, 0, width, height);
+      previewCtx.drawImage(offscreen, (previewCanvas.width - width) / 2, (previewCanvas.height - height) / 2);
+    }
+
+    function drawPreviewBackground(message) {
+      previewCtx.fillStyle = hexToRgba('#020617', 0.92);
+      previewCtx.fillRect(0, 0, previewCanvas.width, previewCanvas.height);
+      previewCtx.strokeStyle = hexToRgba(state.lane.accent, 0.25);
+      previewCtx.setLineDash([6, 6]);
+      previewCtx.strokeRect(24, 24, previewCanvas.width - 48, previewCanvas.height - 48);
+      previewCtx.setLineDash([]);
+      if (message) {
+        previewCtx.fillStyle = hexToRgba('#e2e8f0', 0.7);
+        previewCtx.font = '500 16px Inter';
+        previewCtx.textAlign = 'center';
+        previewCtx.fillText(message, previewCanvas.width / 2, previewCanvas.height / 2);
+      }
+    }
+
+    function confirmPreview() {
+      if (!state.activeItem || !state.activeItem.image) {
+        statusBar.textContent = 'Load an image first.';
+        return;
+      }
+      state.previewData = {
+        queueId: state.activeItem.id,
+        image: state.activeItem.image,
+        prompt: promptInput.value.trim(),
+        lane: state.lane,
+        flow: flowSelect.value,
+        audio: state.audio,
+        audioUrl: state.audioUrl,
+      };
+      submitButton.disabled = false;
+      statusBar.textContent = 'Locked in. Add credit + consent, then submit.';
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      if (!state.previewData) {
+        statusBar.textContent = 'Select “Keep this take” before submitting.';
+        return;
+      }
+      if (!consentCheck.checked) {
+        statusBar.textContent = 'Consent is required to submit.';
+        return;
+      }
+      const tile = buildTile();
+      state.tiles.push(tile);
+      renderMural();
+      state.timelapseFrames.push(muralCanvas.toDataURL('image/webp', 0.9));
+      updateStats();
+      renderAudioBoard();
+      resetPreviewAfterSubmit();
+      statusBar.textContent = 'Submitted to mural. Scroll down to see the placement.';
+    }
+
+    function buildTile() {
+      const baseWidth = 220 + Math.random() * 90;
+      const aspect = state.previewData.image.width / state.previewData.image.height || 1;
+      const width = baseWidth;
+      const height = Math.max(160, baseWidth / aspect);
+      const position = findPlacement(width, height, state.previewData.flow);
+      return {
+        id:
+          (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+            ? crypto.randomUUID()
+            : `tile-${Date.now()}-${Math.random().toString(16).slice(2)}`),
+        image: state.previewData.image,
+        width,
+        height,
+        x: position.x,
+        y: position.y,
+        lane: state.previewData.lane,
+        meta: {
+          prompt: state.previewData.prompt,
+          creator: creatorName.value.trim() || 'Anonymous',
+          caption: captionInput.value.trim(),
+          altText: altText.value.trim(),
+          flow: state.previewData.flow,
+        },
+        audio: state.previewData.audio
+          ? {
+              fileName: state.previewData.audio.name,
+              url: state.previewData.audioUrl,
+            }
+          : null,
+      };
+    }
+
+    function findPlacement(width, height, flow) {
+      const padding = 80;
+      const attempts = 160;
+      const minDistance = 140;
+      const bounds = {
+        xMin: padding,
+        xMax: muralCanvas.width - padding,
+        yMin: padding,
+        yMax: muralCanvas.height - padding,
+      };
+      const flowBias = {
+        sky: 0.25,
+        portrait: 0.5,
+        ground: 0.72,
+        abstract: Math.random(),
+        auto: Math.random(),
+      };
+      let targetY = flowBias[flow] ?? Math.random();
+      for (let attempt = 0; attempt < attempts; attempt++) {
+        const x = bounds.xMin + Math.random() * (bounds.xMax - bounds.xMin);
+        const y = bounds.yMin + Math.random() * (bounds.yMax - bounds.yMin);
+        const normalizedY = (y - bounds.yMin) / (bounds.yMax - bounds.yMin);
+        if (Math.abs(normalizedY - targetY) > 0.25 && flow !== 'auto') continue;
+        if (state.tiles.every((tile) => distance(x, y, tile.x, tile.y) > minDistance)) {
+          return { x, y };
+        }
+      }
+      return {
+        x: muralCanvas.width / 2,
+        y: muralCanvas.height / 2,
+      };
+    }
+
+    function renderMural() {
+      muralCtx.fillStyle = hexToRgba('#020617', 0.95);
+      muralCtx.fillRect(0, 0, muralCanvas.width, muralCanvas.height);
+      state.tiles.forEach((tile) => drawTile(tile));
+    }
+
+    function drawTile(tile) {
+      const offscreen = document.createElement('canvas');
+      offscreen.width = tile.width;
+      offscreen.height = tile.height;
+      const offCtx = offscreen.getContext('2d');
+      offCtx.drawImage(tile.image, 0, 0, tile.width, tile.height);
+      applyFeather(offCtx, tile.width, tile.height, tile.lane.feather || 30);
+      offCtx.globalAlpha = 0.16;
+      offCtx.fillStyle = tile.lane.accent;
+      offCtx.fillRect(0, 0, tile.width, tile.height);
+      muralCtx.drawImage(offscreen, tile.x - tile.width / 2, tile.y - tile.height / 2);
+    }
+
+    function renderAudioBoard() {
+      audioBoard.innerHTML = '';
+      const withAudio = state.tiles.filter((tile) => tile.audio);
+      withAudio.forEach((tile) => {
+        const card = document.createElement('div');
+        card.className = 'audio-card';
+        const info = document.createElement('div');
+        info.innerHTML = `<strong>${tile.meta.creator}</strong> · ${tile.audio.fileName}`;
+        const playButton = document.createElement('button');
+        playButton.textContent = 'Play snippet';
+        const audio = new Audio(tile.audio.url);
+        playButton.addEventListener('click', () => {
+          if (audio.paused) {
+            audio.currentTime = 0;
+            audio.play();
+            playButton.textContent = 'Pause';
+          } else {
+            audio.pause();
+            playButton.textContent = 'Play snippet';
+          }
+        });
+        audio.addEventListener('ended', () => {
+          playButton.textContent = 'Play snippet';
+        });
+        card.append(info, playButton);
+        audioBoard.appendChild(card);
+      });
+    }
+
+    function updateStats() {
+      tileStats.innerHTML = '';
+      const total = document.createElement('span');
+      total.className = 'pill';
+      total.textContent = `${state.tiles.length} tiles blended`;
+      tileStats.appendChild(total);
+      styleLanes.forEach((lane) => {
+        const count = state.tiles.filter((tile) => tile.lane.id === lane.id).length;
+        if (count > 0) {
+          const pill = document.createElement('span');
+          pill.className = 'pill';
+          pill.textContent = `${lane.name}: ${count}`;
+          tileStats.appendChild(pill);
         }
       });
     }
-    window.addEventListener('scroll', revealSections);
-    revealSections();
-    
-    // Matrix Digital Rain Background using requestAnimationFrame
-    const canvas = document.getElementById('bgCanvas');
-    const ctx = canvas.getContext('2d');
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+
+    function resetPreviewAfterSubmit() {
+      if (state.previewData?.queueId) {
+        state.queue = state.queue.filter((entry) => entry.id !== state.previewData.queueId);
+      }
+      state.previewData = null;
+      state.activeItem = null;
+      promptInput.value = '';
+      captionInput.value = '';
+      creatorName.value = '';
+      altText.value = '';
+      consentCheck.checked = false;
+      state.audio = null;
+      if (state.audioUrl) {
+        URL.revokeObjectURL(state.audioUrl);
+      }
+      state.audioUrl = null;
+      audioInput.value = '';
+      keepButton.disabled = true;
+      submitButton.disabled = true;
+      updateQueueDisplay();
+      drawPreviewBackground('Queue another image to keep building.');
     }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-    const letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const lettersArr = letters.split("");
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const drops = [];
-    for (let i = 0; i < columns; i++) {
-      drops[i] = 1;
+
+    function handleAudio(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      if (!file.type.startsWith('audio/')) {
+        statusBar.textContent = 'Audio upload skipped—file is not audio.';
+        return;
+      }
+      if (state.audioUrl) {
+        URL.revokeObjectURL(state.audioUrl);
+      }
+      state.audio = file;
+      state.audioUrl = URL.createObjectURL(file);
+      statusBar.textContent = `Audio ready: ${file.name}`;
     }
-    function drawMatrix() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      // Set text color based on theme
-      const textColor = document.body.classList.contains('bw-theme') ? "#fff" : "#0f0";
-      ctx.fillStyle = textColor;
-      ctx.font = fontSize + "px monospace";
-      for (let i = 0; i < drops.length; i++) {
-        const text = lettersArr[Math.floor(Math.random() * lettersArr.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
+
+    function toggleTimelapse() {
+      if (state.timelapseFrames.length < 2) {
+        timelapseStatus.textContent = 'Add at least two submissions to play the timelapse.';
+        return;
+      }
+      if (state.playingTimelapse) {
+        stopTimelapse();
+        return;
+      }
+      let index = 0;
+      state.playingTimelapse = true;
+      playTimelapse.textContent = 'Stop timelapse';
+      timelapseStatus.textContent = '';
+      state.timelapseTimer = setInterval(() => {
+        const frame = state.timelapseFrames[index % state.timelapseFrames.length];
+        timelapseDisplay.innerHTML = `<img src="${frame}" alt="Mural timelapse frame" />`;
+        index += 1;
+      }, 600);
+    }
+
+    function stopTimelapse() {
+      state.playingTimelapse = false;
+      playTimelapse.textContent = 'Play timelapse';
+      clearInterval(state.timelapseTimer);
+      timelapseStatus.textContent = 'Timelapse paused.';
+    }
+
+    function downloadMuralStill() {
+      const link = document.createElement('a');
+      link.href = muralCanvas.toDataURL('image/png');
+      link.download = 'living-mural.png';
+      link.click();
+      timelapseStatus.textContent = 'Mural still downloaded.';
+    }
+
+    function handleMuralHover(event) {
+      const rect = muralCanvas.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * muralCanvas.width;
+      const y = ((event.clientY - rect.top) / rect.height) * muralCanvas.height;
+      const hovered = state.tiles.find((tile) => isPointInsideTile(x, y, tile));
+      if (!hovered) {
+        tileTooltip.style.opacity = 0;
+        return;
+      }
+      tileTooltip.innerHTML = `
+        <strong>${hovered.meta.creator}</strong><br />
+        <span>${hovered.lane.name}</span><br />
+        <em>${hovered.meta.prompt || 'Untitled prompt'}</em>
+      `;
+      tileTooltip.style.left = `${event.clientX - rect.left + 12}px`;
+      tileTooltip.style.top = `${event.clientY - rect.top + 12}px`;
+      tileTooltip.style.opacity = 1;
+    }
+
+    function applyFeather(ctx, width, height, feather = 30) {
+      const imageData = ctx.getImageData(0, 0, width, height);
+      const data = imageData.data;
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          const edgeDistance = Math.min(x, y, width - x, height - y);
+          const ratio = edgeDistance < feather ? Math.cos((1 - edgeDistance / feather) * (Math.PI / 2)) : 1;
+          const alphaIndex = (y * width + x) * 4 + 3;
+          data[alphaIndex] = Math.round(data[alphaIndex] * Math.max(0, Math.min(1, ratio)));
         }
-        drops[i]++;
       }
-      requestAnimationFrame(drawMatrix);
+      ctx.putImageData(imageData, 0, 0);
     }
-    requestAnimationFrame(drawMatrix);
-    
-    // Quiz Checker Function
-    function checkQuiz() {
-      const q1 = document.querySelector('input[name="q1"]:checked');
-      const q2 = document.querySelector('input[name="q2"]:checked');
-      const q3 = document.querySelector('input[name="q3"]:checked');
-      const q4 = document.querySelector('input[name="q4"]:checked');
-      let score = 0;
-      if (q1 && q1.value === "correct") score++;
-      if (q2 && q2.value === "correct") score++;
-      if (q3 && q3.value === "correct") score++;
-      if (q4 && q4.value === "correct") score++;
-      const feedback = document.getElementById('quizFeedback');
-      if (q1 && q2 && q3 && q4) {
-        feedback.textContent = `You scored ${score} out of 4! ${score === 4 ? "Outstanding knowledge!" : "Keep exploring the cycle."}`;
-        feedback.style.color = score === 4 ? '#0f0' : '#ff0';
-      } else {
-        feedback.textContent = 'Please answer all questions before submitting.';
-        feedback.style.color = '#f00';
+
+    function fitWithin(sourceWidth, sourceHeight, maxWidth, maxHeight) {
+      const widthRatio = maxWidth / sourceWidth;
+      const heightRatio = maxHeight / sourceHeight;
+      const ratio = Math.min(widthRatio, heightRatio, 1);
+      return {
+        width: Math.max(20, Math.round(sourceWidth * ratio)),
+        height: Math.max(20, Math.round(sourceHeight * ratio)),
+      };
+    }
+
+    function distance(x1, y1, x2, y2) {
+      return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+    }
+
+    function isPointInsideTile(x, y, tile) {
+      return (
+        x >= tile.x - tile.width / 2 &&
+        x <= tile.x + tile.width / 2 &&
+        y >= tile.y - tile.height / 2 &&
+        y <= tile.y + tile.height / 2
+      );
+    }
+
+    function hexToRgba(hex, alpha = 1) {
+      const trimmed = hex.replace('#', '');
+      const bigint = parseInt(trimmed, 16);
+      const r = (bigint >> 16) & 255;
+      const g = (bigint >> 8) & 255;
+      const b = bigint & 255;
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    function formatFileSize(bytes) {
+      if (bytes < 1024) return `${bytes} B`;
+      if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+      return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+    }
+
+    function clearPreviewCanvas(message) {
+      drawPreviewBackground(message);
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && state.playingTimelapse) {
+        stopTimelapse();
       }
-    }
+    });
+
+    init();
   </script>
 </body>
 </html>
-
